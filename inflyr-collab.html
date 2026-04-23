@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collab with [CREATOR_NAME] – via INFLYR</title>
+<meta name="description" content="Interested in collaborating with [CREATOR_NAME]? Submit your enquiry via INFLYR — India's premier influencer marketing agency.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0A0A;--white:#F5F4F0;--lime:#C8F135;--g900:#111111;--g800:#1A1A1A;--g700:#252525;--g500:#555555;--g400:#888888;--g300:#BBBBBB;--fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--black);color:var(--white);font-family:var(--fb);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;}
+.card{max-width:520px;width:100%;background:var(--g900);border:1px solid var(--g700);border-radius:16px;padding:36px 28px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#C8F135,#8A5CF6);}
+.powered{font-family:var(--fm);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g500);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.powered-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;}
+.creator-name{font-family:var(--fd);font-size:28px;font-weight:800;letter-spacing:-1px;margin-bottom:4px;}
+.creator-sub{font-size:13px;color:var(--g500);margin-bottom:28px;line-height:1.6;}
+.mf{display:flex;flex-direction:column;gap:11px;}
+.mfrow{display:grid;grid-template-columns:1fr 1fr;gap:11px;}
+@media(max-width:480px){.mfrow{grid-template-columns:1fr;}}
+.mfg{display:flex;flex-direction:column;gap:5px;}
+.mfl{font-family:var(--fm);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--g500);}
+.mfi,.mfsel,.mfta{background:var(--g800);border:1px solid var(--g700);color:var(--white);font-family:var(--fb);font-size:14px;padding:11px 13px;outline:none;width:100%;transition:border-color .2s;border-radius:4px;-webkit-appearance:none;}
+.mfi:focus,.mfsel:focus,.mfta:focus{border-color:var(--lime);}
+.mfta{min-height:90px;resize:vertical;}
+.sub-btn{background:var(--lime);color:#0A0A0A;font-family:var(--fm);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:14px 22px;border:none;cursor:pointer;border-radius:3px;transition:background .2s;width:100%;margin-top:3px;}
+.sub-btn:hover{background:var(--white);}
+.form-ok{display:none;padding:13px 16px;margin-top:8px;background:rgba(200,241,53,.07);border:1px solid rgba(200,241,53,.2);border-radius:4px;font-family:var(--fm);font-size:10px;color:var(--lime);letter-spacing:.07em;}
+.footer-link{text-align:center;margin-top:20px;font-family:var(--fm);font-size:9px;color:var(--g500);letter-spacing:.08em;}
+.footer-link a{color:var(--lime);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="powered"><span class="powered-dot"></span>Managed by INFLYR · inflyr.in</div>
+  <div class="creator-name" id="creator-display">Collab with a Creator</div>
+  <div class="creator-sub">Interested in a collaboration? Fill in your details below and the INFLYR team will connect you with this creator's management.</div>
+  <div class="mf" id="form-collab">
+    <div class="mfrow">
+      <div class="mfg"><label class="mfl">Your Name *</label><input class="mfi" name="name" required placeholder="Full Name"></div>
+      <div class="mfg"><label class="mfl">Email *</label><input class="mfi" type="email" name="email" required placeholder="you@brand.com"></div>
+    </div>
+    <div class="mfrow">
+      <div class="mfg"><label class="mfl">Brand / Company *</label><input class="mfi" name="brand" required placeholder="Your Brand"></div>
+      <div class="mfg"><label class="mfl">Phone</label><input class="mfi" name="phone" placeholder="+91 XXXXX XXXXX"></div>
+    </div>
+    <div class="mfg"><label class="mfl">Collaboration Type *</label>
+      <select class="mfsel" name="collab_type" required>
+        <option value="">Select type</option>
+        <option>Sponsored Post / Reel</option><option>YouTube Integration</option><option>Brand Ambassador</option>
+        <option>Event Coverage</option><option>Product Review</option><option>Long-term Partnership</option><option>Other</option>
+      </select>
+    </div>
+    <div class="mfrow">
+      <div class="mfg"><label class="mfl">Budget (INR)</label>
+        <select class="mfsel" name="budget">
+          <option value="">Select</option>
+          <option>Below ₹10,000</option><option>₹10,000–₹50,000</option><option>₹50,000–₹2,00,000</option>
+          <option>₹2,00,000+</option><option>Open to discuss</option>
+        </select>
+      </div>
+      <div class="mfg"><label class="mfl">Timeline</label>
+        <select class="mfsel" name="timeline">
+          <option value="">Select</option>
+          <option>ASAP</option><option>Within 1 month</option><option>1–3 months</option><option>Flexible</option>
+        </select>
+      </div>
+    </div>
+    <div class="mfg"><label class="mfl">Message *</label>
+      <textarea class="mfta" name="message" required placeholder="Tell us about your brand and what kind of collaboration you have in mind..."></textarea>
+    </div>
+    <input type="hidden" name="creator_page" id="hidden-creator">
+    <button class="sub-btn" onclick="submitForm()">Send Enquiry →</button>
+    <div class="form-ok" id="form-ok">✓ Enquiry sent! The INFLYR team will be in touch within 24 hours.</div>
+  </div>
+</div>
+<div class="footer-link">Powered by <a href="https://inflyr.in" target="_blank">INFLYR</a> — India's Creator-First Influencer Agency</div>
+
+<script>
+// Get creator name from URL param: ?creator=CreatorName
+const params = new URLSearchParams(window.location.search);
+const creator = params.get('creator') || 'This Creator';
+document.getElementById('creator-display').textContent = 'Collab with ' + creator;
+document.title = 'Collab with ' + creator + ' – via INFLYR';
+document.getElementById('hidden-creator').value = creator;
+
+async function submitForm(){
+  const form = document.getElementById('form-collab');
+  const inputs = form.querySelectorAll('input[required],select[required],textarea[required]');
+  let valid = true;
+  inputs.forEach(inp => { if(!inp.value.trim()){valid=false;inp.style.borderColor='#ff4444';} else inp.style.borderColor=''; });
+  if(!valid){alert('Please fill in all required fields.');return;}
+  const btn = form.querySelector('.sub-btn');
+  btn.textContent = 'Sending...'; btn.style.opacity = '.5';
+  const data = {
+    access_key: '626ade34-dd13-4e66-a78a-66244861202e',
+    subject: 'Collab Enquiry via Creator Link – INFLYR'
+  };
+  form.querySelectorAll('input,select,textarea').forEach(inp => { if(inp.name) data[inp.name] = inp.value; });
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify(data)
+    });
+    const result = await res.json();
+    if(result.success){ btn.style.display='none'; document.getElementById('form-ok').style.display='block'; }
+    else { btn.textContent='Send Enquiry →'; btn.style.opacity='1'; alert('Something went wrong. Please try again.'); }
+  } catch(err) { btn.textContent='Send Enquiry →'; btn.style.opacity='1'; alert('Network error. Please email hello@inflyr.in'); }
+}
+</script>
+</body>
+</html>
