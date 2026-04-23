@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFLYR — Creator Link Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black: #0A0A0A;
+  --white: #F5F4F0;
+  --lime: #C8F135;
+  --lime-dim: rgba(200,241,53,0.08);
+  --lime-bd: rgba(200,241,53,0.22);
+  --purple: #8A5CF6;
+  --g900: #111111;
+  --g800: #1A1A1A;
+  --g700: #252525;
+  --g600: #333333;
+  --g500: #555555;
+  --g400: #888888;
+  --g300: #BBBBBB;
+  --fd: 'Syne', sans-serif;
+  --fb: 'DM Sans', sans-serif;
+  --fm: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--fb);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+header {
+  border-bottom: 1px solid var(--g800);
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(20px);
+  z-index: 100;
+}
+.logo {
+  font-family: var(--fd);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--white);
+  text-decoration: none;
+}
+.logo span { color: var(--lime); }
+.header-tag {
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--g500);
+  border: 1px solid var(--g700);
+  padding: 5px 10px;
+  border-radius: 99px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 64px 28px 0;
+  max-width: 780px;
+  margin: 0 auto;
+  text-align: center;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--lime-dim);
+  border: 1px solid var(--lime-bd);
+  border-radius: 99px;
+  padding: 6px 14px;
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-bottom: 22px;
+}
+.hero-badge::before { content: ''; width: 6px; height: 6px; background: var(--lime); border-radius: 50%; }
+.hero h1 {
+  font-family: var(--fd);
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--lime);
+}
+.hero p {
+  font-size: 14px;
+  color: var(--g400);
+  max-width: 440px;
+  margin: 0 auto 48px;
+  line-height: 1.75;
+}
+
+/* ── MAIN CARD ── */
+.main-wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 28px 80px;
+}
+
+.gen-card {
+  background: var(--g900);
+  border: 1px solid var(--g700);
+  border-radius: 16px;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.gen-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--lime), var(--purple));
+}
+
+.input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 20px;
+}
+@media(max-width: 500px) {
+  .input-row { grid-template-columns: 1fr; }
+}
+
+.field-group { display: flex; flex-direction: column; gap: 7px; }
+.field-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--g500);
+}
+.field-input {
+  background: var(--g800);
+  border: 1px solid var(--g700);
+  color: var(--white);
+  font-family: var(--fb);
+  font-size: 15px;
+  padding: 13px 16px;
+  border-radius: 8px;
+  outline: none;
+  width: 100%;
+  transition: border-color .2s, box-shadow .2s;
+}
+.field-input:focus {
+  border-color: var(--lime);
+  box-shadow: 0 0 0 3px rgba(200,241,53,0.08);
+}
+.field-input::placeholder { color: var(--g600); }
+
+.gen-btn {
+  background: var(--lime);
+  color: var(--black);
+  font-family: var(--fm);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s, transform .15s;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.gen-btn:hover { background: var(--white); transform: translateY(-1px); }
+.gen-btn svg { flex-shrink: 0; }
+
+/* ── RESULT BOX ── */
+.result-box {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn .3s ease;
+}
+.result-box.show { display: flex; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.result-label {
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--g500);
+  margin-bottom: 6px;
+}
+
+.link-display {
+  background: var(--g800);
+  border: 1px solid var(--lime-bd);
+  border-radius: 8px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.link-text {
+  font-family: var(--fm);
+  font-size: 12px;
+  color: var(--lime);
+  word-break: break-all;
+  flex: 1;
+}
+.copy-btn {
+  background: var(--lime-dim);
+  border: 1px solid var(--lime-bd);
+  color: var(--lime);
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s, color .2s;
+  flex-shrink: 0;
+}
+.copy-btn:hover { background: var(--lime); color: var(--black); }
+.copy-btn.copied { background: var(--lime); color: var(--black); }
+
+.share-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 14px;
+  border: 1px solid var(--g700);
+  border-radius: 8px;
+  background: var(--g800);
+  color: var(--g300);
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.share-btn:hover { border-color: var(--lime); color: var(--lime); background: var(--lime-dim); }
+.share-btn.wa:hover { border-color: #25D366; color: #25D366; background: rgba(37,211,102,.07); }
+.share-btn.ig:hover { border-color: #E1306C; color: #E1306C; background: rgba(225,48,108,.07); }
+
+/* preview card */
+.preview-card {
+  background: var(--g800);
+  border: 1px solid var(--g700);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.preview-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--lime-dim), rgba(138,92,246,.1));
+  border: 1px solid var(--lime-bd);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.preview-name {
+  font-family: var(--fd);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -.4px;
+  margin-bottom: 3px;
+}
+.preview-sub {
+  font-family: var(--fm);
+  font-size: 9px;
+  color: var(--g500);
+  letter-spacing: .08em;
+}
+
+/* ── SAVED LIST ── */
+.saved-section { margin-top: 40px; }
+.saved-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.saved-title {
+  font-family: var(--fd);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -.4px;
+}
+.saved-count {
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: var(--g500);
+  background: var(--g800);
+  border: 1px solid var(--g700);
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+.clear-all-btn {
+  font-family: var(--fm);
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: var(--g500);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color .2s;
+}
+.clear-all-btn:hover { color: #ff4444; }
+
+.saved-empty {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--g900);
+  border: 1px dashed var(--g700);
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--g600);
+}
+
+.saved-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.saved-item {
+  background: var(--g900);
+  border: 1px solid var(--g700);
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  transition: border-color .2s;
+  animation: fadeIn .25s ease;
+}
+.saved-item:hover { border-color: var(--g600); }
+.saved-num {
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--g600);
+  width: 22px;
+  text-align: center;
+}
+.saved-info {}
+.saved-name {
+  font-family: var(--fd);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -.3px;
+  margin-bottom: 3px;
+}
+.saved-link {
+  font-family: var(--fm);
+  font-size: 10px;
+  color: var(--g500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+@media(max-width:500px) { .saved-link { max-width: 160px; } }
+
+.saved-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--g700);
+  border-radius: 6px;
+  background: none;
+  color: var(--g500);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.icon-btn:hover { border-color: var(--lime); color: var(--lime); background: var(--lime-dim); }
+.icon-btn.del:hover { border-color: #ff4444; color: #ff4444; background: rgba(255,68,68,.07); }
+.icon-btn.wa-icon:hover { border-color: #25D366; color: #25D366; background: rgba(37,211,102,.07); }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--lime);
+  color: var(--black);
+  font-family: var(--fm);
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  padding: 12px 22px;
+  border-radius: 99px;
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  z-index: 999;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── HOW TO USE ── */
+.how-section {
+  margin-top: 48px;
+  background: var(--g900);
+  border: 1px solid var(--g700);
+  border-radius: 16px;
+  padding: 28px;
+}
+.how-title {
+  font-family: var(--fd);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.4px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.how-title::after { content: ''; flex: 1; height: 1px; background: var(--g700); }
+.steps { display: flex; flex-direction: column; gap: 14px; }
+.step {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.step-num {
+  width: 26px;
+  height: 26px;
+  background: var(--lime-dim);
+  border: 1px solid var(--lime-bd);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fm);
+  font-size: 9px;
+  color: var(--lime);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.step-text { font-size: 13px; color: var(--g400); line-height: 1.65; }
+.step-text strong { color: var(--white); }
+
+/* STATS ROW */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 24px;
+  border: 1px solid var(--g800);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.stat-box {
+  background: var(--g900);
+  padding: 20px 16px;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--fd);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--lime);
+  display: block;
+  margin-bottom: 4px;
+  transition: all .3s;
+}
+.stat-lbl {
+  font-family: var(--fm);
+  font-size: 8px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--g600);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://inflyr.in" class="logo">INFL<span>Y</span>R</a>
+  <div class="header-tag">Creator Link Generator</div>
+</header>
+
+<div class="hero">
+  <div class="hero-badge">Internal Tool · INFLYR</div>
+  <h1>Generate Creator<br><em>Collab Links</em> Instantly</h1>
+  <p>Type a creator's name, generate their personal collab link, share via WhatsApp or copy it. Unlimited. Free. Instant.</p>
+</div>
+
+<div class="main-wrap">
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-box">
+      <span class="stat-num" id="stat-total">0</span>
+      <div class="stat-lbl">Links Generated</div>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num" id="stat-today">0</span>
+      <div class="stat-lbl">Added Today</div>
+    </div>
+    <div class="stat-box">
+      <span class="stat-num" id="stat-unlimited">∞</span>
+      <div class="stat-lbl">Limit</div>
+    </div>
+  </div>
+
+  <!-- GENERATOR CARD -->
+  <div class="gen-card">
+    <div class="input-row">
+      <div class="field-group">
+        <label class="field-label">Creator Name or @handle</label>
+        <input
+          class="field-input"
+          id="creator-input"
+          type="text"
+          placeholder="e.g. Apoorva or @vibewithapoorva_"
+          autocomplete="off"
+          onkeydown="if(event.key==='Enter')generate()"
+        >
+      </div>
+      <button class="gen-btn" onclick="generate()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Generate
+      </button>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-box" id="result-box">
+
+      <!-- Preview -->
+      <div>
+        <div class="result-label">Page Preview</div>
+        <div class="preview-card">
+          <div class="preview-icon" id="preview-icon">🎯</div>
+          <div>
+            <div class="preview-name" id="preview-name">Creator Name</div>
+            <div class="preview-sub">inflyr.in/inflyr-collab.html?creator=...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full link -->
+      <div>
+        <div class="result-label">Full Collab Link</div>
+        <div class="link-display">
+          <span class="link-text" id="full-link-text"></span>
+          <button class="copy-btn" id="copy-full-btn" onclick="copyLink('full')">Copy</button>
+        </div>
+      </div>
+
+      <!-- Short link (tinyurl) -->
+      <div>
+        <div class="result-label">Short Link — Auto Generated</div>
+        <div class="link-display">
+          <span class="link-text" id="short-link-text" style="color:var(--g500)">Generating short link...</span>
+          <button class="copy-btn" id="copy-short-btn" onclick="copyLink('short')" disabled>Copy</button>
+        </div>
+      </div>
+
+      <!-- Share buttons -->
+      <div>
+        <div class="result-label">Share Instantly</div>
+        <div class="share-row">
+          <button class="share-btn wa" id="wa-btn" onclick="shareWA()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            WhatsApp
+          </button>
+          <button class="share-btn ig" id="ig-btn" onclick="copyForIG()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Copy for Instagram DM
+          </button>
+          <button class="share-btn" onclick="copyLink('full')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy Link
+          </button>
+          <button class="share-btn" onclick="saveCreator()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Creator
+          </button>
+        </div>
+      </div>
+
+      <!-- WhatsApp message preview -->
+      <div>
+        <div class="result-label">WhatsApp Message Preview</div>
+        <div style="background:var(--g800);border:1px solid var(--g700);border-radius:8px;padding:16px;font-size:13px;color:var(--g300);line-height:1.8;white-space:pre-wrap;word-break:break-word;" id="wa-preview"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SAVED CREATORS -->
+  <div class="saved-section">
+    <div class="saved-header">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="saved-title">Saved Creators</div>
+        <div class="saved-count" id="saved-count">0</div>
+      </div>
+      <button class="clear-all-btn" onclick="clearAll()">Clear All</button>
+    </div>
+    <div id="saved-list">
+      <div class="saved-empty">No creators saved yet. Generate a link and click "Save Creator" to keep track.</div>
+    </div>
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="how-section">
+    <div class="how-title">How to Use This Tool</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text"><strong>Type the creator's name or handle</strong> — e.g. "Apoorva" or "@vibewithapoorva_" and hit Generate.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text"><strong>Copy the short link</strong> — the tool auto-generates a short link (via TinyURL). Share this instead of the long one.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text"><strong>Click WhatsApp</strong> — opens WhatsApp with a ready-made message you can send directly to the creator.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text"><strong>Creator puts the link in their bio</strong> — Instagram bio, Linktree, YouTube description. Brands click → fill the form → you get the email.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text"><strong>Save creator to the list below</strong> — so you always have their link ready. Stored in your browser, never lost.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Copied to clipboard</div>
+
+<script>
+// ── STATE ──
+let currentFullLink = '';
+let currentShortLink = '';
+let currentCreator = '';
+let creators = JSON.parse(localStorage.getItem('inflyr_creators') || '[]');
+
+// Emojis pool for preview icons
+const emojis = ['✨','🔥','💫','🎯','⚡','🌟','💥','🎬','📱','🎤','🌈','🏆','💎','🚀','🎭'];
+
+function randomEmoji() { return emojis[Math.floor(Math.random() * emojis.length)]; }
+
+// ── GENERATE ──
+async function generate() {
+  const input = document.getElementById('creator-input').value.trim();
+  if (!input) {
+    shake(document.getElementById('creator-input'));
+    return;
+  }
+
+  // Clean name
+  currentCreator = input.replace(/^@/, '').trim();
+  const encoded = encodeURIComponent(currentCreator);
+  currentFullLink = `https://inflyr.in/inflyr-collab.html?creator=${encoded}`;
+  currentShortLink = '';
+
+  // Show result
+  const box = document.getElementById('result-box');
+  box.classList.add('show');
+
+  // Update preview
+  document.getElementById('preview-name').textContent = 'Collab with ' + currentCreator;
+  document.getElementById('preview-icon').textContent = randomEmoji();
+
+  // Full link
+  document.getElementById('full-link-text').textContent = currentFullLink;
+
+  // Short link — loading state
+  document.getElementById('short-link-text').textContent = 'Generating...';
+  document.getElementById('short-link-text').style.color = 'var(--g500)';
+  document.getElementById('copy-short-btn').disabled = true;
+
+  // WhatsApp preview
+  updateWAPreview();
+
+  // Scroll to result
+  box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  // Get short link
+  await getShortLink();
+
+  // Update stats
+  updateStats();
+}
+
+async function getShortLink() {
+  try {
+    const res = await fetch(`https://tinyurl.com/api-create.php?url=${encodeURIComponent(currentFullLink)}`);
+    if (res.ok) {
+      currentShortLink = await res.text();
+      document.getElementById('short-link-text').textContent = currentShortLink;
+      document.getElementById('short-link-text').style.color = 'var(--lime)';
+      document.getElementById('copy-short-btn').disabled = false;
+      updateWAPreview();
+    } else { throw new Error(); }
+  } catch {
+    // Fallback — show full link as short
+    currentShortLink = currentFullLink;
+    document.getElementById('short-link-text').textContent = currentFullLink;
+    document.getElementById('short-link-text').style.color = 'var(--g400)';
+    document.getElementById('copy-short-btn').disabled = false;
+    updateWAPreview();
+  }
+}
+
+function updateWAPreview() {
+  const link = currentShortLink || currentFullLink;
+  const msg = `Hey ${currentCreator}! 👋
+
+I'm Shivam from *INFLYR* — India's creator-first influencer agency.
+
+I'd love to help you get premium brand collabs & better deals 🚀
+
+I've set up a personal collab page just for you — whenever a brand wants to work with you, they fill a quick form and I handle everything from there (negotiation, payment, contracts — all of it).
+
+👉 *Your link:* ${link}
+
+Just drop this in your Instagram bio or Linktree. You don't do anything else — I take it from there.
+
+Let's talk? 🙌
+— Shivam | INFLYR
+inflyr.in`;
+  document.getElementById('wa-preview').textContent = msg;
+}
+
+// ── COPY ──
+function copyLink(type) {
+  const text = type === 'short' ? (currentShortLink || currentFullLink) : currentFullLink;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('✓ Link copied!');
+    const btn = document.getElementById(type === 'short' ? 'copy-short-btn' : 'copy-full-btn');
+    btn.textContent = '✓ Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyForIG() {
+  const link = currentShortLink || currentFullLink;
+  const msg = `Hey! I'm Shivam from INFLYR 🚀 I'd love to manage your brand collabs. Your personal collab page is ready: ${link} — brands who want to work with you fill a quick form here and I handle everything. Let's connect!`;
+  navigator.clipboard.writeText(msg).then(() => showToast('✓ Copied for Instagram DM'));
+}
+
+// ── WHATSAPP ──
+function shareWA() {
+  const link = currentShortLink || currentFullLink;
+  const msg = `Hey ${currentCreator}! 👋\n\nI'm Shivam from *INFLYR* — India's creator-first influencer agency.\n\nI'd love to help you get premium brand collabs & better deals 🚀\n\nI've set up a personal collab page just for you — whenever a brand wants to work with you, they fill a quick form and I handle everything (negotiation, payment, contracts).\n\n👉 *Your link:* ${link}\n\nJust drop this in your Instagram bio or Linktree. Let's talk?\n— Shivam | INFLYR\ninflyr.in`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ── SAVE ──
+function saveCreator() {
+  if (!currentCreator) return;
+  const exists = creators.find(c => c.name.toLowerCase() === currentCreator.toLowerCase());
+  if (exists) { showToast('⚠ Creator already saved'); return; }
+  const entry = {
+    id: Date.now(),
+    name: currentCreator,
+    full: currentFullLink,
+    short: currentShortLink || currentFullLink,
+    date: new Date().toLocaleDateString('en-IN')
+  };
+  creators.unshift(entry);
+  saveToStorage();
+  renderSaved();
+  showToast('✓ Creator saved!');
+}
+
+function deleteCreator(id) {
+  creators = creators.filter(c => c.id !== id);
+  saveToStorage();
+  renderSaved();
+  updateStats();
+  showToast('Removed');
+}
+
+function clearAll() {
+  if (creators.length === 0) return;
+  if (confirm('Clear all saved creators?')) {
+    creators = [];
+    saveToStorage();
+    renderSaved();
+    updateStats();
+  }
+}
+
+function saveToStorage() {
+  localStorage.setItem('inflyr_creators', JSON.stringify(creators));
+  localStorage.setItem('inflyr_total', (parseInt(localStorage.getItem('inflyr_total') || '0') + 1).toString());
+  updateStats();
+}
+
+// ── RENDER SAVED ──
+function renderSaved() {
+  const list = document.getElementById('saved-list');
+  document.getElementById('saved-count').textContent = creators.length;
+
+  if (creators.length === 0) {
+    list.innerHTML = '<div class="saved-empty">No creators saved yet. Generate a link and click "Save Creator" to keep track.</div>';
+    return;
+  }
+
+  list.innerHTML = '<div class="saved-grid">' + creators.map((c, i) => `
+    <div class="saved-item">
+      <div class="saved-num">${String(i+1).padStart(2,'0')}</div>
+      <div class="saved-info">
+        <div class="saved-name">${c.name}</div>
+        <div class="saved-link">${c.short}</div>
+      </div>
+      <div class="saved-actions">
+        <button class="icon-btn" title="Copy link" onclick="copyDirect('${c.short}')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        </button>
+        <button class="icon-btn wa-icon" title="WhatsApp" onclick="shareWADirect('${c.name}','${c.short}')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </button>
+        <button class="icon-btn del" title="Delete" onclick="deleteCreator(${c.id})">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>
+      </div>
+    </div>
+  `).join('') + '</div>';
+}
+
+function copyDirect(link) {
+  navigator.clipboard.writeText(link).then(() => showToast('✓ Link copied!'));
+}
+
+function shareWADirect(name, link) {
+  const msg = `Hey ${name}! 👋\n\nI'm Shivam from *INFLYR* — India's creator-first influencer agency.\n\nI'd love to help you get premium brand collabs & better deals 🚀\n\n👉 *Your personal collab link:* ${link}\n\nBrands who want to work with you fill a quick form here — I handle everything from there. Let's talk?\n— Shivam | INFLYR\ninflyr.in`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ── STATS ──
+function updateStats() {
+  document.getElementById('stat-total').textContent = localStorage.getItem('inflyr_total') || creators.length;
+  // Today count
+  const today = new Date().toLocaleDateString('en-IN');
+  const todayCount = creators.filter(c => c.date === today).length;
+  document.getElementById('stat-today').textContent = todayCount;
+}
+
+// ── TOAST ──
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── SHAKE ──
+function shake(el) {
+  el.style.animation = 'none';
+  el.style.borderColor = '#ff4444';
+  el.style.boxShadow = '0 0 0 3px rgba(255,68,68,0.12)';
+  setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1200);
+}
+
+// ── INIT ──
+renderSaved();
+updateStats();
+</script>
+</body>
+</html>
