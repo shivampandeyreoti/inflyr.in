@@ -1,0 +1,99 @@
+# =============================================
+# robots.txt — inflyr.in
+# Updated: 2026-06-03
+# =============================================
+
+# Default: Allow all crawlers
+User-agent: *
+Allow: /
+Disallow: /cdn-cgi/
+Disallow: /google5f305226c3c53e0c.html
+
+# ---- Search Engines ----
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# ---- AI Crawlers & LLM Indexers ----
+# OpenAI / ChatGPT
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic / Claude
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# Google Gemini / Bard
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+# Common Crawl (used by many AI training datasets)
+User-agent: CCBot
+Allow: /
+
+# Omgili / Webz.io
+User-agent: Omgilibot
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
+# Diffbot (used for structured data extraction)
+User-agent: Diffbot
+Allow: /
+
+# Bytespider (TikTok/ByteDance AI)
+User-agent: Bytespider
+Allow: /
+
+# Apple AI
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# =============================================
+Sitemap: https://inflyr.in/sitemap.xml
