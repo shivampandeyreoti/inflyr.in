@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFLYR</title>
+<script>
+  // GitHub Pages SPA redirect trick
+  // Saves the full URL path and redirects to index.html
+  // index.html then reads it and shows the right page
+  var path = window.location.pathname;
+  var validPages = ['brands','creators','services','about','faq','legal'];
+  var page = path.replace(/^\//, '').replace(/\/$/, '');
+  if (validPages.indexOf(page) !== -1) {
+    sessionStorage.setItem('inflyr_redirect_page', page);
+  }
+  window.location.replace('/');
+</script>
+</head>
+<body></body>
+</html>

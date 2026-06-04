@@ -4,76 +4,65 @@
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- ===== HOMEPAGE (Priority 1.0) ===== -->
   <url>
     <loc>https://inflyr.in/</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
-  <!-- ===== CORE SECTIONS (SPA anchor links) ===== -->
   <url>
-    <loc>https://inflyr.in/#brands</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://inflyr.in/brands</loc>
+    <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://inflyr.in/#creators</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://inflyr.in/creators</loc>
+    <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
 
   <url>
-    <loc>https://inflyr.in/#services</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://inflyr.in/services</loc>
+    <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
 
   <url>
-    <loc>https://inflyr.in/#start</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://inflyr.in/about</loc>
+    <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://inflyr.in/#pricing</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://inflyr.in/#faq</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <!-- ===== SUPPORTING PAGES ===== -->
-  <url>
-    <loc>https://inflyr.in/inflyr-collab.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <loc>https://inflyr.in/faq</loc>
+    <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
 
   <url>
+    <loc>https://inflyr.in/inflyr-collab.html</loc>
+    <lastmod>2026-06-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
     <loc>https://inflyr.in/inflyr-link-generator.html</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <!-- ===== AI/LLM DISCOVERY FILES ===== -->
   <url>
     <loc>https://inflyr.in/llms.txt</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
