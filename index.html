@@ -3687,62 +3687,18 @@ document.addEventListener('mouseleave', () => {
 });
 
 // ===== NETWORK SHOWCASE =====
-// JSONBin config - BIN_ID is set by admin and stored in a shared "meta" bin
-const JSONBIN_KEY = '$2a$10$tPiTKjiCGoJ54vo6I4o5x.PSnKvwIlQdu2Kkv5QqWGRL5fZDqZB76';
-const JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
-// META_BIN stores the actual data bin ID - this is created once and fixed
-const META_BIN_ID = localStorage.getItem('inflyr_meta_bin') || null;
+// Google Sheets API via Apps Script
 
-// In-memory cache
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKqzprQAlJWuWGDbDDBIvIbWvw0uCVeQZYmYlTarCDe1VjQwMC1-hd0klbp4xANeXc/exec';
 let _cache = { creators: [], brands: [], pending: [] };
-let _dataBinId = localStorage.getItem('inflyr_bin_id') || null;
-
-// ⚠️ IMPORTANT: After first admin save, copy your Bin ID here:
-const HARDCODED_BIN_ID = '6a244ad8da38895dfe917d0a'; // <-- paste your JSONBin ID here e.g. '686abc123'
 
 async function initCloud() {
-  // Use hardcoded ID first (works for all visitors), then localStorage fallback
-  const binToUse = HARDCODED_BIN_ID || _dataBinId;
-  if (!binToUse) { renderNetworkShowcase(); return; }
   try {
-    const res = await fetch(JSONBIN_URL + '/' + binToUse + '/latest', {
-      headers: { 'X-Master-Key': JSONBIN_KEY }
-    });
+    const res = await fetch(SCRIPT_URL + '?action=read');
     const data = await res.json();
-    if (data.record) {
-      _cache = { creators: data.record.creators||[], brands: data.record.brands||[], pending: data.record.pending||[] };
-    }
+    _cache = { creators: data.creators||[], brands: data.brands||[], pending: data.pending||[] };
   } catch(e) { console.error('Could not load network data', e); }
   renderNetworkShowcase();
-}
-
-async function saveToCloud() {
-  if (!_dataBinId) {
-    try {
-      const res = await fetch(JSONBIN_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_KEY,
-          'X-Bin-Name': 'inflyr-network',
-          'X-Bin-Private': 'false'
-        },
-        body: JSON.stringify(_cache)
-      });
-      const data = await res.json();
-      _dataBinId = data.metadata.id;
-      localStorage.setItem('inflyr_bin_id', _dataBinId);
-    } catch(e) { return false; }
-  } else {
-    try {
-      await fetch(JSONBIN_URL + '/' + _dataBinId, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
-        body: JSON.stringify(_cache)
-      });
-    } catch(e) { return false; }
-  }
-  return true;
 }
 
 function getCreators() { return _cache.creators; }

@@ -167,14 +167,6 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
       <button class="btn btn-ghost" onclick="doLogout()">Log Out</button>
     </div>
 
-    <!-- SETUP BANNER: shown until bin is created -->
-    <div class="setup-banner" id="setupBanner" style="display:none">
-      <strong>⚙️ FIRST TIME SETUP</strong>
-      After adding your first creator or brand, copy the Bin ID below and paste it into <code>index.html</code> on line where it says <code>_dataBinId</code>. This makes data show on your website for all visitors.
-      <br><br>Your Bin ID: <span id="binIdDisplay" style="color:var(--lime);font-family:'DM Mono',monospace;font-weight:600">Will appear after first save</span>
-      <br><small style="color:var(--muted);font-size:.72rem">Or just share this admin.html link — it auto-saves to cloud and your website will read from same bin.</small>
-    </div>
-
     <div class="tabs">
       <button class="tab-btn active-lime" id="tab-brand-btn" onclick="switchTab('brand')">🛍️ Brands</button>
       <button class="tab-btn" id="tab-creator-btn" onclick="switchTab('creator')">🎬 Creators</button>
@@ -310,9 +302,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
 
 <script>
 const ADMIN_PASS = 'inflyr2026';
-const JSONBIN_KEY = '$2a$10$tPiTKjiCGoJ54vo6I4o5x.PSnKvwIlQdu2Kkv5QqWGRL5fZDqZB76';
-const JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
-let BIN_ID = localStorage.getItem('inflyr_bin_id') || null;
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKqzprQAlJWuWGDbDDBIvIbWvw0uCVeQZYmYlTarCDe1VjQwMC1-hd0klbp4xANeXc/exec';
 let db = { creators: [], brands: [], pending: [] };
 
 const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','💄','🏋️','🌿','🤳','💻'];
@@ -322,18 +312,13 @@ const esc  = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').repla
 
 // ---- Cloud ----
 async function cloudLoad() {
-  if (!BIN_ID) { hideLoader(); return; }
   showLoader('Loading data...');
   try {
-    const res = await fetch(`${JSONBIN_URL}/${BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': JSONBIN_KEY }
-    });
+    const res = await fetch(SCRIPT_URL + '?action=read');
     const data = await res.json();
-    if (data.record) {
-      db.creators = data.record.creators || [];
-      db.brands   = data.record.brands   || [];
-      db.pending  = data.record.pending  || [];
-    }
+    db.creators = data.creators || [];
+    db.brands   = data.brands   || [];
+    db.pending  = data.pending  || [];
   } catch(e) { console.error('Load failed', e); }
   hideLoader();
 }
@@ -341,25 +326,10 @@ async function cloudLoad() {
 async function cloudSave() {
   showLoader('Saving to cloud...');
   try {
-    if (!BIN_ID) {
-      const res = await fetch(JSONBIN_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY, 'X-Bin-Name': 'inflyr-network', 'X-Bin-Private': 'false' },
-        body: JSON.stringify(db)
-      });
-      const data = await res.json();
-      BIN_ID = data.metadata.id;
-      localStorage.setItem('inflyr_bin_id', BIN_ID);
-      // Show bin ID so user can hardcode it
-      document.getElementById('binIdDisplay').textContent = BIN_ID;
-      document.getElementById('setupBanner').style.display = 'block';
-    } else {
-      await fetch(`${JSONBIN_URL}/${BIN_ID}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
-        body: JSON.stringify(db)
-      });
-    }
+    await fetch(SCRIPT_URL + '?action=write', {
+      method: 'POST',
+      body: JSON.stringify(db)
+    });
   } catch(e) { console.error('Save failed', e); hideLoader(); return false; }
   hideLoader(); return true;
 }
