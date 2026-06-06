@@ -3671,17 +3671,78 @@ document.addEventListener('mouseleave', () => {
 
 // ===== NETWORK SHOWCASE =====
 const INFLYR_PASS = 'inflyr2026';
-const STORAGE_CREATORS = 'inflyr_creators';
-const STORAGE_BRANDS = 'inflyr_brands';
+const JSONBIN_KEY = '$2a$10$tPiTKjiCGoJ54vo6I4o5x.PSnKvwIlQdu2Kkv5QqWGRL5fZDqZB76';
+const JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
+let JSONBIN_BIN_ID = localStorage.getItem('inflyr_bin_id') || null;
 
-function getCreators() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_CREATORS) || '[]'); } catch(e) { return []; }
+// ---- JSONBin helpers ----
+async function loadFromCloud() {
+  if (!JSONBIN_BIN_ID) return null;
+  try {
+    const res = await fetch(JSONBIN_URL + '/' + JSONBIN_BIN_ID + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_KEY }
+    });
+    const data = await res.json();
+    return data.record || null;
+  } catch(e) { return null; }
 }
-function getBrands() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_BRANDS) || '[]'); } catch(e) { return []; }
+
+async function saveToCloud(record) {
+  if (!JSONBIN_BIN_ID) {
+    // Create new bin
+    try {
+      const res = await fetch(JSONBIN_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': JSONBIN_KEY,
+          'X-Bin-Name': 'inflyr-network',
+          'X-Bin-Private': 'false'
+        },
+        body: JSON.stringify(record)
+      });
+      const data = await res.json();
+      JSONBIN_BIN_ID = data.metadata.id;
+      localStorage.setItem('inflyr_bin_id', JSONBIN_BIN_ID);
+    } catch(e) { console.error('JSONBin create failed', e); return false; }
+  } else {
+    try {
+      await fetch(JSONBIN_URL + '/' + JSONBIN_BIN_ID, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': JSONBIN_KEY
+        },
+        body: JSON.stringify(record)
+      });
+    } catch(e) { console.error('JSONBin update failed', e); return false; }
+  }
+  return true;
 }
-function saveCreators(list) { localStorage.setItem(STORAGE_CREATORS, JSON.stringify(list)); }
-function saveBrands(list) { localStorage.setItem(STORAGE_BRANDS, JSON.stringify(list)); }
+
+// In-memory cache
+let _cache = { creators: [], brands: [] };
+
+async function initCloud() {
+  const data = await loadFromCloud();
+  if (data) {
+    _cache.creators = data.creators || [];
+    _cache.brands = data.brands || [];
+  }
+  renderNetworkShowcase();
+}
+
+function getCreators() { return _cache.creators; }
+function getBrands() { return _cache.brands; }
+
+async function saveCreators(list) {
+  _cache.creators = list;
+  await saveToCloud(_cache);
+}
+async function saveBrands(list) {
+  _cache.brands = list;
+  await saveToCloud(_cache);
+}
 
 const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','🍕','💄','🏋️','🌿','🤳','💻'];
 const BRAND_EMOJIS = ['🛍️','🧴','👟','🍫','💊','🏠','📦','🌱','⚡','🎒'];
@@ -3785,9 +3846,11 @@ function switchAdminTab(tab) {
   document.getElementById('admin-brand-panel').style.display = tab === 'brand' ? '' : 'none';
 }
 
-function adminAddCreator() {
+async function adminAddCreator() {
   const name = document.getElementById('ac-name').value.trim();
   if (!name) { alert('Creator name is required'); return; }
+  const btn = document.querySelector('#admin-creator-panel .admin-add-btn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
   const creator = {
     id: Date.now(),
     name,
@@ -3800,24 +3863,28 @@ function adminAddCreator() {
   };
   const list = getCreators();
   list.push(creator);
-  saveCreators(list);
+  await saveCreators(list);
   ['ac-name','ac-handle','ac-followers','ac-niche','ac-language'].forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('ac-platform').value = '';
   renderAdminCreators();
   renderNetworkShowcase();
-  showAdminToast('Creator added!');
+  btn.textContent = '+ Add Creator'; btn.disabled = false;
+  showAdminToast('Creator added! Live on all devices.');
 }
 
-function adminDeleteCreator(id) {
+async function adminDeleteCreator(id) {
   const list = getCreators().filter(c => c.id !== id);
-  saveCreators(list);
+  await saveCreators(list);
   renderAdminCreators();
   renderNetworkShowcase();
+  showAdminToast('Creator removed.');
 }
 
-function adminAddBrand() {
+async function adminAddBrand() {
   const name = document.getElementById('ab-name').value.trim();
   if (!name) { alert('Brand name is required'); return; }
+  const btn = document.querySelector('#admin-brand-panel .admin-add-btn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
   const brand = {
     id: Date.now(),
     name,
@@ -3829,20 +3896,22 @@ function adminAddBrand() {
   };
   const list = getBrands();
   list.push(brand);
-  saveBrands(list);
+  await saveBrands(list);
   ['ab-name','ab-website','ab-industry'].forEach(id => { document.getElementById(id).value = ''; });
   document.getElementById('ab-type').value = '';
   document.getElementById('ab-budget').value = '';
   renderAdminBrands();
   renderNetworkShowcase();
-  showAdminToast('Brand added!');
+  btn.textContent = '+ Add Brand'; btn.disabled = false;
+  showAdminToast('Brand added! Live on all devices.');
 }
 
-function adminDeleteBrand(id) {
+async function adminDeleteBrand(id) {
   const list = getBrands().filter(b => b.id !== id);
-  saveBrands(list);
+  await saveBrands(list);
   renderAdminBrands();
   renderNetworkShowcase();
+  showAdminToast('Brand removed.');
 }
 
 function renderAdminCreators() {
@@ -3897,7 +3966,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFromURL();
   initCounters();
   setTimeout(initReveal, 500);
-  renderNetworkShowcase();
+  initCloud(); // loads from JSONBin and renders showcase
   if (window.location.search.includes('admin')) {
     showPage('admin', false);
     initAdminPage();
