@@ -6,7 +6,7 @@
 
 <!-- ===== PRIMARY SEO ===== -->
 <title>INFLYR — India's Performance-First UGC & Influencer Marketing Agency | IMA</title>
-<meta name="description" content="INFLYR is India's performance influencer marketing agency. UGC content pipelines, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands. Book a free audit.">
+<meta name="description" content="INFLYR is India's performance influencer marketing agency (IMA). UGC content pipelines, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands. Book a free audit.">
 <meta name="keywords" content="influencer marketing India, UGC agency India, creator marketing D2C, nano influencer agency India, micro influencer marketing India, influencer marketing platform India, UGC content agency, D2C influencer campaigns, creator marketplace India, IMA influencer marketing, INFLYR, performance creator marketing, affiliate creator network India, regional influencer marketing India, Hindi influencer marketing, Tamil influencer campaigns, brand creator collaboration India, ugc video agency India, paid brand collaboration creators, creator economy India">
 <meta name="author" content="INFLYR — Shivam Pandey">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -429,13 +429,63 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(12,12,12,0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s;
+  background: linear-gradient(
+    135deg,
+    rgba(20, 20, 20, 0.72) 0%,
+    rgba(12, 12, 12, 0.60) 50%,
+    rgba(20, 20, 20, 0.72) 100%
+  );
+  backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.08);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  box-shadow:
+    0 1px 0 0 rgba(255,255,255,0.04) inset,
+    0 8px 32px rgba(0,0,0,0.45),
+    0 1.5px 0 0 rgba(200,241,53,0.06);
+  transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
 }
-nav.scrolled { border-bottom-color: var(--ink-3); }
+nav::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(200,241,53,0.03) 40%,
+    rgba(200,241,53,0.05) 50%,
+    rgba(200,241,53,0.03) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+nav::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.12) 25%,
+    rgba(200,241,53,0.25) 50%,
+    rgba(255,255,255,0.12) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+nav.scrolled {
+  background: linear-gradient(
+    135deg,
+    rgba(14, 14, 14, 0.88) 0%,
+    rgba(10, 10, 10, 0.80) 50%,
+    rgba(14, 14, 14, 0.88) 100%
+  );
+  border-bottom-color: rgba(255,255,255,0.09);
+  box-shadow:
+    0 1px 0 0 rgba(255,255,255,0.05) inset,
+    0 12px 40px rgba(0,0,0,0.6),
+    0 1.5px 0 0 rgba(200,241,53,0.10);
+}
 
 .nav-logo {
   display: flex;
@@ -1696,9 +1746,17 @@ footer {
   display: none;
   position: fixed;
   bottom: 0; left: 0; right: 0;
-  background: rgba(12,12,12,0.95);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid var(--ink-3);
+  background: linear-gradient(
+    180deg,
+    rgba(16, 16, 16, 0.70) 0%,
+    rgba(10, 10, 10, 0.88) 100%
+  );
+  backdrop-filter: blur(28px) saturate(180%) brightness(1.06);
+  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.06);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  box-shadow:
+    0 -1px 0 0 rgba(200,241,53,0.10),
+    0 -8px 32px rgba(0,0,0,0.5);
   z-index: 890;
   padding: 0;
   height: 56px;
@@ -1799,6 +1857,286 @@ footer {
     from { transform: translateY(0); }
     to { transform: translateY(-60px); }
   }
+}
+
+/* ============ NETWORK SHOWCASE ============ */
+.network-tabs {
+  display: flex;
+  gap: 2px;
+  margin: 40px 0 32px;
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 6px;
+  padding: 4px;
+  width: fit-content;
+}
+.network-tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 24px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.network-tab-btn.active { background: var(--ink-3); color: var(--chalk); }
+.network-tab-btn.creator.active { color: var(--purple); }
+.network-tab-btn.brand.active { color: var(--lime); }
+
+.network-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-top: 8px;
+}
+.network-card {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 8px;
+  padding: 24px 20px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.network-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.network-card.creator-card::before { background: var(--purple); }
+.network-card.brand-card::before { background: var(--lime); }
+.network-card:hover { border-color: var(--ink-3); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+.network-card:hover::before { opacity: 1; }
+
+.nc-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+.creator-card .nc-avatar { background: rgba(138,92,246,0.12); border: 1px solid rgba(138,92,246,0.2); }
+.brand-card .nc-avatar { background: rgba(200,241,53,0.08); border: 1px solid rgba(200,241,53,0.15); }
+
+.nc-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+  color: var(--chalk);
+}
+.nc-handle {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.nc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+.nc-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.creator-card .nc-tag { background: rgba(138,92,246,0.1); color: var(--purple); border: 1px solid rgba(138,92,246,0.2); }
+.brand-card .nc-tag { background: rgba(200,241,53,0.06); color: var(--lime); border: 1px solid rgba(200,241,53,0.15); }
+
+.nc-stat {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--secondary);
+  margin-top: 6px;
+}
+.nc-stat strong { color: var(--chalk); }
+
+.network-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8rem;
+  border: 1px dashed var(--ink-3);
+  border-radius: 8px;
+  grid-column: 1/-1;
+}
+.network-empty span { display: block; font-size: 2rem; margin-bottom: 12px; }
+
+/* ============ ADMIN PANEL ============ */
+#page-admin {
+  min-height: 100vh;
+  padding: 80px 5vw 80px;
+}
+.admin-login {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.admin-login-box {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 8px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+.admin-login-box h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.admin-login-box p { color: var(--secondary); font-size: 0.875rem; margin-bottom: 28px; }
+.admin-panel { display: none; }
+.admin-panel.visible { display: block; }
+.admin-section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.admin-section-sub { color: var(--secondary); font-size: 0.875rem; margin-bottom: 28px; }
+.admin-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--ink-3);
+}
+.admin-tab {
+  background: none;
+  border: none;
+  padding: 12px 24px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+}
+.admin-tab.active.brand { color: var(--lime); border-bottom-color: var(--lime); }
+.admin-tab.active.creator { color: var(--purple); border-bottom-color: var(--purple); }
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.admin-form-grid .full-width { grid-column: 1 / -1; }
+@media (max-width: 600px) { .admin-form-grid { grid-template-columns: 1fr; } }
+
+.admin-add-btn {
+  background: var(--lime);
+  color: var(--ink);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+.admin-add-btn:hover { background: var(--lime-hover); }
+.admin-add-btn.purple {
+  background: var(--purple);
+  color: #fff;
+}
+.admin-add-btn.purple:hover { background: #7040e0; }
+
+.admin-list-section { margin-top: 48px; }
+.admin-list-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.admin-item {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 6px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+.admin-item:hover { border-color: rgba(255,255,255,0.1); }
+.admin-item-info { flex: 1; min-width: 0; }
+.admin-item-name { font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.admin-item-meta { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+.admin-delete-btn {
+  background: none;
+  border: 1px solid var(--ink-3);
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.admin-delete-btn:hover { border-color: var(--error); color: var(--error); }
+.admin-empty-list {
+  text-align: center;
+  padding: 32px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  border: 1px dashed var(--ink-3);
+  border-radius: 6px;
+}
+.admin-logout-btn {
+  background: none;
+  border: 1px solid var(--ink-3);
+  color: var(--muted);
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  float: right;
+}
+.admin-logout-btn:hover { border-color: var(--error); color: var(--error); }
+.admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px; }
+.admin-badge {
+  display: inline-block;
+  background: rgba(200,241,53,0.1);
+  border: 1px solid rgba(200,241,53,0.2);
+  color: var(--lime);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 8px;
 }
 </style>
 </head>
@@ -2084,6 +2422,21 @@ footer {
     </div>
   </div>
   <p style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.7rem;margin-top:24px;text-align:center">INFLYR is early-stage. These reflect our operating commitments — not inflated vanity metrics.</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- NETWORK SHOWCASE -->
+<section id="network-showcase">
+  <div class="section-label">Our Network</div>
+  <h2 class="section-headline reveal">CREATORS &amp; BRANDS<br><span class="lime">IN OUR ECOSYSTEM.</span></h2>
+  <p class="section-body reveal">A growing network of verified creators and D2C brands building performance-first campaigns across India.</p>
+  <div class="network-tabs reveal">
+    <button class="network-tab-btn creator active" onclick="switchNetworkTab('creator')">Creators</button>
+    <button class="network-tab-btn brand" onclick="switchNetworkTab('brand')">Brands</button>
+  </div>
+  <div id="network-creator-grid" class="network-grid reveal"></div>
+  <div id="network-brand-grid" class="network-grid reveal" style="display:none"></div>
 </section>
 
 <div class="divider"></div>
@@ -3055,7 +3408,8 @@ const PAGE_TITLES = {
   services: 'Services & Pricing — Creator Marketing | INFLYR',
   about:    'About INFLYR — India\'s Performance Marketing Agency | IMA',
   faq:      'FAQs — Influencer Marketing India | INFLYR',
-  legal:    'Terms & Privacy | INFLYR'
+  legal:    'Terms & Privacy | INFLYR',
+  admin:    'Admin — INFLYR'
 };
 const PAGE_DESCS = {
   home:     'INFLYR (IMA) is India\'s performance influencer marketing agency. UGC, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands.',
@@ -3107,7 +3461,7 @@ function getPageFromPath() {
     return fromRedirect;
   }
   const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
-  const valid = ['home','brands','creators','services','about','faq','legal'];
+  const valid = ['home','brands','creators','services','about','faq','legal','admin'];
   return valid.includes(path) ? path : 'home';
 }
 
@@ -3315,12 +3669,360 @@ document.addEventListener('mouseleave', () => {
   document.querySelectorAll('.card-3d').forEach(c => c.style.transform = '');
 });
 
+// ===== NETWORK SHOWCASE =====
+const INFLYR_PASS = 'inflyr2026';
+const STORAGE_CREATORS = 'inflyr_creators';
+const STORAGE_BRANDS = 'inflyr_brands';
+
+function getCreators() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_CREATORS) || '[]'); } catch(e) { return []; }
+}
+function getBrands() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_BRANDS) || '[]'); } catch(e) { return []; }
+}
+function saveCreators(list) { localStorage.setItem(STORAGE_CREATORS, JSON.stringify(list)); }
+function saveBrands(list) { localStorage.setItem(STORAGE_BRANDS, JSON.stringify(list)); }
+
+const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','🍕','💄','🏋️','🌿','🤳','💻'];
+const BRAND_EMOJIS = ['🛍️','🧴','👟','🍫','💊','🏠','📦','🌱','⚡','🎒'];
+function randomEmoji(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function renderNetworkShowcase() {
+  const creators = getCreators();
+  const brands = getBrands();
+  const cGrid = document.getElementById('network-creator-grid');
+  const bGrid = document.getElementById('network-brand-grid');
+  if (!cGrid || !bGrid) return;
+
+  if (creators.length === 0) {
+    cGrid.innerHTML = '<div class="network-empty"><span>🎬</span>Creators coming soon. Check back shortly.</div>';
+  } else {
+    cGrid.innerHTML = creators.map(c => `
+      <div class="network-card creator-card card-3d">
+        <div class="nc-avatar">${c.emoji || '🎬'}</div>
+        <div class="nc-name">${escHtml(c.name)}</div>
+        ${c.handle ? '<div class="nc-handle">@'+escHtml(c.handle)+'</div>' : ''}
+        ${c.followers ? '<div class="nc-stat"><strong>'+escHtml(c.followers)+'</strong> followers</div>' : ''}
+        <div class="nc-tags">
+          ${c.niche ? '<span class="nc-tag">'+escHtml(c.niche)+'</span>' : ''}
+          ${c.language ? '<span class="nc-tag">'+escHtml(c.language)+'</span>' : ''}
+          ${c.platform ? '<span class="nc-tag">'+escHtml(c.platform)+'</span>' : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  if (brands.length === 0) {
+    bGrid.innerHTML = '<div class="network-empty"><span>🛍️</span>Brand partners coming soon.</div>';
+  } else {
+    bGrid.innerHTML = brands.map(b => `
+      <div class="network-card brand-card card-3d">
+        <div class="nc-avatar">${b.emoji || '🛍️'}</div>
+        <div class="nc-name">${escHtml(b.name)}</div>
+        ${b.website ? '<div class="nc-handle">'+escHtml(b.website)+'</div>' : ''}
+        ${b.industry ? '<div class="nc-stat">Industry: <strong>'+escHtml(b.industry)+'</strong></div>' : ''}
+        <div class="nc-tags">
+          ${b.type ? '<span class="nc-tag">'+escHtml(b.type)+'</span>' : ''}
+          ${b.budget ? '<span class="nc-tag">'+escHtml(b.budget)+'</span>' : ''}
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function switchNetworkTab(tab) {
+  document.querySelectorAll('.network-tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('.network-tab-btn.' + tab).classList.add('active');
+  document.getElementById('network-creator-grid').style.display = tab === 'creator' ? 'grid' : 'none';
+  document.getElementById('network-brand-grid').style.display = tab === 'brand' ? 'grid' : 'none';
+}
+
+// ===== ADMIN PANEL =====
+let adminAuthed = false;
+
+function initAdminPage() {
+  const loginBox = document.getElementById('admin-login-box');
+  const panel = document.getElementById('admin-panel');
+  if (!loginBox || !panel) return;
+  if (adminAuthed) {
+    loginBox.style.display = 'none';
+    panel.classList.add('visible');
+    renderAdminCreators();
+    renderAdminBrands();
+  } else {
+    loginBox.style.display = '';
+    panel.classList.remove('visible');
+  }
+}
+
+function adminLogin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === INFLYR_PASS) {
+    adminAuthed = true;
+    initAdminPage();
+  } else {
+    document.getElementById('admin-pw').style.borderColor = 'var(--error)';
+    document.getElementById('admin-pw-error').style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  adminAuthed = false;
+  document.getElementById('admin-pw').value = '';
+  document.getElementById('admin-pw').style.borderColor = '';
+  document.getElementById('admin-pw-error').style.display = 'none';
+  initAdminPage();
+}
+
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+  document.querySelector('.admin-tab[data-tab="'+tab+'"]').classList.add('active');
+  document.getElementById('admin-creator-panel').style.display = tab === 'creator' ? '' : 'none';
+  document.getElementById('admin-brand-panel').style.display = tab === 'brand' ? '' : 'none';
+}
+
+function adminAddCreator() {
+  const name = document.getElementById('ac-name').value.trim();
+  if (!name) { alert('Creator name is required'); return; }
+  const creator = {
+    id: Date.now(),
+    name,
+    handle: document.getElementById('ac-handle').value.trim(),
+    followers: document.getElementById('ac-followers').value.trim(),
+    platform: document.getElementById('ac-platform').value,
+    niche: document.getElementById('ac-niche').value.trim(),
+    language: document.getElementById('ac-language').value.trim(),
+    emoji: randomEmoji(CREATOR_EMOJIS)
+  };
+  const list = getCreators();
+  list.push(creator);
+  saveCreators(list);
+  ['ac-name','ac-handle','ac-followers','ac-niche','ac-language'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('ac-platform').value = '';
+  renderAdminCreators();
+  renderNetworkShowcase();
+  showAdminToast('Creator added!');
+}
+
+function adminDeleteCreator(id) {
+  const list = getCreators().filter(c => c.id !== id);
+  saveCreators(list);
+  renderAdminCreators();
+  renderNetworkShowcase();
+}
+
+function adminAddBrand() {
+  const name = document.getElementById('ab-name').value.trim();
+  if (!name) { alert('Brand name is required'); return; }
+  const brand = {
+    id: Date.now(),
+    name,
+    website: document.getElementById('ab-website').value.trim(),
+    industry: document.getElementById('ab-industry').value.trim(),
+    type: document.getElementById('ab-type').value,
+    budget: document.getElementById('ab-budget').value,
+    emoji: randomEmoji(BRAND_EMOJIS)
+  };
+  const list = getBrands();
+  list.push(brand);
+  saveBrands(list);
+  ['ab-name','ab-website','ab-industry'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('ab-type').value = '';
+  document.getElementById('ab-budget').value = '';
+  renderAdminBrands();
+  renderNetworkShowcase();
+  showAdminToast('Brand added!');
+}
+
+function adminDeleteBrand(id) {
+  const list = getBrands().filter(b => b.id !== id);
+  saveBrands(list);
+  renderAdminBrands();
+  renderNetworkShowcase();
+}
+
+function renderAdminCreators() {
+  const list = getCreators();
+  const el = document.getElementById('admin-creators-list');
+  if (!el) return;
+  if (list.length === 0) {
+    el.innerHTML = '<div class="admin-empty-list">No creators added yet.</div>';
+    return;
+  }
+  el.innerHTML = list.map(c => `
+    <div class="admin-item">
+      <div class="admin-item-info">
+        <div class="admin-item-name">${escHtml(c.name)} ${c.emoji}</div>
+        <div class="admin-item-meta">${c.handle ? '@'+escHtml(c.handle)+' &middot; ' : ''}${c.platform ? escHtml(c.platform)+' ' : ''}${c.followers ? '&middot; '+escHtml(c.followers)+' followers ' : ''}${c.niche ? '&middot; '+escHtml(c.niche) : ''}</div>
+      </div>
+      <button class="admin-delete-btn" onclick="adminDeleteCreator(${c.id})">Delete</button>
+    </div>
+  `).join('');
+}
+
+function renderAdminBrands() {
+  const list = getBrands();
+  const el = document.getElementById('admin-brands-list');
+  if (!el) return;
+  if (list.length === 0) {
+    el.innerHTML = '<div class="admin-empty-list">No brands added yet.</div>';
+    return;
+  }
+  el.innerHTML = list.map(b => `
+    <div class="admin-item">
+      <div class="admin-item-info">
+        <div class="admin-item-name">${escHtml(b.name)} ${b.emoji}</div>
+        <div class="admin-item-meta">${b.industry ? escHtml(b.industry)+' &middot; ' : ''}${b.type ? escHtml(b.type)+' ' : ''}${b.budget ? '&middot; '+escHtml(b.budget) : ''}</div>
+      </div>
+      <button class="admin-delete-btn" onclick="adminDeleteBrand(${b.id})">Delete</button>
+    </div>
+  `).join('');
+}
+
+function showAdminToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.querySelector('.toast-title').textContent = msg;
+  t.querySelector('div:last-child').textContent = 'Changes are now live on the site.';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   initFromURL();
   initCounters();
   setTimeout(initReveal, 500);
+  renderNetworkShowcase();
+  if (window.location.search.includes('admin')) {
+    showPage('admin', false);
+    initAdminPage();
+  }
 });
 </script>
+
+<!-- ==================== ADMIN PAGE ==================== -->
+<div id="page-admin" class="page" style="padding-top:80px">
+  <div id="admin-login-box" class="admin-login">
+    <div class="admin-login-box">
+      <div class="admin-badge">Admin Only</div>
+      <h2>INFLYR ADMIN</h2>
+      <p>Enter your password to manage creators and brands.</p>
+      <div class="form-group" style="margin-bottom:12px">
+        <input type="password" id="admin-pw" class="form-input" placeholder="Admin password" onkeydown="if(event.key==='Enter')adminLogin()">
+        <div id="admin-pw-error" style="display:none;color:var(--error);font-size:0.8rem;margin-top:6px;font-family:'DM Mono',monospace">Wrong password. Try again.</div>
+      </div>
+      <button class="admin-add-btn" style="width:100%" onclick="adminLogin()">Unlock Panel →</button>
+    </div>
+  </div>
+
+  <div id="admin-panel" class="admin-panel">
+    <div class="admin-header">
+      <div>
+        <div class="admin-badge">Admin Panel</div>
+        <div class="admin-section-title">MANAGE NETWORK</div>
+        <div class="admin-section-sub">Add or remove creators and brands shown on the homepage.</div>
+      </div>
+      <button class="admin-logout-btn" onclick="adminLogout()">Log Out</button>
+    </div>
+
+    <div class="admin-tabs">
+      <button class="admin-tab brand active" data-tab="brand" onclick="switchAdminTab('brand')">🛍️ Brands</button>
+      <button class="admin-tab creator" data-tab="creator" onclick="switchAdminTab('creator')">🎬 Creators</button>
+    </div>
+
+    <!-- BRAND PANEL -->
+    <div id="admin-brand-panel">
+      <div class="admin-form-grid">
+        <div class="form-group">
+          <label class="form-label">Brand Name *</label>
+          <input type="text" id="ab-name" class="form-input" placeholder="e.g. Mamaearth">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Website</label>
+          <input type="text" id="ab-website" class="form-input" placeholder="mamaearth.in">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Industry</label>
+          <input type="text" id="ab-industry" class="form-input" placeholder="e.g. Skincare, Fitness, Food">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Campaign Type</label>
+          <select id="ab-type" class="form-input">
+            <option value="">Select type</option>
+            <option>UGC</option>
+            <option>Influencer Campaign</option>
+            <option>Affiliate</option>
+            <option>Regional</option>
+            <option>Full Stack</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Budget Range</label>
+          <select id="ab-budget" class="form-input">
+            <option value="">Select range</option>
+            <option>Under ₹30K</option>
+            <option>₹30K–₹1L</option>
+            <option>₹1L–₹5L</option>
+            <option>₹5L+</option>
+          </select>
+        </div>
+      </div>
+      <button class="admin-add-btn" onclick="adminAddBrand()">+ Add Brand</button>
+      <div class="admin-list-section">
+        <div class="admin-list-title">Added Brands</div>
+        <div id="admin-brands-list"></div>
+      </div>
+    </div>
+
+    <!-- CREATOR PANEL -->
+    <div id="admin-creator-panel" style="display:none">
+      <div class="admin-form-grid">
+        <div class="form-group">
+          <label class="form-label">Creator Name *</label>
+          <input type="text" id="ac-name" class="form-input" placeholder="e.g. Riya Sharma">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Handle (without @)</label>
+          <input type="text" id="ac-handle" class="form-input" placeholder="riyasharma">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Follower Count</label>
+          <input type="text" id="ac-followers" class="form-input" placeholder="e.g. 85K">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Platform</label>
+          <select id="ac-platform" class="form-input">
+            <option value="">Select platform</option>
+            <option>Instagram</option>
+            <option>YouTube</option>
+            <option>Instagram + YouTube</option>
+            <option>Reels</option>
+            <option>LinkedIn</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Niche</label>
+          <input type="text" id="ac-niche" class="form-input" placeholder="e.g. Skincare, Comedy, Food">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Language</label>
+          <input type="text" id="ac-language" class="form-input" placeholder="e.g. Hindi, Tamil">
+        </div>
+      </div>
+      <button class="admin-add-btn purple" onclick="adminAddCreator()">+ Add Creator</button>
+      <div class="admin-list-section">
+        <div class="admin-list-title">Added Creators</div>
+        <div id="admin-creators-list"></div>
+      </div>
+    </div>
+
+  </div><!-- end admin-panel -->
+</div><!-- end page-admin -->
+
 </body>
 </html>
