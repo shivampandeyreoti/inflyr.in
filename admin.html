@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INFLYR Admin Panel</title>
+<!-- Block search engines from indexing this page -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0C0C0C;
+  --ink-2: #141414;
+  --ink-3: #1E1E1E;
+  --lime: #C8F135;
+  --lime-hover: #A8CC20;
+  --purple: #8A5CF6;
+  --chalk: #F5F2EC;
+  --secondary: #9A9590;
+  --muted: #5A5652;
+  --success: #22C55E;
+  --error: #EF4444;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--ink);
+  color: var(--chalk);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--ink-3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--lime); }
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.4;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 60px;
+  background: rgba(14,14,14,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--ink-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  z-index: 900;
+}
+.topbar-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  color: var(--chalk);
+  text-decoration: none;
+}
+.logo-bar {
+  display: inline-block;
+  width: 3px; height: 1em;
+  background: var(--lime);
+  border-radius: 3px;
+  margin: 0 1px;
+  vertical-align: middle;
+  position: relative; top: -1px;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.topbar-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lime);
+  background: rgba(200,241,53,0.08);
+  border: 1px solid rgba(200,241,53,0.2);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.topbar-home {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 12px;
+  border: 1px solid var(--ink-3);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.topbar-home:hover { color: var(--chalk); border-color: rgba(255,255,255,0.15); }
+
+/* ===== LAYOUT ===== */
+.page-wrap {
+  padding: 80px 32px 60px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ===== LOGIN ===== */
+.login-screen {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login-box {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 10px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+.login-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
+.login-box h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.login-box p { color: var(--secondary); font-size: 0.875rem; margin-bottom: 28px; line-height: 1.5; }
+
+/* ===== FORM ELEMENTS ===== */
+.form-group { margin-bottom: 16px; text-align: left; }
+.form-label {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.form-input {
+  width: 100%;
+  background: var(--ink);
+  border: 1px solid var(--ink-3);
+  border-radius: 4px;
+  padding: 12px 16px;
+  color: var(--chalk);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+  min-height: 44px;
+  appearance: none;
+  -webkit-appearance: none;
+}
+.form-input:focus { outline: none; border-color: var(--lime); }
+.form-input::placeholder { color: var(--muted); }
+select.form-input {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A5652' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* ===== BUTTONS ===== */
+.btn-lime {
+  background: var(--lime);
+  color: var(--ink);
+  border: none;
+  padding: 13px 28px;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: 100%;
+}
+.btn-lime:hover { background: var(--lime-hover); }
+
+.btn-purple {
+  background: var(--purple);
+  color: #fff;
+  border: none;
+  padding: 11px 24px;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-purple:hover { background: #7040e0; }
+
+.btn-add {
+  background: var(--lime);
+  color: var(--ink);
+  border: none;
+  padding: 11px 24px;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 4px;
+}
+.btn-add:hover { background: var(--lime-hover); }
+.btn-add.purple { background: var(--purple); color: #fff; }
+.btn-add.purple:hover { background: #7040e0; }
+
+.btn-logout {
+  background: none;
+  border: 1px solid var(--ink-3);
+  color: var(--muted);
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-logout:hover { border-color: var(--error); color: var(--error); }
+
+.btn-delete {
+  background: none;
+  border: 1px solid var(--ink-3);
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.btn-delete:hover { border-color: var(--error); color: var(--error); }
+
+/* ===== PANEL ===== */
+#panel { display: none; }
+#panel.visible { display: block; }
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.panel-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+.panel-sub { color: var(--secondary); font-size: 0.875rem; margin-top: 4px; }
+
+/* ===== TABS ===== */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--ink-3);
+  margin-bottom: 32px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 12px 28px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: all 0.2s;
+}
+.tab-btn.active.brand { color: var(--lime); border-bottom-color: var(--lime); }
+.tab-btn.active.creator { color: var(--purple); border-bottom-color: var(--purple); }
+
+/* ===== ADD FORM ===== */
+.add-form-box {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 8px;
+  padding: 28px 28px 24px;
+  margin-bottom: 36px;
+}
+.add-form-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.form-grid .span2 { grid-column: 1 / -1; }
+@media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+/* ===== LIST ===== */
+.list-section { }
+.list-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.list-count {
+  background: var(--ink-3);
+  color: var(--secondary);
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.65rem;
+}
+
+.list-item {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 6px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+.list-item:hover { border-color: rgba(255,255,255,0.08); }
+.list-item-emoji { font-size: 1.4rem; flex-shrink: 0; }
+.list-item-info { flex: 1; min-width: 0; }
+.list-item-name { font-weight: 600; font-size: 0.9rem; }
+.list-item-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--muted);
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.list-empty {
+  text-align: center;
+  padding: 32px;
+  color: var(--muted);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  border: 1px dashed var(--ink-3);
+  border-radius: 6px;
+}
+
+/* ===== DIVIDER ===== */
+.divider {
+  height: 1px;
+  background: var(--ink-3);
+  margin: 36px 0;
+}
+
+/* ===== PASSWORD CHANGE ===== */
+.pw-section {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 8px;
+  padding: 28px;
+  margin-top: 48px;
+}
+.pw-section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+.pw-section-sub { color: var(--secondary); font-size: 0.8rem; margin-bottom: 20px; }
+.pw-grid { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; }
+@media (max-width: 600px) { .pw-grid { grid-template-columns: 1fr; } }
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--ink-2);
+  border: 1px solid var(--success);
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-size: 0.875rem;
+  color: var(--chalk);
+  z-index: 9000;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+  max-width: 300px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast-title { font-weight: 600; color: var(--success); margin-bottom: 2px; }
+.toast.error { border-color: var(--error); }
+.toast.error .toast-title { color: var(--error); }
+
+/* ===== ERROR MSG ===== */
+.error-msg {
+  display: none;
+  color: var(--error);
+  font-size: 0.78rem;
+  font-family: 'DM Mono', monospace;
+  margin-top: 6px;
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="index.html" class="topbar-logo">INFL<span class="logo-bar"></span>R</a>
+  <div class="topbar-right">
+    <span class="topbar-badge">Admin Panel</span>
+    <a href="index.html" class="topbar-home">← Back to Site</a>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-title" id="toast-title">Done!</div>
+  <div id="toast-msg">Changes saved.</div>
+</div>
+
+<div class="page-wrap">
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-box">
+      <span class="login-icon">🔐</span>
+      <h1>ADMIN LOGIN</h1>
+      <p>This page is restricted to INFLYR team only.<br>Enter your admin password to continue.</p>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="admin-pw" class="form-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
+        <div class="error-msg" id="pw-error">Incorrect password. Try again.</div>
+      </div>
+      <button class="btn-lime" onclick="doLogin()">Unlock →</button>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="panel">
+
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">MANAGE NETWORK</div>
+        <div class="panel-sub">Add or remove creators and brands shown on the homepage.</div>
+      </div>
+      <button class="btn-logout" onclick="doLogout()">Log Out</button>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn brand active" id="tab-brand-btn" onclick="switchTab('brand')">🛍️ &nbsp;Brands</button>
+      <button class="tab-btn creator" id="tab-creator-btn" onclick="switchTab('creator')">🎬 &nbsp;Creators</button>
+    </div>
+
+    <!-- ===== BRAND PANEL ===== -->
+    <div id="brand-panel">
+      <div class="add-form-box">
+        <div class="add-form-title">Add a New Brand</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Brand Name *</label>
+            <input type="text" id="ab-name" class="form-input" placeholder="e.g. Mamaearth">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Website</label>
+            <input type="text" id="ab-website" class="form-input" placeholder="mamaearth.in">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Industry</label>
+            <input type="text" id="ab-industry" class="form-input" placeholder="e.g. Skincare, Fitness, Food">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Campaign Type</label>
+            <select id="ab-type" class="form-input">
+              <option value="">Select type</option>
+              <option>UGC</option>
+              <option>Influencer Campaign</option>
+              <option>Affiliate</option>
+              <option>Regional</option>
+              <option>Full Stack</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Budget Range</label>
+            <select id="ab-budget" class="form-input">
+              <option value="">Select range</option>
+              <option>Under ₹30K</option>
+              <option>₹30K–₹1L</option>
+              <option>₹1L–₹5L</option>
+              <option>₹5L+</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-add" onclick="addBrand()">+ Add Brand</button>
+      </div>
+
+      <div class="list-section">
+        <div class="list-title">
+          Current Brands
+          <span class="list-count" id="brand-count">0</span>
+        </div>
+        <div id="brands-list"></div>
+      </div>
+    </div>
+
+    <!-- ===== CREATOR PANEL ===== -->
+    <div id="creator-panel" style="display:none">
+      <div class="add-form-box">
+        <div class="add-form-title">Add a New Creator</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Creator Name *</label>
+            <input type="text" id="ac-name" class="form-input" placeholder="e.g. Riya Sharma">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Handle (without @)</label>
+            <input type="text" id="ac-handle" class="form-input" placeholder="riyasharma">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Follower Count</label>
+            <input type="text" id="ac-followers" class="form-input" placeholder="e.g. 85K">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Platform</label>
+            <select id="ac-platform" class="form-input">
+              <option value="">Select platform</option>
+              <option>Instagram</option>
+              <option>YouTube</option>
+              <option>Instagram + YouTube</option>
+              <option>Reels</option>
+              <option>LinkedIn</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Niche</label>
+            <input type="text" id="ac-niche" class="form-input" placeholder="e.g. Skincare, Comedy, Food">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Language</label>
+            <input type="text" id="ac-language" class="form-input" placeholder="e.g. Hindi, Tamil">
+          </div>
+        </div>
+        <button class="btn-add purple" onclick="addCreator()">+ Add Creator</button>
+      </div>
+
+      <div class="list-section">
+        <div class="list-title">
+          Current Creators
+          <span class="list-count" id="creator-count">0</span>
+        </div>
+        <div id="creators-list"></div>
+      </div>
+    </div>
+
+    <!-- ===== CHANGE PASSWORD ===== -->
+    <div class="divider"></div>
+    <div class="pw-section">
+      <div class="pw-section-title">CHANGE PASSWORD</div>
+      <div class="pw-section-sub">Update your admin panel password. You'll need to re-login after changing it.</div>
+      <div class="pw-grid">
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">Current Password</label>
+          <input type="password" id="pw-current" class="form-input" placeholder="Current password">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">New Password</label>
+          <input type="password" id="pw-new" class="form-input" placeholder="New password (min 6 chars)">
+        </div>
+        <button class="btn-add" style="margin-top:0;height:44px" onclick="changePassword()">Update</button>
+      </div>
+      <div class="error-msg" id="pw-change-error" style="margin-top:10px"></div>
+    </div>
+
+  </div><!-- end panel -->
+
+</div><!-- end page-wrap -->
+
+<script>
+// ============================================================
+// ⚙️  CONFIGURATION
+// Change ADMIN_PASSWORD below to set your own password.
+// After changing, save the file and re-upload to GitHub.
+// ============================================================
+const DEFAULT_PASSWORD = 'inflyr2026';
+
+// Storage keys (shared with index.html)
+const STORAGE_CREATORS = 'inflyr_creators';
+const STORAGE_BRANDS   = 'inflyr_brands';
+const STORAGE_PW       = 'inflyr_admin_pw';
+
+// ============================================================
+// Password helpers
+// ============================================================
+function getPassword() {
+  return localStorage.getItem(STORAGE_PW) || DEFAULT_PASSWORD;
+}
+
+// ============================================================
+// Data helpers
+// ============================================================
+function getCreators() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_CREATORS) || '[]'); } catch(e) { return []; }
+}
+function getBrands() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_BRANDS) || '[]'); } catch(e) { return []; }
+}
+function saveCreators(list) { localStorage.setItem(STORAGE_CREATORS, JSON.stringify(list)); }
+function saveBrands(list)   { localStorage.setItem(STORAGE_BRANDS,   JSON.stringify(list)); }
+
+const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','🍕','💄','🏋️','🌿','🤳','💻'];
+const BRAND_EMOJIS   = ['🛍️','🧴','👟','🍫','💊','🏠','📦','🌱','⚡','🎒'];
+function randEmoji(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function esc(s) {
+  return String(s||'')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ============================================================
+// Auth
+// ============================================================
+let authed = false;
+
+function doLogin() {
+  const pw = document.getElementById('admin-pw').value;
+  if (pw === getPassword()) {
+    authed = true;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('panel').style.display = 'block';
+    renderBrands();
+    renderCreators();
+  } else {
+    document.getElementById('admin-pw').style.borderColor = 'var(--error)';
+    document.getElementById('pw-error').style.display = 'block';
+  }
+}
+
+function doLogout() {
+  authed = false;
+  document.getElementById('admin-pw').value = '';
+  document.getElementById('admin-pw').style.borderColor = '';
+  document.getElementById('pw-error').style.display = 'none';
+  document.getElementById('login-screen').style.display = '';
+  document.getElementById('panel').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============================================================
+// Tabs
+// ============================================================
+function switchTab(tab) {
+  ['brand','creator'].forEach(t => {
+    document.getElementById('tab-'+t+'-btn').classList.toggle('active', t === tab);
+    document.getElementById(t+'-panel').style.display = t === tab ? '' : 'none';
+  });
+}
+
+// ============================================================
+// Brands
+// ============================================================
+function addBrand() {
+  const name = document.getElementById('ab-name').value.trim();
+  if (!name) { showToast('Brand name is required', true); return; }
+  const brand = {
+    id: Date.now(),
+    name,
+    website:  document.getElementById('ab-website').value.trim(),
+    industry: document.getElementById('ab-industry').value.trim(),
+    type:     document.getElementById('ab-type').value,
+    budget:   document.getElementById('ab-budget').value,
+    emoji:    randEmoji(BRAND_EMOJIS)
+  };
+  const list = getBrands();
+  list.push(brand);
+  saveBrands(list);
+  ['ab-name','ab-website','ab-industry'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ab-type').value = '';
+  document.getElementById('ab-budget').value = '';
+  renderBrands();
+  showToast('Brand added!', false, escHint(brand.name) + ' is now live on the site.');
+}
+
+function deleteBrand(id) {
+  if (!confirm('Delete this brand?')) return;
+  saveBrands(getBrands().filter(b => b.id !== id));
+  renderBrands();
+  showToast('Brand removed.');
+}
+
+function renderBrands() {
+  const list = getBrands();
+  document.getElementById('brand-count').textContent = list.length;
+  const el = document.getElementById('brands-list');
+  if (list.length === 0) {
+    el.innerHTML = '<div class="list-empty">No brands added yet. Use the form above.</div>';
+    return;
+  }
+  el.innerHTML = list.map(b => `
+    <div class="list-item">
+      <div class="list-item-emoji">${b.emoji || '🛍️'}</div>
+      <div class="list-item-info">
+        <div class="list-item-name">${esc(b.name)}</div>
+        <div class="list-item-meta">${[b.industry, b.type, b.budget, b.website].filter(Boolean).map(esc).join(' · ')}</div>
+      </div>
+      <button class="btn-delete" onclick="deleteBrand(${b.id})">Delete</button>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// Creators
+// ============================================================
+function addCreator() {
+  const name = document.getElementById('ac-name').value.trim();
+  if (!name) { showToast('Creator name is required', true); return; }
+  const creator = {
+    id: Date.now(),
+    name,
+    handle:    document.getElementById('ac-handle').value.trim(),
+    followers: document.getElementById('ac-followers').value.trim(),
+    platform:  document.getElementById('ac-platform').value,
+    niche:     document.getElementById('ac-niche').value.trim(),
+    language:  document.getElementById('ac-language').value.trim(),
+    emoji:     randEmoji(CREATOR_EMOJIS)
+  };
+  const list = getCreators();
+  list.push(creator);
+  saveCreators(list);
+  ['ac-name','ac-handle','ac-followers','ac-niche','ac-language'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('ac-platform').value = '';
+  renderCreators();
+  showToast('Creator added!', false, esc(creator.name) + ' is now live on the site.');
+}
+
+function deleteCreator(id) {
+  if (!confirm('Delete this creator?')) return;
+  saveCreators(getCreators().filter(c => c.id !== id));
+  renderCreators();
+  showToast('Creator removed.');
+}
+
+function renderCreators() {
+  const list = getCreators();
+  document.getElementById('creator-count').textContent = list.length;
+  const el = document.getElementById('creators-list');
+  if (list.length === 0) {
+    el.innerHTML = '<div class="list-empty">No creators added yet. Use the form above.</div>';
+    return;
+  }
+  el.innerHTML = list.map(c => `
+    <div class="list-item">
+      <div class="list-item-emoji">${c.emoji || '🎬'}</div>
+      <div class="list-item-info">
+        <div class="list-item-name">${esc(c.name)}${c.handle ? ' <span style="color:var(--muted);font-family:DM Mono,monospace;font-size:0.75rem">@'+esc(c.handle)+'</span>' : ''}</div>
+        <div class="list-item-meta">${[c.platform, c.followers ? c.followers+' followers' : '', c.niche, c.language].filter(Boolean).map(esc).join(' · ')}</div>
+      </div>
+      <button class="btn-delete" onclick="deleteCreator(${c.id})">Delete</button>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// Change Password
+// ============================================================
+function changePassword() {
+  const current = document.getElementById('pw-current').value;
+  const newPw   = document.getElementById('pw-new').value.trim();
+  const errEl   = document.getElementById('pw-change-error');
+
+  if (current !== getPassword()) {
+    errEl.textContent = 'Current password is incorrect.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (newPw.length < 6) {
+    errEl.textContent = 'New password must be at least 6 characters.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  localStorage.setItem(STORAGE_PW, newPw);
+  document.getElementById('pw-current').value = '';
+  document.getElementById('pw-new').value = '';
+  showToast('Password updated!', false, 'You will need to use the new password next login.');
+}
+
+// ============================================================
+// Toast
+// ============================================================
+function showToast(title, isError = false, msg = '') {
+  const t  = document.getElementById('toast');
+  const tt = document.getElementById('toast-title');
+  const tm = document.getElementById('toast-msg');
+  tt.textContent = title;
+  tm.textContent = msg || (isError ? 'Please fix the issue and try again.' : 'Changes are live on the site.');
+  t.classList.toggle('error', isError);
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function escHint(s) { return esc(s); }
+</script>
+</body>
+</html>
