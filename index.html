@@ -1978,6 +1978,20 @@ footer {
 }
 .network-empty span { display: block; font-size: 2rem; margin-bottom: 12px; }
 
+.nc-avatar-wrap { margin-bottom: 14px; }
+.nc-photo {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--ink-3);
+}
+.nc-logo {
+  border-radius: 10px;
+  object-fit: contain;
+  background: #fff;
+  padding: 4px;
+}
+
 /* ============ ADMIN PANEL ============ */
 #page-admin {
   min-height: 100vh;
@@ -2437,6 +2451,10 @@ footer {
   </div>
   <div id="network-creator-grid" class="network-grid reveal"></div>
   <div id="network-brand-grid" class="network-grid reveal" style="display:none"></div>
+  <div style="text-align:center;margin-top:36px" class="reveal">
+    <a href="join.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;padding:13px 28px;border-radius:6px;text-decoration:none;font-size:.9rem;transition:background .2s" onmouseover="this.style.background='#7040e0'" onmouseout="this.style.background='var(--purple)'">🎬 Apply as Creator →</a>
+    <p style="color:var(--muted);font-family:'DM Mono',monospace;font-size:.7rem;margin-top:12px">Free to join · Profile appears after approval · Matched with D2C brands</p>
+  </div>
 </section>
 
 <div class="divider"></div>
@@ -3409,7 +3427,6 @@ const PAGE_TITLES = {
   about:    'About INFLYR — India\'s Performance Marketing Agency | IMA',
   faq:      'FAQs — Influencer Marketing India | INFLYR',
   legal:    'Terms & Privacy | INFLYR',
-  admin:    'Admin — INFLYR'
 };
 const PAGE_DESCS = {
   home:     'INFLYR (IMA) is India\'s performance influencer marketing agency. UGC, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands.',
@@ -3461,7 +3478,7 @@ function getPageFromPath() {
     return fromRedirect;
   }
   const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
-  const valid = ['home','brands','creators','services','about','faq','legal','admin'];
+  const valid = ['home','brands','creators','services','about','faq','legal'];
   return valid.includes(path) ? path : 'home';
 }
 
@@ -3670,26 +3687,37 @@ document.addEventListener('mouseleave', () => {
 });
 
 // ===== NETWORK SHOWCASE =====
-const INFLYR_PASS = 'inflyr2026';
+// JSONBin config - BIN_ID is set by admin and stored in a shared "meta" bin
 const JSONBIN_KEY = '$2a$10$tPiTKjiCGoJ54vo6I4o5x.PSnKvwIlQdu2Kkv5QqWGRL5fZDqZB76';
 const JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
-let JSONBIN_BIN_ID = localStorage.getItem('inflyr_bin_id') || null;
+// META_BIN stores the actual data bin ID - this is created once and fixed
+const META_BIN_ID = localStorage.getItem('inflyr_meta_bin') || null;
 
-// ---- JSONBin helpers ----
-async function loadFromCloud() {
-  if (!JSONBIN_BIN_ID) return null;
+// In-memory cache
+let _cache = { creators: [], brands: [], pending: [] };
+let _dataBinId = localStorage.getItem('inflyr_bin_id') || null;
+
+// ⚠️ IMPORTANT: After first admin save, copy your Bin ID here:
+const HARDCODED_BIN_ID = '6a244ad8da38895dfe917d0a'; // <-- paste your JSONBin ID here e.g. '686abc123'
+
+async function initCloud() {
+  // Use hardcoded ID first (works for all visitors), then localStorage fallback
+  const binToUse = HARDCODED_BIN_ID || _dataBinId;
+  if (!binToUse) { renderNetworkShowcase(); return; }
   try {
-    const res = await fetch(JSONBIN_URL + '/' + JSONBIN_BIN_ID + '/latest', {
+    const res = await fetch(JSONBIN_URL + '/' + binToUse + '/latest', {
       headers: { 'X-Master-Key': JSONBIN_KEY }
     });
     const data = await res.json();
-    return data.record || null;
-  } catch(e) { return null; }
+    if (data.record) {
+      _cache = { creators: data.record.creators||[], brands: data.record.brands||[], pending: data.record.pending||[] };
+    }
+  } catch(e) { console.error('Could not load network data', e); }
+  renderNetworkShowcase();
 }
 
-async function saveToCloud(record) {
-  if (!JSONBIN_BIN_ID) {
-    // Create new bin
+async function saveToCloud() {
+  if (!_dataBinId) {
     try {
       const res = await fetch(JSONBIN_URL, {
         method: 'POST',
@@ -3699,50 +3727,26 @@ async function saveToCloud(record) {
           'X-Bin-Name': 'inflyr-network',
           'X-Bin-Private': 'false'
         },
-        body: JSON.stringify(record)
+        body: JSON.stringify(_cache)
       });
       const data = await res.json();
-      JSONBIN_BIN_ID = data.metadata.id;
-      localStorage.setItem('inflyr_bin_id', JSONBIN_BIN_ID);
-    } catch(e) { console.error('JSONBin create failed', e); return false; }
+      _dataBinId = data.metadata.id;
+      localStorage.setItem('inflyr_bin_id', _dataBinId);
+    } catch(e) { return false; }
   } else {
     try {
-      await fetch(JSONBIN_URL + '/' + JSONBIN_BIN_ID, {
+      await fetch(JSONBIN_URL + '/' + _dataBinId, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': JSONBIN_KEY
-        },
-        body: JSON.stringify(record)
+        headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_KEY },
+        body: JSON.stringify(_cache)
       });
-    } catch(e) { console.error('JSONBin update failed', e); return false; }
+    } catch(e) { return false; }
   }
   return true;
 }
 
-// In-memory cache
-let _cache = { creators: [], brands: [] };
-
-async function initCloud() {
-  const data = await loadFromCloud();
-  if (data) {
-    _cache.creators = data.creators || [];
-    _cache.brands = data.brands || [];
-  }
-  renderNetworkShowcase();
-}
-
 function getCreators() { return _cache.creators; }
 function getBrands() { return _cache.brands; }
-
-async function saveCreators(list) {
-  _cache.creators = list;
-  await saveToCloud(_cache);
-}
-async function saveBrands(list) {
-  _cache.brands = list;
-  await saveToCloud(_cache);
-}
 
 const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','🍕','💄','🏋️','🌿','🤳','💻'];
 const BRAND_EMOJIS = ['🛍️','🧴','👟','🍫','💊','🏠','📦','🌱','⚡','🎒'];
@@ -3764,7 +3768,11 @@ function renderNetworkShowcase() {
   } else {
     cGrid.innerHTML = creators.map(c => `
       <div class="network-card creator-card card-3d">
-        <div class="nc-avatar">${c.emoji || '🎬'}</div>
+        <div class="nc-avatar-wrap">
+          ${c.photo
+            ? `<img src="${escHtml(c.photo)}" class="nc-photo" alt="${escHtml(c.name)}">`
+            : `<div class="nc-avatar">${c.emoji || '🎬'}</div>`}
+        </div>
         <div class="nc-name">${escHtml(c.name)}</div>
         ${c.handle ? '<div class="nc-handle">@'+escHtml(c.handle)+'</div>' : ''}
         ${c.followers ? '<div class="nc-stat"><strong>'+escHtml(c.followers)+'</strong> followers</div>' : ''}
@@ -3782,10 +3790,14 @@ function renderNetworkShowcase() {
   } else {
     bGrid.innerHTML = brands.map(b => `
       <div class="network-card brand-card card-3d">
-        <div class="nc-avatar">${b.emoji || '🛍️'}</div>
+        <div class="nc-avatar-wrap">
+          ${b.logo
+            ? `<img src="${escHtml(b.logo)}" class="nc-photo nc-logo" alt="${escHtml(b.name)}">`
+            : `<div class="nc-avatar">${b.emoji || '🛍️'}</div>`}
+        </div>
         <div class="nc-name">${escHtml(b.name)}</div>
         ${b.website ? '<div class="nc-handle">'+escHtml(b.website)+'</div>' : ''}
-        ${b.industry ? '<div class="nc-stat">Industry: <strong>'+escHtml(b.industry)+'</strong></div>' : ''}
+        ${b.industry ? '<div class="nc-stat">'+escHtml(b.industry)+'</div>' : ''}
         <div class="nc-tags">
           ${b.type ? '<span class="nc-tag">'+escHtml(b.type)+'</span>' : ''}
           ${b.budget ? '<span class="nc-tag">'+escHtml(b.budget)+'</span>' : ''}
@@ -3800,156 +3812,6 @@ function switchNetworkTab(tab) {
   document.querySelector('.network-tab-btn.' + tab).classList.add('active');
   document.getElementById('network-creator-grid').style.display = tab === 'creator' ? 'grid' : 'none';
   document.getElementById('network-brand-grid').style.display = tab === 'brand' ? 'grid' : 'none';
-}
-
-// ===== ADMIN PANEL =====
-let adminAuthed = false;
-
-function initAdminPage() {
-  const loginBox = document.getElementById('admin-login-box');
-  const panel = document.getElementById('admin-panel');
-  if (!loginBox || !panel) return;
-  if (adminAuthed) {
-    loginBox.style.display = 'none';
-    panel.classList.add('visible');
-    renderAdminCreators();
-    renderAdminBrands();
-  } else {
-    loginBox.style.display = '';
-    panel.classList.remove('visible');
-  }
-}
-
-function adminLogin() {
-  const pw = document.getElementById('admin-pw').value;
-  if (pw === INFLYR_PASS) {
-    adminAuthed = true;
-    initAdminPage();
-  } else {
-    document.getElementById('admin-pw').style.borderColor = 'var(--error)';
-    document.getElementById('admin-pw-error').style.display = 'block';
-  }
-}
-
-function adminLogout() {
-  adminAuthed = false;
-  document.getElementById('admin-pw').value = '';
-  document.getElementById('admin-pw').style.borderColor = '';
-  document.getElementById('admin-pw-error').style.display = 'none';
-  initAdminPage();
-}
-
-function switchAdminTab(tab) {
-  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
-  document.querySelector('.admin-tab[data-tab="'+tab+'"]').classList.add('active');
-  document.getElementById('admin-creator-panel').style.display = tab === 'creator' ? '' : 'none';
-  document.getElementById('admin-brand-panel').style.display = tab === 'brand' ? '' : 'none';
-}
-
-async function adminAddCreator() {
-  const name = document.getElementById('ac-name').value.trim();
-  if (!name) { alert('Creator name is required'); return; }
-  const btn = document.querySelector('#admin-creator-panel .admin-add-btn');
-  btn.textContent = 'Saving...'; btn.disabled = true;
-  const creator = {
-    id: Date.now(),
-    name,
-    handle: document.getElementById('ac-handle').value.trim(),
-    followers: document.getElementById('ac-followers').value.trim(),
-    platform: document.getElementById('ac-platform').value,
-    niche: document.getElementById('ac-niche').value.trim(),
-    language: document.getElementById('ac-language').value.trim(),
-    emoji: randomEmoji(CREATOR_EMOJIS)
-  };
-  const list = getCreators();
-  list.push(creator);
-  await saveCreators(list);
-  ['ac-name','ac-handle','ac-followers','ac-niche','ac-language'].forEach(id => { document.getElementById(id).value = ''; });
-  document.getElementById('ac-platform').value = '';
-  renderAdminCreators();
-  renderNetworkShowcase();
-  btn.textContent = '+ Add Creator'; btn.disabled = false;
-  showAdminToast('Creator added! Live on all devices.');
-}
-
-async function adminDeleteCreator(id) {
-  const list = getCreators().filter(c => c.id !== id);
-  await saveCreators(list);
-  renderAdminCreators();
-  renderNetworkShowcase();
-  showAdminToast('Creator removed.');
-}
-
-async function adminAddBrand() {
-  const name = document.getElementById('ab-name').value.trim();
-  if (!name) { alert('Brand name is required'); return; }
-  const btn = document.querySelector('#admin-brand-panel .admin-add-btn');
-  btn.textContent = 'Saving...'; btn.disabled = true;
-  const brand = {
-    id: Date.now(),
-    name,
-    website: document.getElementById('ab-website').value.trim(),
-    industry: document.getElementById('ab-industry').value.trim(),
-    type: document.getElementById('ab-type').value,
-    budget: document.getElementById('ab-budget').value,
-    emoji: randomEmoji(BRAND_EMOJIS)
-  };
-  const list = getBrands();
-  list.push(brand);
-  await saveBrands(list);
-  ['ab-name','ab-website','ab-industry'].forEach(id => { document.getElementById(id).value = ''; });
-  document.getElementById('ab-type').value = '';
-  document.getElementById('ab-budget').value = '';
-  renderAdminBrands();
-  renderNetworkShowcase();
-  btn.textContent = '+ Add Brand'; btn.disabled = false;
-  showAdminToast('Brand added! Live on all devices.');
-}
-
-async function adminDeleteBrand(id) {
-  const list = getBrands().filter(b => b.id !== id);
-  await saveBrands(list);
-  renderAdminBrands();
-  renderNetworkShowcase();
-  showAdminToast('Brand removed.');
-}
-
-function renderAdminCreators() {
-  const list = getCreators();
-  const el = document.getElementById('admin-creators-list');
-  if (!el) return;
-  if (list.length === 0) {
-    el.innerHTML = '<div class="admin-empty-list">No creators added yet.</div>';
-    return;
-  }
-  el.innerHTML = list.map(c => `
-    <div class="admin-item">
-      <div class="admin-item-info">
-        <div class="admin-item-name">${escHtml(c.name)} ${c.emoji}</div>
-        <div class="admin-item-meta">${c.handle ? '@'+escHtml(c.handle)+' &middot; ' : ''}${c.platform ? escHtml(c.platform)+' ' : ''}${c.followers ? '&middot; '+escHtml(c.followers)+' followers ' : ''}${c.niche ? '&middot; '+escHtml(c.niche) : ''}</div>
-      </div>
-      <button class="admin-delete-btn" onclick="adminDeleteCreator(${c.id})">Delete</button>
-    </div>
-  `).join('');
-}
-
-function renderAdminBrands() {
-  const list = getBrands();
-  const el = document.getElementById('admin-brands-list');
-  if (!el) return;
-  if (list.length === 0) {
-    el.innerHTML = '<div class="admin-empty-list">No brands added yet.</div>';
-    return;
-  }
-  el.innerHTML = list.map(b => `
-    <div class="admin-item">
-      <div class="admin-item-info">
-        <div class="admin-item-name">${escHtml(b.name)} ${b.emoji}</div>
-        <div class="admin-item-meta">${b.industry ? escHtml(b.industry)+' &middot; ' : ''}${b.type ? escHtml(b.type)+' ' : ''}${b.budget ? '&middot; '+escHtml(b.budget) : ''}</div>
-      </div>
-      <button class="admin-delete-btn" onclick="adminDeleteBrand(${b.id})">Delete</button>
-    </div>
-  `).join('');
 }
 
 function showAdminToast(msg) {
@@ -3967,131 +3829,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initCounters();
   setTimeout(initReveal, 500);
   initCloud(); // loads from JSONBin and renders showcase
-  if (window.location.search.includes('admin')) {
-    showPage('admin', false);
-    initAdminPage();
-  }
 });
+
 </script>
 
-<!-- ==================== ADMIN PAGE ==================== -->
-<div id="page-admin" class="page" style="padding-top:80px">
-  <div id="admin-login-box" class="admin-login">
-    <div class="admin-login-box">
-      <div class="admin-badge">Admin Only</div>
-      <h2>INFLYR ADMIN</h2>
-      <p>Enter your password to manage creators and brands.</p>
-      <div class="form-group" style="margin-bottom:12px">
-        <input type="password" id="admin-pw" class="form-input" placeholder="Admin password" onkeydown="if(event.key==='Enter')adminLogin()">
-        <div id="admin-pw-error" style="display:none;color:var(--error);font-size:0.8rem;margin-top:6px;font-family:'DM Mono',monospace">Wrong password. Try again.</div>
-      </div>
-      <button class="admin-add-btn" style="width:100%" onclick="adminLogin()">Unlock Panel →</button>
-    </div>
-  </div>
-
-  <div id="admin-panel" class="admin-panel">
-    <div class="admin-header">
-      <div>
-        <div class="admin-badge">Admin Panel</div>
-        <div class="admin-section-title">MANAGE NETWORK</div>
-        <div class="admin-section-sub">Add or remove creators and brands shown on the homepage.</div>
-      </div>
-      <button class="admin-logout-btn" onclick="adminLogout()">Log Out</button>
-    </div>
-
-    <div class="admin-tabs">
-      <button class="admin-tab brand active" data-tab="brand" onclick="switchAdminTab('brand')">🛍️ Brands</button>
-      <button class="admin-tab creator" data-tab="creator" onclick="switchAdminTab('creator')">🎬 Creators</button>
-    </div>
-
-    <!-- BRAND PANEL -->
-    <div id="admin-brand-panel">
-      <div class="admin-form-grid">
-        <div class="form-group">
-          <label class="form-label">Brand Name *</label>
-          <input type="text" id="ab-name" class="form-input" placeholder="e.g. Mamaearth">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Website</label>
-          <input type="text" id="ab-website" class="form-input" placeholder="mamaearth.in">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Industry</label>
-          <input type="text" id="ab-industry" class="form-input" placeholder="e.g. Skincare, Fitness, Food">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Campaign Type</label>
-          <select id="ab-type" class="form-input">
-            <option value="">Select type</option>
-            <option>UGC</option>
-            <option>Influencer Campaign</option>
-            <option>Affiliate</option>
-            <option>Regional</option>
-            <option>Full Stack</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Budget Range</label>
-          <select id="ab-budget" class="form-input">
-            <option value="">Select range</option>
-            <option>Under ₹30K</option>
-            <option>₹30K–₹1L</option>
-            <option>₹1L–₹5L</option>
-            <option>₹5L+</option>
-          </select>
-        </div>
-      </div>
-      <button class="admin-add-btn" onclick="adminAddBrand()">+ Add Brand</button>
-      <div class="admin-list-section">
-        <div class="admin-list-title">Added Brands</div>
-        <div id="admin-brands-list"></div>
-      </div>
-    </div>
-
-    <!-- CREATOR PANEL -->
-    <div id="admin-creator-panel" style="display:none">
-      <div class="admin-form-grid">
-        <div class="form-group">
-          <label class="form-label">Creator Name *</label>
-          <input type="text" id="ac-name" class="form-input" placeholder="e.g. Riya Sharma">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Handle (without @)</label>
-          <input type="text" id="ac-handle" class="form-input" placeholder="riyasharma">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Follower Count</label>
-          <input type="text" id="ac-followers" class="form-input" placeholder="e.g. 85K">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Platform</label>
-          <select id="ac-platform" class="form-input">
-            <option value="">Select platform</option>
-            <option>Instagram</option>
-            <option>YouTube</option>
-            <option>Instagram + YouTube</option>
-            <option>Reels</option>
-            <option>LinkedIn</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Niche</label>
-          <input type="text" id="ac-niche" class="form-input" placeholder="e.g. Skincare, Comedy, Food">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Language</label>
-          <input type="text" id="ac-language" class="form-input" placeholder="e.g. Hindi, Tamil">
-        </div>
-      </div>
-      <button class="admin-add-btn purple" onclick="adminAddCreator()">+ Add Creator</button>
-      <div class="admin-list-section">
-        <div class="admin-list-title">Added Creators</div>
-        <div id="admin-creators-list"></div>
-      </div>
-    </div>
-
-  </div><!-- end admin-panel -->
-</div><!-- end page-admin -->
 
 </body>
 </html>
