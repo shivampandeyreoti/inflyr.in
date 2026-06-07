@@ -302,7 +302,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
 
 <script>
 const ADMIN_PASS = 'inflyr2026';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKqzprQAlJWuWGDbDDBIvIbWvw0uCVeQZYmYlTarCDe1VjQwMC1-hd0klbp4xANeXc/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe21x7uCNwjIEZFWVCb8y55I1em-mZ9SyVrhfRQpoTKPrQJHi/exec';
 let db = { creators: [], brands: [], pending: [] };
 
 const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','💄','🏋️','🌿','🤳','💻'];
@@ -310,16 +310,36 @@ const BRAND_EMOJIS   = ['🛍️','🧴','👟','🍫','💊','🏠','📦','�
 const rand = arr => arr[Math.floor(Math.random()*arr.length)];
 const esc  = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
+
+// ---- Cloud helpers ----
+async function gsFetch(params) {
+  return new Promise((resolve) => {
+    const cb = 'gs_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const url = SCRIPT_URL + '?' + params + '&cb=' + cb;
+    const script = document.createElement('script');
+    let done = false;
+    window[cb] = (data) => {
+      done = true;
+      delete window[cb];
+      if (document.head.contains(script)) document.head.removeChild(script);
+      resolve(data);
+    };
+    script.src = url;
+    script.onerror = () => { if (!done) { done = true; delete window[cb]; resolve(null); } };
+    setTimeout(() => { if (!done) { done = true; delete window[cb]; resolve(null); } }, 8000);
+    document.head.appendChild(script);
+  });
+}
+
 // ---- Cloud ----
 async function cloudLoad() {
   showLoader('Loading data...');
-  try {
-    const res = await fetch(SCRIPT_URL + '?action=read');
-    const data = await res.json();
+  const data = await gsFetch('action=read');
+  if (data) {
     db.creators = data.creators || [];
     db.brands   = data.brands   || [];
     db.pending  = data.pending  || [];
-  } catch(e) { console.error('Load failed', e); }
+  }
   hideLoader();
 }
 
@@ -328,10 +348,13 @@ async function cloudSave() {
   try {
     await fetch(SCRIPT_URL + '?action=write', {
       method: 'POST',
+      mode: 'no-cors',
       body: JSON.stringify(db)
     });
-  } catch(e) { console.error('Save failed', e); hideLoader(); return false; }
-  hideLoader(); return true;
+    await new Promise(r => setTimeout(r, 1000));
+  } catch(e) {}
+  hideLoader();
+  return true;
 }
 
 // ---- Auth ----

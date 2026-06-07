@@ -246,7 +246,7 @@ textarea.form-input{min-height:100px;resize:vertical;line-height:1.6}
 </div>
 
 <script>
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKqzprQAlJWuWGDbDDBIvIbWvw0uCVeQZYmYlTarCDe1VjQwMC1-hd0klbp4xANeXc/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe21x7uCNwjIEZFWVCb8y55I1em-mZ9SyVrhfRQpoTKPrQJHi/exec';
 
 const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','💄','🏋️','🌿','🤳','💻'];
 const rand = arr => arr[Math.floor(Math.random()*arr.length)];
@@ -317,12 +317,24 @@ async function submitForm() {
 
   try {
     // Load existing data then add to pending
-    const loadRes = await fetch(SCRIPT_URL + '?action=read');
-    const db = await loadRes.json();
+    function gsFetch(params) {
+      return new Promise((resolve) => {
+        const cb = 'gs_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+        const script = document.createElement('script');
+        let done = false;
+        window[cb] = (data) => { done=true; delete window[cb]; document.head.contains(script)&&document.head.removeChild(script); resolve(data); };
+        script.src = SCRIPT_URL + '?' + params + '&cb=' + cb;
+        script.onerror = () => { if(!done){done=true;delete window[cb];resolve(null);} };
+        setTimeout(()=>{ if(!done){done=true;delete window[cb];resolve(null);} }, 8000);
+        document.head.appendChild(script);
+      });
+    }
+    const db = await gsFetch('action=read') || {creators:[],brands:[],pending:[]};
     db.pending = db.pending || [];
     db.pending.push(entry);
     await fetch(SCRIPT_URL + '?action=write', {
       method: 'POST',
+      mode: 'no-cors',
       body: JSON.stringify(db)
     });
     // Success
