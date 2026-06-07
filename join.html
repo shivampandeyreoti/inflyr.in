@@ -255,13 +255,30 @@ const rand = arr => arr[Math.floor(Math.random()*arr.length)];
 function handlePhoto(input) {
   const file = input.files[0];
   if (!file) return;
-  if (file.size > 500*1024) { alert('Photo too large. Please use an image under 500KB.'); return; }
+  if (file.size > 5*1024*1024) { alert('Photo too large. Please use an image under 5MB.'); return; }
   const reader = new FileReader();
   reader.onload = e => {
-    document.getElementById('photoPreview').src = e.target.result;
-    document.getElementById('photoPreview').style.display = 'block';
-    document.getElementById('photoIcon').style.display = 'none';
-    document.getElementById('photoData').value = e.target.result;
+    const image = new Image();
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      const MAX = 1200;
+      let w = image.width, h = image.height;
+      if (w > MAX || h > MAX) {
+        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+        else { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(image, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+      document.getElementById('photoPreview').src = dataUrl;
+      document.getElementById('photoPreview').style.display = 'block';
+      document.getElementById('photoIcon').style.display = 'none';
+      document.getElementById('photoData').value = dataUrl;
+    };
+    image.src = e.target.result;
   };
   reader.readAsDataURL(file);
 }

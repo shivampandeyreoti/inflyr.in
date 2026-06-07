@@ -2011,20 +2011,24 @@ footer {
 
 /* ---- CARD PHOTO COVER (full width, big photo) ---- */
 .nc-cover {
-  height: 160px;
+  height: 200px;
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
   border-radius: 16px 16px 0 0;
+  background: #111;
 }
 .nc-cover-photo {
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center top;
   display: block;
   transition: transform 0.5s ease;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
-.network-card:hover .nc-cover-photo { transform: scale(1.06); }
+.network-card:hover .nc-cover-photo { transform: scale(1.04); }
 .nc-cover-gradient {
   position: absolute;
   inset: 0;
@@ -4153,7 +4157,7 @@ function creatorCard(c) {
 function brandCard(b) {
   const webUrl = b.website ? (b.website.startsWith('http') ? b.website : 'https://'+b.website) : null;
   const cover = b.logo
-    ? `<div class="nc-cover"><img src="${escHtml(b.logo)}" class="nc-cover-photo" style="object-fit:contain;background:#fff;padding:20px" alt="${escHtml(b.name)}"><div class="nc-cover-gradient"></div></div>`
+    ? `<div class="nc-cover" style="background:#fff"><img src="${escHtml(b.logo)}" class="nc-cover-photo" style="object-fit:contain;padding:24px;background:#fff" alt="${escHtml(b.name)}"></div>`
     : `<div class="nc-cover"><div class="nc-cover-bg brand-card"><div class="nc-cover-mesh"></div><div class="nc-cover-lines"></div><div class="nc-cover-icon">🛍️</div></div></div>`;
   return `
   <div class="network-card brand-card" onclick="${webUrl ? `window.open('${webUrl}','_blank')` : ''}" style="${webUrl ? 'cursor:pointer' : ''}">
@@ -4210,8 +4214,58 @@ const SIZE_RANGES = {
   'celeb':   [1000000, Infinity]
 };
 
+// Smart synonym map - any word in query matches any synonym
+const NICHE_SYNONYMS = {
+  'skincare': ['skincare','beauty','skin','makeup','cosmetic','grooming'],
+  'beauty': ['beauty','skincare','makeup','cosmetic','glam'],
+  'fashion': ['fashion','lifestyle','style','outfit','ootd','clothing','apparel'],
+  'fitness': ['fitness','health','gym','workout','yoga','wellness','sports'],
+  'food': ['food','cooking','recipe','chef','kitchen','baking','eat'],
+  'comedy': ['comedy','entertainment','funny','memes','humor','fun','skit'],
+  'travel': ['travel','vlog','vlogs','trip','journey','adventure','explore','tourism'],
+  'vlog': ['vlog','vlogs','travel','lifestyle','daily','day in life'],
+  'tech': ['tech','gadgets','technology','electronics','review','unboxing'],
+  'finance': ['finance','business','money','invest','startup','entrepreneur'],
+  'parenting': ['parenting','family','kids','baby','mom','dad','children'],
+  'gaming': ['gaming','game','esports','streamer'],
+  'education': ['education','learn','study','knowledge','tutorial'],
+  'motivation': ['motivation','inspiration','mindset','self-help'],
+  'dance': ['dance','music','singing','performance','artist'],
+  'spiritual': ['spiritual','devotion','bhakti','religion','yoga'],
+};
+
+const INDUSTRY_SYNONYMS = {
+  'skincare': ['skincare','beauty','cosmetic','grooming','personal care'],
+  'beauty': ['beauty','skincare','cosmetic','makeup'],
+  'food': ['food','beverage','fmcg','snack','drink','nutrition'],
+  'fitness': ['fitness','supplement','health','wellness','sports'],
+  'fashion': ['fashion','apparel','clothing','accessories'],
+  'electronics': ['electronics','gadgets','tech','devices'],
+  'home': ['home','lifestyle','decor','furniture','household'],
+  'finance': ['finance','edtech','insurance','fintech'],
+  'healthcare': ['healthcare','pharma','medical','wellness'],
+};
+
+function smartMatch(query, field, synonymMap) {
+  if (!query || !field) return !query;
+  const q = query.toLowerCase().trim();
+  const f = field.toLowerCase().trim();
+  // Direct match
+  if (f.includes(q)) return true;
+  // Synonym match - check if query or its synonyms overlap with field or its synonyms
+  const qSynonyms = synonymMap[q] || [q];
+  const fieldWords = f.split(/[\s,&\/]+/);
+  for (const fw of fieldWords) {
+    const fSynonyms = synonymMap[fw] || [fw];
+    for (const qs of qSynonyms) {
+      if (fSynonyms.some(fs => fs.includes(qs) || qs.includes(fs))) return true;
+    }
+  }
+  return false;
+}
+
 function applyFilters() {
-  const niche    = document.getElementById('f-niche').value.toLowerCase();
+  const niche    = document.getElementById('f-niche').value;
   const size     = document.getElementById('f-size').value;
   const lang     = document.getElementById('f-lang').value.toLowerCase();
   const platform = document.getElementById('f-platform').value.toLowerCase();
@@ -4221,7 +4275,7 @@ function applyFilters() {
   document.getElementById('filter-clear-btn').style.display = hasFilter ? '' : 'none';
 
   let list = getCreators().filter(c => {
-    if (niche && !(c.niche||'').toLowerCase().includes(niche)) return false;
+    if (niche && !smartMatch(niche.toLowerCase(), c.niche||'', NICHE_SYNONYMS)) return false;
     if (size) {
       const [mn, mx] = SIZE_RANGES[size] || [0, Infinity];
       const f = parseFollowers(c.followers);
@@ -4229,7 +4283,10 @@ function applyFilters() {
     }
     if (lang && !(c.language||'').toLowerCase().includes(lang)) return false;
     if (platform && !(c.platform||'').toLowerCase().includes(platform)) return false;
-    if (location && !(c.city||'').toLowerCase().includes(location) && !(c.state||'').toLowerCase().includes(location)) return false;
+    if (location) {
+      const loc = (c.city||'') + ' ' + (c.state||'');
+      if (!loc.toLowerCase().includes(location)) return false;
+    }
     return true;
   });
   renderCreatorGrid(list);
@@ -4242,12 +4299,12 @@ function clearFilters() {
 }
 
 function applyBrandFilters() {
-  const industry = document.getElementById('fb-industry').value.toLowerCase();
+  const industry = document.getElementById('fb-industry').value;
   const type     = document.getElementById('fb-type').value.toLowerCase();
   const hasFilter = industry || type;
   document.getElementById('brand-filter-clear-btn').style.display = hasFilter ? '' : 'none';
   let list = getBrands().filter(b => {
-    if (industry && !(b.industry||'').toLowerCase().includes(industry)) return false;
+    if (industry && !smartMatch(industry.toLowerCase(), b.industry||'', INDUSTRY_SYNONYMS)) return false;
     if (type && !(b.type||'').toLowerCase().includes(type)) return false;
     return true;
   });
