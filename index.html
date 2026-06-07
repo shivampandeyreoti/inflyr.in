@@ -1887,6 +1887,75 @@ footer {
 .network-tab-btn.creator.active { color: var(--purple); }
 .network-tab-btn.brand.active { color: var(--lime); }
 
+/* ---- FILTER BAR ---- */
+.filter-bar {
+  margin: 16px 0 24px;
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 10px;
+  padding: 20px;
+}
+.filter-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 140px;
+  flex: 1;
+}
+.filter-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.filter-select {
+  background: var(--ink);
+  border: 1px solid var(--ink-3);
+  border-radius: 5px;
+  padding: 8px 12px;
+  color: var(--chalk);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235A5652' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.filter-select:focus { outline: none; border-color: var(--purple); }
+.filter-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+.filter-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+.filter-clear {
+  background: none;
+  border: 1px solid var(--ink-3);
+  color: var(--muted);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-clear:hover { border-color: var(--purple); color: var(--purple); }
+
 .network-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -1940,62 +2009,96 @@ footer {
 .brand-card::before   { background: linear-gradient(90deg, transparent, var(--lime), transparent); }
 .network-card:hover::before { opacity: 1; }
 
-/* Cover banner */
+/* ---- CARD PHOTO COVER (full width, big photo) ---- */
 .nc-cover {
-  height: 100px;
+  height: 160px;
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
+  border-radius: 16px 16px 0 0;
 }
-.creator-card .nc-cover { background: linear-gradient(135deg, #1a0d2e 0%, #2d1458 50%, #1a0a3d 100%); }
-.brand-card .nc-cover   { background: linear-gradient(135deg, #0d1a0a 0%, #1a2e0d 50%, #0d1a08 100%); }
-.nc-cover-pattern {
+.nc-cover-photo {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.network-card:hover .nc-cover-photo { transform: scale(1.06); }
+.nc-cover-gradient {
   position: absolute;
   inset: 0;
-  opacity: 0.15;
-  background-image: radial-gradient(circle at 20% 50%, rgba(255,255,255,0.3) 1px, transparent 1px),
-                    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.2) 1px, transparent 1px),
-                    radial-gradient(circle at 60% 80%, rgba(255,255,255,0.15) 1px, transparent 1px);
-  background-size: 40px 40px, 60px 60px, 80px 80px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(12,12,12,0.95) 100%);
+}
+.creator-card .nc-cover-bg { background: linear-gradient(135deg, #1a0d2e 0%, #3d1a7a 40%, #1a0a3d 100%); }
+.brand-card .nc-cover-bg   { background: linear-gradient(135deg, #0d1a0a 0%, #1e3a0f 40%, #0d1a08 100%); }
+.nc-cover-bg {
+  width: 100%; height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+/* Animated mesh gradient for covers without photo */
+.nc-cover-mesh {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(138,92,246,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(138,92,246,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(80,40,180,0.3) 0%, transparent 60%);
+}
+.brand-card .nc-cover-mesh {
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(200,241,53,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(100,180,50,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(60,120,30,0.25) 0%, transparent 60%);
+}
+.nc-cover-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.5) 0px,
+    rgba(255,255,255,0.5) 1px,
+    transparent 1px,
+    transparent 20px
+  );
 }
 .nc-cover-icon {
   position: absolute;
-  right: 16px; top: 50%;
-  transform: translateY(-50%);
-  font-size: 2.5rem;
-  opacity: 0.12;
+  right: 20px; bottom: 16px;
+  font-size: 3rem;
+  opacity: 0.15;
+  line-height: 1;
 }
 
 /* Body */
-.nc-body { padding: 0 20px 20px; }
+.nc-body { padding: 16px 18px 18px; }
 
-/* Avatar - overlaps cover */
+/* Avatar - no longer overlapping, inside body */
 .nc-avatar-wrap {
-  margin-top: -40px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   position: relative;
   z-index: 2;
 }
 .nc-photo {
-  width: 80px; height: 80px;
+  width: 52px; height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #111;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
   display: block;
 }
-.creator-card .nc-photo-ring { box-shadow: 0 0 0 2px var(--purple), 0 4px 20px rgba(138,92,246,0.4); border-color: #111; }
-.brand-card .nc-photo-ring   { box-shadow: 0 0 0 2px var(--lime), 0 4px 20px rgba(200,241,53,0.3); border-color: #111; }
+.creator-card .nc-photo { box-shadow: 0 0 0 2px rgba(138,92,246,0.5), 0 2px 12px rgba(138,92,246,0.3); }
+.brand-card .nc-photo   { box-shadow: 0 0 0 2px rgba(200,241,53,0.4), 0 2px 12px rgba(200,241,53,0.2); }
 .nc-avatar {
-  width: 80px; height: 80px;
+  width: 52px; height: 52px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  font-size: 2rem;
-  border: 3px solid #111;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  font-size: 1.5rem;
 }
-.creator-card .nc-avatar { background: linear-gradient(135deg,#2d1458,#1a0d2e); box-shadow: 0 0 0 2px var(--purple), 0 4px 20px rgba(138,92,246,0.4); }
-.brand-card .nc-avatar   { background: linear-gradient(135deg,#1a2e0d,#0d1a0a); box-shadow: 0 0 0 2px var(--lime), 0 4px 20px rgba(200,241,53,0.3); }
+.creator-card .nc-avatar { background: rgba(138,92,246,0.15); box-shadow: 0 0 0 2px rgba(138,92,246,0.4); }
+.brand-card .nc-avatar   { background: rgba(200,241,53,0.1); box-shadow: 0 0 0 2px rgba(200,241,53,0.3); }
 
 .nc-name {
   font-family: 'Bebas Neue', sans-serif;
@@ -2540,12 +2643,156 @@ footer {
   <div class="section-label">Our Network</div>
   <h2 class="section-headline reveal">CREATORS &amp; BRANDS<br><span class="lime">IN OUR ECOSYSTEM.</span></h2>
   <p class="section-body reveal">A growing network of verified creators and D2C brands building performance-first campaigns across India.</p>
+
+  <!-- MAIN TABS -->
   <div class="network-tabs reveal">
-    <button class="network-tab-btn creator active" onclick="switchNetworkTab('creator')">Creators</button>
-    <button class="network-tab-btn brand" onclick="switchNetworkTab('brand')">Brands</button>
+    <button class="network-tab-btn creator active" onclick="switchNetworkTab('creator')">🎬 Creators</button>
+    <button class="network-tab-btn brand" onclick="switchNetworkTab('brand')">🛍️ Brands</button>
   </div>
+
+  <!-- CREATOR FILTERS -->
+  <div id="creator-filters" class="filter-bar reveal">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label class="filter-label">Niche</label>
+        <select class="filter-select" id="f-niche" onchange="applyFilters()">
+          <option value="">All Niches</option>
+          <option>Skincare & Beauty</option>
+          <option>Fashion & Lifestyle</option>
+          <option>Fitness & Health</option>
+          <option>Food & Cooking</option>
+          <option>Comedy & Entertainment</option>
+          <option>Travel & Vlogs</option>
+          <option>Tech & Gadgets</option>
+          <option>Finance & Business</option>
+          <option>Parenting & Family</option>
+          <option>Gaming</option>
+          <option>Education</option>
+          <option>Motivation</option>
+          <option>Dance & Music</option>
+          <option>Spiritual</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Creator Size</label>
+        <select class="filter-select" id="f-size" onchange="applyFilters()">
+          <option value="">All Sizes</option>
+          <option value="nano">Nano (0–1K)</option>
+          <option value="micro-s">Micro-S (1K–5K)</option>
+          <option value="micro">Micro (5K–10K)</option>
+          <option value="micro-m">Micro-M (10K–50K)</option>
+          <option value="micro-l">Micro-L (50K–100K)</option>
+          <option value="macro">Macro (100K–500K)</option>
+          <option value="mega">Mega (500K–1M)</option>
+          <option value="celeb">Celebrity (1M+)</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Language</label>
+        <select class="filter-select" id="f-lang" onchange="applyFilters()">
+          <option value="">All Languages</option>
+          <option>Hindi</option>
+          <option>English</option>
+          <option>Hinglish</option>
+          <option>Tamil</option>
+          <option>Telugu</option>
+          <option>Kannada</option>
+          <option>Malayalam</option>
+          <option>Bengali</option>
+          <option>Marathi</option>
+          <option>Gujarati</option>
+          <option>Punjabi</option>
+          <option>Odia</option>
+          <option>Bhojpuri</option>
+          <option>Rajasthani</option>
+          <option>Haryanvi</option>
+          <option>Assamese</option>
+          <option>Maithili</option>
+          <option>Urdu</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Platform</label>
+        <select class="filter-select" id="f-platform" onchange="applyFilters()">
+          <option value="">All Platforms</option>
+          <option>Instagram</option>
+          <option>YouTube</option>
+          <option>Instagram + YouTube</option>
+          <option>Reels</option>
+          <option>LinkedIn</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Location</label>
+        <select class="filter-select" id="f-location" onchange="applyFilters()">
+          <option value="">All India</option>
+          <optgroup label="Metro Cities">
+            <option>Mumbai</option><option>Delhi</option><option>Bengaluru</option>
+            <option>Chennai</option><option>Hyderabad</option><option>Kolkata</option>
+            <option>Pune</option><option>Ahmedabad</option>
+          </optgroup>
+          <optgroup label="Tier 2 Cities">
+            <option>Lucknow</option><option>Jaipur</option><option>Surat</option>
+            <option>Kanpur</option><option>Nagpur</option><option>Indore</option>
+            <option>Bhopal</option><option>Patna</option><option>Ludhiana</option>
+            <option>Agra</option><option>Varanasi</option><option>Nashik</option>
+            <option>Vadodara</option><option>Rajkot</option><option>Meerut</option>
+            <option>Coimbatore</option><option>Mysuru</option><option>Kochi</option>
+            <option>Guwahati</option><option>Chandigarh</option><option>Amritsar</option>
+            <option>Visakhapatnam</option><option>Bhubaneswar</option><option>Raipur</option>
+            <option>Dehradun</option><option>Ranchi</option><option>Jodhpur</option>
+          </optgroup>
+          <optgroup label="States">
+            <option>Uttar Pradesh</option><option>Maharashtra</option><option>Karnataka</option>
+            <option>Tamil Nadu</option><option>Rajasthan</option><option>Gujarat</option>
+            <option>West Bengal</option><option>Telangana</option><option>Andhra Pradesh</option>
+            <option>Madhya Pradesh</option><option>Bihar</option><option>Punjab</option>
+            <option>Haryana</option><option>Kerala</option><option>Odisha</option>
+            <option>Assam</option><option>Uttarakhand</option><option>Himachal Pradesh</option>
+            <option>Jharkhand</option><option>Chhattisgarh</option><option>Goa</option>
+            <option>Jammu & Kashmir</option><option>Northeast India</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+    <div class="filter-meta">
+      <span id="filter-count" class="filter-count"></span>
+      <button class="filter-clear" id="filter-clear-btn" onclick="clearFilters()" style="display:none">✕ Clear filters</button>
+    </div>
+  </div>
+
+  <!-- BRAND FILTERS -->
+  <div id="brand-filters" class="filter-bar reveal" style="display:none">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label class="filter-label">Industry</label>
+        <select class="filter-select" id="fb-industry" onchange="applyBrandFilters()">
+          <option value="">All Industries</option>
+          <option>Skincare / Beauty</option><option>Food & Beverage</option>
+          <option>Fitness & Supplements</option><option>Fashion & Apparel</option>
+          <option>Electronics / Gadgets</option><option>Home & Lifestyle</option>
+          <option>Finance / EdTech</option><option>Healthcare</option><option>Other</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Campaign Type</label>
+        <select class="filter-select" id="fb-type" onchange="applyBrandFilters()">
+          <option value="">All Types</option>
+          <option>UGC</option><option>Influencer Campaign</option>
+          <option>Affiliate</option><option>Regional</option><option>Full Stack</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-meta">
+      <span id="brand-filter-count" class="filter-count"></span>
+      <button class="filter-clear" id="brand-filter-clear-btn" onclick="clearBrandFilters()" style="display:none">✕ Clear filters</button>
+    </div>
+  </div>
+
   <div id="network-creator-grid" class="network-grid reveal"></div>
   <div id="network-brand-grid" class="network-grid reveal" style="display:none"></div>
+
   <div id="network-join-btn" style="text-align:center;margin-top:36px" class="reveal">
     <a href="join.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;padding:13px 28px;border-radius:6px;text-decoration:none;font-size:.9rem;transition:background .2s" onmouseover="this.style.background='#7040e0'" onmouseout="this.style.background='var(--purple)'">🎬 Apply as Creator →</a>
     <p style="color:var(--muted);font-family:'DM Mono',monospace;font-size:.7rem;margin-top:12px">Free to join · Profile appears after approval · Matched with D2C brands</p>
@@ -3871,81 +4118,155 @@ function getSocialUrl(c) {
   return 'https://instagram.com/' + h;
 }
 
+function parseFollowers(str) {
+  if (!str) return 0;
+  const s = String(str).toLowerCase().replace(/,/g,'').trim();
+  if (s.includes('m')) return parseFloat(s) * 1000000;
+  if (s.includes('k')) return parseFloat(s) * 1000;
+  return parseFloat(s) || 0;
+}
+
+function creatorCard(c) {
+  const socialUrl = getSocialUrl(c);
+  const platformIcon = c.platform && c.platform.toLowerCase().includes('youtube') ? '▶' : '◎';
+  const cover = c.photo
+    ? `<div class="nc-cover"><img src="${escHtml(c.photo)}" class="nc-cover-photo" alt="${escHtml(c.name)}"><div class="nc-cover-gradient"></div></div>`
+    : `<div class="nc-cover"><div class="nc-cover-bg creator-card"><div class="nc-cover-mesh"></div><div class="nc-cover-lines"></div><div class="nc-cover-icon">🎬</div></div></div>`;
+  return `
+  <div class="network-card creator-card" onclick="${socialUrl ? `window.open('${socialUrl}','_blank')` : ''}" style="${socialUrl ? 'cursor:pointer' : ''}">
+    ${cover}
+    <div class="nc-body">
+      <div class="nc-name">${escHtml(c.name)}</div>
+      ${c.handle ? `<div class="nc-handle">@${escHtml(c.handle.replace('@',''))}</div>` : ''}
+      ${c.followers ? `<div class="nc-stat"><strong>${escHtml(c.followers)}</strong> followers</div>` : ''}
+      <div class="nc-tags">
+        ${c.niche ? `<span class="nc-tag">${escHtml(c.niche)}</span>` : ''}
+        ${c.language ? `<span class="nc-tag">${escHtml(c.language)}</span>` : ''}
+        ${c.platform ? `<span class="nc-tag">${escHtml(c.platform)}</span>` : ''}
+        ${c.city ? `<span class="nc-tag">📍${escHtml(c.city)}</span>` : ''}
+      </div>
+      ${socialUrl ? `<a href="${socialUrl}" target="_blank" onclick="event.stopPropagation()" class="nc-social-btn">${platformIcon} View Profile</a>` : ''}
+    </div>
+  </div>`;
+}
+
+function brandCard(b) {
+  const webUrl = b.website ? (b.website.startsWith('http') ? b.website : 'https://'+b.website) : null;
+  const cover = b.logo
+    ? `<div class="nc-cover"><img src="${escHtml(b.logo)}" class="nc-cover-photo" style="object-fit:contain;background:#fff;padding:20px" alt="${escHtml(b.name)}"><div class="nc-cover-gradient"></div></div>`
+    : `<div class="nc-cover"><div class="nc-cover-bg brand-card"><div class="nc-cover-mesh"></div><div class="nc-cover-lines"></div><div class="nc-cover-icon">🛍️</div></div></div>`;
+  return `
+  <div class="network-card brand-card" onclick="${webUrl ? `window.open('${webUrl}','_blank')` : ''}" style="${webUrl ? 'cursor:pointer' : ''}">
+    ${cover}
+    <div class="nc-body">
+      <div class="nc-name">${escHtml(b.name)}</div>
+      ${b.website ? `<div class="nc-handle">${escHtml(b.website)}</div>` : ''}
+      ${b.industry ? `<div class="nc-stat"><strong>${escHtml(b.industry)}</strong></div>` : ''}
+      <div class="nc-tags">
+        ${b.type ? `<span class="nc-tag">${escHtml(b.type)}</span>` : ''}
+        ${b.budget ? `<span class="nc-tag">${escHtml(b.budget)}</span>` : ''}
+      </div>
+      ${webUrl ? `<a href="${webUrl}" target="_blank" onclick="event.stopPropagation()" class="nc-social-btn">↗ Visit Website</a>` : ''}
+    </div>
+  </div>`;
+}
+
 function renderNetworkShowcase() {
-  const creators = getCreators();
-  const brands = getBrands();
-  const cGrid = document.getElementById('network-creator-grid');
-  const bGrid = document.getElementById('network-brand-grid');
-  if (!cGrid || !bGrid) return;
+  renderCreatorGrid(getCreators());
+  renderBrandGrid(getBrands());
+}
 
-  if (creators.length === 0) {
-    cGrid.innerHTML = '<div class="network-empty"><span>🎬</span>Creators coming soon. Check back shortly.</div>';
+function renderCreatorGrid(list) {
+  const el = document.getElementById('network-creator-grid');
+  if (!el) return;
+  if (!list.length) {
+    el.innerHTML = '<div class="network-empty"><span>🎬</span>Creators coming soon. Check back shortly.</div>';
   } else {
-    cGrid.innerHTML = creators.map(c => {
-      const socialUrl = getSocialUrl(c);
-      const platformIcon = c.platform && c.platform.toLowerCase().includes('youtube') ? '▶' : '◎';
-      return `
-      <div class="network-card creator-card" onclick="${socialUrl ? `window.open('${socialUrl}','_blank')` : ''}" style="${socialUrl ? 'cursor:pointer' : ''}">
-        <div class="nc-cover">
-          <div class="nc-cover-pattern"></div>
-          <div class="nc-cover-icon">🎬</div>
-        </div>
-        <div class="nc-body">
-          <div class="nc-avatar-wrap">
-            ${c.photo
-              ? `<img src="${escHtml(c.photo)}" class="nc-photo nc-photo-ring" alt="${escHtml(c.name)}">`
-              : `<div class="nc-avatar">${c.emoji || '🎬'}</div>`}
-          </div>
-          <div class="nc-name">${escHtml(c.name)}</div>
-          ${c.handle ? `<div class="nc-handle">@${escHtml(c.handle.replace('@',''))}</div>` : ''}
-          ${c.followers ? `<div class="nc-stat"><strong>${escHtml(c.followers)}</strong>&nbsp;followers</div>` : ''}
-          <div class="nc-tags">
-            ${c.niche ? `<span class="nc-tag">${escHtml(c.niche)}</span>` : ''}
-            ${c.language ? `<span class="nc-tag">${escHtml(c.language)}</span>` : ''}
-            ${c.platform ? `<span class="nc-tag">${escHtml(c.platform)}</span>` : ''}
-          </div>
-          ${socialUrl ? `<a href="${socialUrl}" target="_blank" onclick="event.stopPropagation()" class="nc-social-btn">${platformIcon} View Profile</a>` : ''}
-        </div>
-      </div>`;
-    }).join('');
+    el.innerHTML = list.map(creatorCard).join('');
   }
+  document.getElementById('filter-count').textContent = list.length + ' creator' + (list.length !== 1 ? 's' : '') + ' found';
+}
 
-  if (brands.length === 0) {
-    bGrid.innerHTML = '<div class="network-empty"><span>🛍️</span>Brand partners coming soon.</div>';
+function renderBrandGrid(list) {
+  const el = document.getElementById('network-brand-grid');
+  if (!el) return;
+  if (!list.length) {
+    el.innerHTML = '<div class="network-empty"><span>🛍️</span>Brand partners coming soon.</div>';
   } else {
-    bGrid.innerHTML = brands.map(b => {
-      const webUrl = b.website ? (b.website.startsWith('http') ? b.website : 'https://'+b.website) : null;
-      return `
-      <div class="network-card brand-card" onclick="${webUrl ? `window.open('${webUrl}','_blank')` : ''}" style="${webUrl ? 'cursor:pointer' : ''}">
-        <div class="nc-cover">
-          <div class="nc-cover-pattern"></div>
-          <div class="nc-cover-icon">🛍️</div>
-        </div>
-        <div class="nc-body">
-          <div class="nc-avatar-wrap">
-            ${b.logo
-              ? `<img src="${escHtml(b.logo)}" class="nc-photo nc-logo" alt="${escHtml(b.name)}">`
-              : `<div class="nc-avatar">${b.emoji || '🛍️'}</div>`}
-          </div>
-          <div class="nc-name">${escHtml(b.name)}</div>
-          ${b.website ? `<div class="nc-handle">${escHtml(b.website)}</div>` : ''}
-          ${b.industry ? `<div class="nc-stat"><strong>${escHtml(b.industry)}</strong></div>` : ''}
-          <div class="nc-tags">
-            ${b.type ? `<span class="nc-tag">${escHtml(b.type)}</span>` : ''}
-            ${b.budget ? `<span class="nc-tag">${escHtml(b.budget)}</span>` : ''}
-          </div>
-          ${webUrl ? `<a href="${webUrl}" target="_blank" onclick="event.stopPropagation()" class="nc-social-btn">↗ Visit Website</a>` : ''}
-        </div>
-      </div>`;
-    }).join('');
+    el.innerHTML = list.map(brandCard).join('');
   }
+  document.getElementById('brand-filter-count').textContent = list.length + ' brand' + (list.length !== 1 ? 's' : '') + ' found';
+}
+
+// ---- FILTER LOGIC ----
+const SIZE_RANGES = {
+  'nano':    [0, 1000],
+  'micro-s': [1000, 5000],
+  'micro':   [5000, 10000],
+  'micro-m': [10000, 50000],
+  'micro-l': [50000, 100000],
+  'macro':   [100000, 500000],
+  'mega':    [500000, 1000000],
+  'celeb':   [1000000, Infinity]
+};
+
+function applyFilters() {
+  const niche    = document.getElementById('f-niche').value.toLowerCase();
+  const size     = document.getElementById('f-size').value;
+  const lang     = document.getElementById('f-lang').value.toLowerCase();
+  const platform = document.getElementById('f-platform').value.toLowerCase();
+  const location = document.getElementById('f-location').value.toLowerCase();
+
+  const hasFilter = niche || size || lang || platform || location;
+  document.getElementById('filter-clear-btn').style.display = hasFilter ? '' : 'none';
+
+  let list = getCreators().filter(c => {
+    if (niche && !(c.niche||'').toLowerCase().includes(niche)) return false;
+    if (size) {
+      const [mn, mx] = SIZE_RANGES[size] || [0, Infinity];
+      const f = parseFollowers(c.followers);
+      if (f < mn || f >= mx) return false;
+    }
+    if (lang && !(c.language||'').toLowerCase().includes(lang)) return false;
+    if (platform && !(c.platform||'').toLowerCase().includes(platform)) return false;
+    if (location && !(c.city||'').toLowerCase().includes(location) && !(c.state||'').toLowerCase().includes(location)) return false;
+    return true;
+  });
+  renderCreatorGrid(list);
+}
+
+function clearFilters() {
+  ['f-niche','f-size','f-lang','f-platform','f-location'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('filter-clear-btn').style.display = 'none';
+  renderCreatorGrid(getCreators());
+}
+
+function applyBrandFilters() {
+  const industry = document.getElementById('fb-industry').value.toLowerCase();
+  const type     = document.getElementById('fb-type').value.toLowerCase();
+  const hasFilter = industry || type;
+  document.getElementById('brand-filter-clear-btn').style.display = hasFilter ? '' : 'none';
+  let list = getBrands().filter(b => {
+    if (industry && !(b.industry||'').toLowerCase().includes(industry)) return false;
+    if (type && !(b.type||'').toLowerCase().includes(type)) return false;
+    return true;
+  });
+  renderBrandGrid(list);
+}
+
+function clearBrandFilters() {
+  ['fb-industry','fb-type'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('brand-filter-clear-btn').style.display = 'none';
+  renderBrandGrid(getBrands());
 }
 
 function switchNetworkTab(tab) {
   document.querySelectorAll('.network-tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelector('.network-tab-btn.' + tab).classList.add('active');
   document.getElementById('network-creator-grid').style.display = tab === 'creator' ? 'grid' : 'none';
-  document.getElementById('network-brand-grid').style.display = tab === 'brand' ? 'grid' : 'none';
+  document.getElementById('network-brand-grid').style.display   = tab === 'brand'   ? 'grid' : 'none';
+  document.getElementById('creator-filters').style.display      = tab === 'creator' ? '' : 'none';
+  document.getElementById('brand-filters').style.display        = tab === 'brand'   ? '' : 'none';
   const joinBtn = document.getElementById('network-join-btn');
   if (joinBtn) joinBtn.style.display = tab === 'creator' ? '' : 'none';
 }
