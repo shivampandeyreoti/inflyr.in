@@ -233,23 +233,37 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
     <div id="tab-creator" style="display:none">
       <div class="form-card">
         <div class="form-card-title">Add New Creator</div>
+
+        <!-- PHOTO -->
+        <div class="form-group">
+          <label class="form-label">Profile Photo</label>
+          <div style="display:flex;align-items:center;gap:20px;margin-bottom:4px">
+            <div onclick="document.getElementById('ac-photo-file').click()" style="width:90px;height:90px;border-radius:50%;border:2px dashed var(--ink-3);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;background:var(--ink);transition:border-color .2s" onmouseover="this.style.borderColor='var(--purple)'" onmouseout="this.style.borderColor='var(--ink-3)'">
+              <img id="creatorPhotoPreview" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%" src="" alt="">
+              <div id="creatorPhotoPlaceholder" style="text-align:center;font-size:2rem">🤳</div>
+            </div>
+            <div style="flex:1">
+              <button type="button" onclick="document.getElementById('ac-photo-file').click()" class="btn btn-ghost" style="margin-bottom:8px;font-size:.75rem">📁 Upload Photo</button>
+              <input type="text" id="ac-photo-url" class="form-input" placeholder="Or paste Instagram/URL: https://..." oninput="previewUrl(this.value,'creatorPhotoPreview','creatorPhotoPlaceholder')" style="font-size:.8rem">
+            </div>
+          </div>
+          <input type="file" id="ac-photo-file" accept="image/*" style="display:none" onchange="previewImage(this,'creatorPhotoPreview','creatorPhotoPlaceholder','ac-photo-data')">
+          <input type="hidden" id="ac-photo-data">
+        </div>
+
+        <!-- BASIC INFO -->
         <div class="form-grid">
           <div class="form-group span2">
-            <label class="form-label">Creator Name *</label>
+            <label class="form-label">Full Name *</label>
             <input type="text" id="ac-name" class="form-input" placeholder="e.g. Riya Sharma">
           </div>
-          <div class="form-group span2">
-            <label class="form-label">Profile Photo (upload or paste URL)</label>
-            <div class="photo-upload-box" onclick="document.getElementById('ac-photo-file').click()">
-              <img id="creatorPhotoPreview" class="photo-preview" src="" alt="" style="display:none">
-              <div id="creatorPhotoPlaceholder">
-                <div style="font-size:2rem;margin-bottom:8px">🤳</div>
-                <div class="upload-hint"><strong>Click to upload photo</strong>Square photo looks best</div>
-              </div>
-              <input type="file" id="ac-photo-file" accept="image/*" style="display:none" onchange="previewImage(this,'creatorPhotoPreview','creatorPhotoPlaceholder','ac-photo-data')">
-            </div>
-            <input type="hidden" id="ac-photo-data">
-            <input type="text" id="ac-photo-url" class="form-input" placeholder="Or paste photo URL: https://..." style="margin-top:8px" oninput="previewUrl(this.value,'creatorPhotoPreview','creatorPhotoPlaceholder')">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" id="ac-email" class="form-input" placeholder="riya@gmail.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">WhatsApp Number</label>
+            <input type="text" id="ac-whatsapp" class="form-input" placeholder="+91 98765 43210">
           </div>
           <div class="form-group">
             <label class="form-label">Handle (without @)</label>
@@ -260,7 +274,7 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
             <input type="text" id="ac-followers" class="form-input" placeholder="e.g. 85K, 1.2M">
           </div>
           <div class="form-group">
-            <label class="form-label">Platform</label>
+            <label class="form-label">Primary Platform</label>
             <select id="ac-platform" class="form-input">
               <option value="">Select platform</option>
               <option>Instagram</option><option>YouTube</option>
@@ -268,12 +282,73 @@ select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://
             </select>
           </div>
           <div class="form-group">
-            <label class="form-label">Niche</label>
-            <input type="text" id="ac-niche" class="form-input" placeholder="e.g. Skincare, Comedy, Food">
+            <label class="form-label">Content Language</label>
+            <select id="ac-language" class="form-input">
+              <option value="">Select language</option>
+              <option>Hindi</option><option>English</option><option>Hinglish</option>
+              <option>Tamil</option><option>Telugu</option><option>Kannada</option>
+              <option>Malayalam</option><option>Bengali</option><option>Marathi</option>
+              <option>Gujarati</option><option>Punjabi</option><option>Odia</option>
+              <option>Bhojpuri</option><option>Rajasthani</option><option>Haryanvi</option>
+              <option>Assamese</option><option>Urdu</option><option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Content Niche</label>
+            <select id="ac-niche" class="form-input">
+              <option value="">Select niche</option>
+              <option>Skincare & Beauty</option><option>Fashion & Lifestyle</option>
+              <option>Fitness & Health</option><option>Food & Cooking</option>
+              <option>Comedy & Entertainment</option><option>Travel & Vlogs</option>
+              <option>Tech & Gadgets</option><option>Finance & Business</option>
+              <option>Parenting & Family</option><option>Gaming</option>
+              <option>Education</option><option>Motivation</option>
+              <option>Dance & Music</option><option>Spiritual</option><option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">City</label>
+            <input type="text" id="ac-city" class="form-input" placeholder="e.g. Mumbai, Lucknow">
+          </div>
+          <div class="form-group">
+            <label class="form-label">State</label>
+            <select id="ac-state" class="form-input">
+              <option value="">Select state</option>
+              <option>Delhi</option><option>Uttar Pradesh</option><option>Maharashtra</option>
+              <option>Karnataka</option><option>Tamil Nadu</option><option>Rajasthan</option>
+              <option>Gujarat</option><option>West Bengal</option><option>Telangana</option>
+              <option>Andhra Pradesh</option><option>Madhya Pradesh</option><option>Bihar</option>
+              <option>Punjab</option><option>Haryana</option><option>Kerala</option>
+              <option>Odisha</option><option>Assam</option><option>Uttarakhand</option>
+              <option>Himachal Pradesh</option><option>Jharkhand</option><option>Chhattisgarh</option>
+              <option>Goa</option><option>Jammu & Kashmir</option><option>Northeast India</option>
+            </select>
           </div>
           <div class="form-group span2">
-            <label class="form-label">Language</label>
-            <input type="text" id="ac-language" class="form-input" placeholder="e.g. Hindi, Tamil, Bhojpuri">
+            <label class="form-label">Short Bio</label>
+            <textarea id="ac-bio" class="form-input" style="min-height:80px;resize:vertical;line-height:1.6" placeholder="Tell brands about this creator — content style, audience, USP..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preferred Brand Category</label>
+            <select id="ac-brand-cat" class="form-input">
+              <option value="">Any category</option>
+              <option>D2C Skincare / Beauty</option><option>Food & Beverage</option>
+              <option>Fitness & Supplements</option><option>Fashion & Apparel</option>
+              <option>Electronics / Gadgets</option><option>Home & Lifestyle</option>
+              <option>Finance / EdTech</option><option>Open to All</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Content Rate (per reel/video)</label>
+            <select id="ac-rate" class="form-input">
+              <option value="">Not specified</option>
+              <option>Under ₹5,000</option><option>₹5K–₹15K</option>
+              <option>₹15K–₹50K</option><option>₹50K+</option>
+            </select>
+          </div>
+          <div class="form-group span2">
+            <label class="form-label">Past Brand Collabs / Notes</label>
+            <textarea id="ac-extra" class="form-input" style="min-height:60px;resize:vertical;line-height:1.6" placeholder="Any past brands, achievements, special notes..."></textarea>
           </div>
         </div>
         <button class="btn btn-purple" id="addCreatorBtn" onclick="adminAddCreator()">+ Add Creator</button>
@@ -505,18 +580,26 @@ async function adminAddCreator() {
   btn.textContent = 'Saving...'; btn.disabled = true;
 
   db.creators.push({
-    id: Date.now(), name,
-    photo:     getPhoto('ac-photo-data','ac-photo-url'),
-    handle:    document.getElementById('ac-handle').value.trim(),
-    followers: document.getElementById('ac-followers').value.trim(),
-    platform:  document.getElementById('ac-platform').value,
-    niche:     document.getElementById('ac-niche').value.trim(),
-    language:  document.getElementById('ac-language').value.trim(),
-    emoji:     rand(CREATOR_EMOJIS)
+    id:       Date.now(), name,
+    photo:    getPhoto('ac-photo-data','ac-photo-url'),
+    email:    document.getElementById('ac-email').value.trim(),
+    whatsapp: document.getElementById('ac-whatsapp').value.trim(),
+    handle:   document.getElementById('ac-handle').value.trim(),
+    followers:document.getElementById('ac-followers').value.trim(),
+    platform: document.getElementById('ac-platform').value,
+    language: document.getElementById('ac-language').value,
+    niche:    document.getElementById('ac-niche').value,
+    city:     document.getElementById('ac-city').value.trim(),
+    state:    document.getElementById('ac-state').value,
+    bio:      document.getElementById('ac-bio').value.trim(),
+    brandCat: document.getElementById('ac-brand-cat').value,
+    rate:     document.getElementById('ac-rate').value,
+    extra:    document.getElementById('ac-extra').value.trim(),
+    emoji:    rand(CREATOR_EMOJIS)
   });
   await cloudSave();
-  ['ac-name','ac-handle','ac-followers','ac-niche','ac-language'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('ac-platform').value = '';
+  ['ac-name','ac-email','ac-whatsapp','ac-handle','ac-followers','ac-city','ac-bio','ac-extra'].forEach(id => document.getElementById(id).value = '');
+  ['ac-platform','ac-language','ac-niche','ac-state','ac-brand-cat','ac-rate'].forEach(id => document.getElementById(id).value = '');
   resetPhoto('creatorPhotoPreview','creatorPhotoPlaceholder','ac-photo-data','ac-photo-url');
   renderCreators();
   btn.textContent = '+ Add Creator'; btn.disabled = false;
@@ -541,11 +624,17 @@ function renderCreators() {
         : `<div class="item-emoji-fallback">${c.emoji||'🎬'}</div>`}
       <div class="item-info">
         <div class="item-name">${esc(c.name)} ${c.handle?`<span style="font-weight:400;color:var(--muted);font-size:.82rem">@${esc(c.handle)}</span>`:''}</div>
-        <div class="item-meta">${c.followers?esc(c.followers)+' followers · ':''}${c.platform?esc(c.platform):''}</div>
+        <div class="item-meta">
+          ${c.followers?esc(c.followers)+' followers · ':''}${c.platform?esc(c.platform):''}
+          ${c.city?' · 📍'+esc(c.city):''}${c.state?', '+esc(c.state):''}
+          ${c.email?' · '+esc(c.email):''}${c.whatsapp?' · '+esc(c.whatsapp):''}
+        </div>
         <div class="item-tags">
           ${c.niche?`<span class="item-tag tag-purple">${esc(c.niche)}</span>`:''}
           ${c.language?`<span class="item-tag tag-purple">${esc(c.language)}</span>`:''}
+          ${c.rate?`<span class="item-tag tag-purple">${esc(c.rate)}</span>`:''}
         </div>
+        ${c.bio?`<div style="font-size:.78rem;color:var(--sec);margin-top:5px;line-height:1.4">"${esc(c.bio.substring(0,120))}${c.bio.length>120?'...':''}"</div>`:''}
       </div>
       <div class="item-actions"><button class="delete-btn" onclick="deleteCreator(${c.id})">Delete</button></div>
     </div>`).join('');
