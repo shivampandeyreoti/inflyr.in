@@ -65,6 +65,53 @@ textarea.form-input{min-height:100px;resize:vertical;line-height:1.6}
 .success-title{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.04em;margin-bottom:10px}
 .success-sub{color:var(--sec);font-size:.95rem;line-height:1.7;margin-bottom:28px}
 
+.lang-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+.lang-pill {
+  background: var(--ink);
+  border: 1px solid var(--ink-3);
+  color: var(--muted);
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .82rem;
+  cursor: pointer;
+  transition: all .2s;
+  user-select: none;
+}
+.lang-pill:hover { border-color: var(--purple); color: var(--chalk); }
+.lang-pill.selected {
+  background: rgba(138,92,246,.15);
+  border-color: var(--purple);
+  color: var(--purple);
+  font-weight: 600;
+}
+.suggest-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 6px;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+.suggest-item {
+  padding: 10px 14px;
+  font-size: .875rem;
+  cursor: pointer;
+  transition: background .15s;
+  border-bottom: 1px solid var(--ink-3);
+}
+.suggest-item:last-child { border-bottom: none; }
+.suggest-item:hover { background: var(--ink-3); color: var(--lime); }
+
 /* LOADING */
 .loading-overlay{display:none;position:fixed;inset:0;background:rgba(12,12,12,.75);backdrop-filter:blur(4px);z-index:8000;align-items:center;justify-content:center;flex-direction:column;gap:12px}
 .loading-overlay.show{display:flex}
@@ -116,7 +163,7 @@ textarea.form-input{min-height:100px;resize:vertical;line-height:1.6}
             <span id="photoIcon">📸</span>
           </div>
           <div class="photo-upload-info">
-            <p>Upload a clear photo of yourself. Square images work best. Max 500KB.</p>
+            <p>Upload a clear photo of yourself. Square images work best. Max 5MB.</p>
             <button type="button" onclick="document.getElementById('photoFile').click()" style="background:none;border:1px solid var(--ink-3);color:var(--sec);padding:7px 14px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.7rem;cursor:pointer">Choose Photo</button>
           </div>
         </div>
@@ -141,7 +188,8 @@ textarea.form-input{min-height:100px;resize:vertical;line-height:1.6}
         </div>
         <div class="form-group">
           <label class="form-label">Follower Count</label>
-          <input type="text" id="f-followers" class="form-input" placeholder="e.g. 50K, 1.2M">
+          <input type="number" id="f-followers" class="form-input" placeholder="Enter exact number e.g. 38000" min="0" oninput="updateFollowerDisplay(this.value)">
+          <div id="follower-display" style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--purple);margin-top:5px;min-height:18px"></div>
         </div>
       </div>
     </div>
@@ -164,16 +212,31 @@ textarea.form-input{min-height:100px;resize:vertical;line-height:1.6}
           </select>
           <div class="field-error" id="err-platform">Please select a platform</div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Content Language <span class="req">*</span></label>
-          <select id="f-language" class="form-input">
-            <option value="">Select language</option>
-            <option>Hindi</option><option>English</option><option>Hinglish</option>
-            <option>Tamil</option><option>Telugu</option><option>Kannada</option>
-            <option>Bengali</option><option>Marathi</option><option>Bhojpuri</option>
-            <option>Punjabi</option><option>Malayalam</option><option>Other</option>
-          </select>
-          <div class="field-error" id="err-language">Please select your language</div>
+        <div class="form-group span2">
+          <label class="form-label">Content Language <span class="req">*</span> <span style="font-size:.65rem;color:var(--muted);text-transform:none;letter-spacing:0">Select all that apply</span></label>
+          <div class="lang-pills" id="lang-pills">
+            <button type="button" class="lang-pill" data-val="Hindi" onclick="toggleLang(this)">Hindi</button>
+            <button type="button" class="lang-pill" data-val="English" onclick="toggleLang(this)">English</button>
+            <button type="button" class="lang-pill" data-val="Hinglish" onclick="toggleLang(this)">Hinglish</button>
+            <button type="button" class="lang-pill" data-val="Tamil" onclick="toggleLang(this)">Tamil</button>
+            <button type="button" class="lang-pill" data-val="Telugu" onclick="toggleLang(this)">Telugu</button>
+            <button type="button" class="lang-pill" data-val="Kannada" onclick="toggleLang(this)">Kannada</button>
+            <button type="button" class="lang-pill" data-val="Malayalam" onclick="toggleLang(this)">Malayalam</button>
+            <button type="button" class="lang-pill" data-val="Bengali" onclick="toggleLang(this)">Bengali</button>
+            <button type="button" class="lang-pill" data-val="Marathi" onclick="toggleLang(this)">Marathi</button>
+            <button type="button" class="lang-pill" data-val="Gujarati" onclick="toggleLang(this)">Gujarati</button>
+            <button type="button" class="lang-pill" data-val="Punjabi" onclick="toggleLang(this)">Punjabi</button>
+            <button type="button" class="lang-pill" data-val="Odia" onclick="toggleLang(this)">Odia</button>
+            <button type="button" class="lang-pill" data-val="Bhojpuri" onclick="toggleLang(this)">Bhojpuri</button>
+            <button type="button" class="lang-pill" data-val="Rajasthani" onclick="toggleLang(this)">Rajasthani</button>
+            <button type="button" class="lang-pill" data-val="Haryanvi" onclick="toggleLang(this)">Haryanvi</button>
+            <button type="button" class="lang-pill" data-val="Assamese" onclick="toggleLang(this)">Assamese</button>
+            <button type="button" class="lang-pill" data-val="Urdu" onclick="toggleLang(this)">Urdu</button>
+            <button type="button" class="lang-pill" data-val="Maithili" onclick="toggleLang(this)">Maithili</button>
+            <button type="button" class="lang-pill" data-val="Other" onclick="toggleLang(this)">Other</button>
+          </div>
+          <input type="hidden" id="f-language">
+          <div class="field-error" id="err-language">Please select at least one language</div>
         </div>
         <div class="form-group">
           <label class="form-label">Content Niche <span class="req">*</span></label>
@@ -189,8 +252,26 @@ textarea.form-input{min-height:100px;resize:vertical;line-height:1.6}
           <div class="field-error" id="err-niche">Please select your niche</div>
         </div>
         <div class="form-group">
-          <label class="form-label">City / State</label>
-          <input type="text" id="f-city" class="form-input" placeholder="e.g. Mumbai, Delhi">
+          <label class="form-label">City</label>
+          <div style="position:relative">
+            <input type="text" id="f-city" class="form-input" placeholder="e.g. Mumbai" autocomplete="off" oninput="showSuggestions('city',this.value)" onfocus="showSuggestions('city',this.value)" onblur="setTimeout(()=>hideSuggestions('city'),200)">
+            <div id="city-dropdown" class="suggest-dropdown" style="display:none"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">District</label>
+          <div style="position:relative">
+            <input type="text" id="f-district" class="form-input" placeholder="e.g. South Delhi" autocomplete="off" oninput="showSuggestions('district',this.value)" onfocus="showSuggestions('district',this.value)" onblur="setTimeout(()=>hideSuggestions('district'),200)">
+            <div id="district-dropdown" class="suggest-dropdown" style="display:none"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">State <span class="req">*</span></label>
+          <div style="position:relative">
+            <input type="text" id="f-state" class="form-input" placeholder="e.g. Maharashtra" autocomplete="off" oninput="showSuggestions('state',this.value)" onfocus="showSuggestions('state',this.value)" onblur="setTimeout(()=>hideSuggestions('state'),200)">
+            <div id="state-dropdown" class="suggest-dropdown" style="display:none"></div>
+          </div>
+          <div class="field-error" id="err-state">Please enter your state</div>
         </div>
       </div>
 
@@ -251,6 +332,70 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe
 const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','💄','🏋️','🌿','🤳','💻'];
 const rand = arr => arr[Math.floor(Math.random()*arr.length)];
 
+// ---- Language Pills ----
+function toggleLang(btn) {
+  btn.classList.toggle('selected');
+  const selected = [...document.querySelectorAll('.lang-pill.selected')].map(b => b.dataset.val);
+  document.getElementById('f-language').value = selected.join(', ');
+  const errEl = document.getElementById('err-language');
+  if (selected.length > 0) {
+    errEl.style.display = 'none';
+    document.getElementById('f-language').classList.remove('error');
+  }
+}
+
+// ---- Follower display ----
+function updateFollowerDisplay(val) {
+  const el = document.getElementById('follower-display');
+  const n = parseInt(val);
+  if (!val || isNaN(n)) { el.textContent = ''; return; }
+  let display = '';
+  if (n >= 10000000)      display = (n/10000000).toFixed(1).replace('.0','') + ' Cr';
+  else if (n >= 100000)   display = (n/100000).toFixed(1).replace('.0','') + ' Lakh';
+  else if (n >= 1000)     display = (n/1000).toFixed(1).replace('.0','') + 'K';
+  else                    display = n.toString();
+  
+  let tier = '';
+  if (n < 1000)           tier = 'Nano';
+  else if (n < 5000)      tier = 'Micro-S';
+  else if (n < 10000)     tier = 'Micro';
+  else if (n < 50000)     tier = 'Micro-M';
+  else if (n < 100000)    tier = 'Micro-L';
+  else if (n < 500000)    tier = 'Macro';
+  else if (n < 1000000)   tier = 'Mega';
+  else                    tier = 'Celebrity';
+  
+  el.textContent = display + ' followers · ' + tier + ' creator';
+}
+
+// ---- Location Autocomplete ----
+const CITIES = ['Mumbai','Delhi','Bengaluru','Chennai','Hyderabad','Kolkata','Pune','Ahmedabad','Surat','Jaipur','Lucknow','Kanpur','Nagpur','Indore','Bhopal','Patna','Ludhiana','Agra','Varanasi','Nashik','Vadodara','Rajkot','Meerut','Coimbatore','Mysuru','Kochi','Guwahati','Chandigarh','Amritsar','Visakhapatnam','Bhubaneswar','Raipur','Dehradun','Ranchi','Jodhpur','Madurai','Noida','Gurgaon','Faridabad','Ghaziabad','Thane','Navi Mumbai','Aurangabad','Solapur','Jabalpur','Vijayawada','Tiruchirappalli','Vellore','Mangaluru','Hubli','Dharwad','Belagavi','Shimla','Jammu','Srinagar','Gangtok','Imphal','Shillong','Aizawl','Kohima','Itanagar','Agartala','Dispur','Panaji','Silvassa','Daman','Port Blair'];
+
+const DISTRICTS = ['South Delhi','North Delhi','East Delhi','West Delhi','Central Delhi','Andheri','Bandra','Dadar','Powai','Malad','Borivali','Thane','Navi Mumbai','Whitefield','Koramangala','Indiranagar','Jayanagar','Hebbal','Electronic City','Anna Nagar','T Nagar','Velachery','Besant Nagar','Banjara Hills','Jubilee Hills','Kukatpally','Secunderabad','Salt Lake','New Town','Howrah','Alipore','Gomti Nagar','Hazratganj','Alambagh','Aliganj','Sector 62','Sector 18','DLF Phase','Cyber City','MG Road','BTM Layout','JP Nagar','Marathahalli'];
+
+const STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Andaman and Nicobar Islands','Chandigarh','Dadra and Nagar Haveli','Daman and Diu','Delhi','Jammu and Kashmir','Ladakh','Lakshadweep','Puducherry'];
+
+const DATA_MAP = { city: CITIES, district: DISTRICTS, state: STATES };
+
+function showSuggestions(type, val) {
+  const dropdown = document.getElementById(type + '-dropdown');
+  if (!val || val.length < 1) { dropdown.style.display = 'none'; return; }
+  const matches = DATA_MAP[type].filter(s => s.toLowerCase().includes(val.toLowerCase())).slice(0, 8);
+  if (!matches.length) { dropdown.style.display = 'none'; return; }
+  dropdown.innerHTML = matches.map(m => `<div class="suggest-item" onmousedown="selectSuggestion('${type}','${m}')">${m}</div>`).join('');
+  dropdown.style.display = 'block';
+}
+
+function hideSuggestions(type) {
+  const el = document.getElementById(type + '-dropdown');
+  if (el) el.style.display = 'none';
+}
+
+function selectSuggestion(type, val) {
+  document.getElementById('f-' + type).value = val;
+  hideSuggestions(type);
+}
+
 // Photo handler
 function handlePhoto(input) {
   const file = input.files[0];
@@ -290,9 +435,10 @@ function validate() {
     { id:'f-name',     err:'err-name',     msg:'Name is required' },
     { id:'f-email',    err:'err-email',    msg:'Valid email is required', type:'email' },
     { id:'f-platform', err:'err-platform', msg:'Please select a platform' },
-    { id:'f-language', err:'err-language', msg:'Please select your language' },
+    { id:'f-language', err:'err-language', msg:'Please select at least one language' },
     { id:'f-niche',    err:'err-niche',    msg:'Please select your niche' },
     { id:'f-bio',      err:'err-bio',      msg:'Please write a short bio' },
+    { id:'f-state',    err:'err-state',    msg:'Please enter your state' },
   ];
   required.forEach(f => {
     const el = document.getElementById(f.id);
@@ -325,6 +471,8 @@ async function submitForm() {
     language:    document.getElementById('f-language').value,
     niche:       document.getElementById('f-niche').value,
     city:        document.getElementById('f-city').value.trim(),
+    district:    document.getElementById('f-district').value.trim(),
+    state:       document.getElementById('f-state').value.trim(),
     bio:         document.getElementById('f-bio').value.trim(),
     brandCat:    document.getElementById('f-brand-cat').value,
     rate:        document.getElementById('f-rate').value,
