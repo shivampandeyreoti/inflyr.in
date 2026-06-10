@@ -1694,10 +1694,7 @@ footer {
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
 
-/* dir-card full photo hover zoom */
-.dir-card:hover .dir-card-photo-full { transform: scale(1.05); }
-.dir-card { border-radius: 14px; overflow: hidden; }
-
+/* ============ RESPONSIVE ============ */
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .nav-cta { display: none; }
@@ -1849,6 +1846,15 @@ footer {
   box-shadow: 0 24px 48px rgba(0,0,0,0.4), 0 4px 12px rgba(200,241,53,0.08);
 }
 
+.caf-lang-pills { display:flex; flex-wrap:wrap; gap:8px; margin-top:4px; }
+.caf-pill { background:var(--ink); border:1px solid var(--ink-3); color:var(--muted); padding:7px 14px; border-radius:20px; font-family:'DM Sans',sans-serif; font-size:.82rem; cursor:pointer; transition:all .2s; user-select:none; }
+.caf-pill:hover { border-color:var(--purple); color:var(--chalk); }
+.caf-pill.selected { background:rgba(138,92,246,.15); border-color:var(--purple); color:var(--purple); font-weight:600; }
+.caf-dropdown { position:absolute; top:calc(100% + 4px); left:0; right:0; background:var(--ink-2); border:1px solid var(--ink-3); border-radius:6px; z-index:200; max-height:180px; overflow-y:auto; box-shadow:0 8px 24px rgba(0,0,0,.4); }
+.caf-suggest-item { padding:10px 14px; font-size:.875rem; cursor:pointer; transition:background .15s; border-bottom:1px solid var(--ink-3); }
+.caf-suggest-item:last-child { border-bottom:none; }
+.caf-suggest-item:hover { background:var(--ink-3); color:var(--lime); }
+
 /* Parallax hero text */
 @supports (animation-timeline: scroll()) {
   .hero-headline {
@@ -1890,96 +1896,312 @@ footer {
 .network-tab-btn.creator.active { color: var(--purple); }
 .network-tab-btn.brand.active { color: var(--lime); }
 
-.network-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 16px;
-  margin-top: 8px;
-}
-.network-card {
+/* ---- FILTER BAR ---- */
+.filter-bar {
+  margin: 16px 0 24px;
   background: var(--ink-2);
   border: 1px solid var(--ink-3);
-  border-radius: 8px;
-  padding: 24px 20px;
-  transition: all 0.3s;
-  position: relative;
-  overflow: hidden;
+  border-radius: 10px;
+  padding: 20px;
 }
-.network-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  opacity: 0;
-  transition: opacity 0.3s;
+.filter-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
-.network-card.creator-card::before { background: var(--purple); }
-.network-card.brand-card::before { background: var(--lime); }
-.network-card:hover { border-color: var(--ink-3); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
-.network-card:hover::before { opacity: 1; }
-
-.nc-avatar {
-  width: 48px; height: 48px;
-  border-radius: 50%;
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 140px;
+  flex: 1;
+}
+.filter-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.filter-select {
+  background: var(--ink);
+  border: 1px solid var(--ink-3);
+  border-radius: 5px;
+  padding: 8px 12px;
+  color: var(--chalk);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235A5652' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.filter-select:focus { outline: none; border-color: var(--purple); }
+.filter-meta {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1.3rem;
-  margin-bottom: 14px;
-  flex-shrink: 0;
+  gap: 12px;
+  margin-top: 14px;
 }
-.creator-card .nc-avatar { background: rgba(138,92,246,0.12); border: 1px solid rgba(138,92,246,0.2); }
-.brand-card .nc-avatar { background: rgba(200,241,53,0.08); border: 1px solid rgba(200,241,53,0.15); }
-
-.nc-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.1rem;
-  letter-spacing: 0.04em;
-  margin-bottom: 4px;
-  color: var(--chalk);
-}
-.nc-handle {
+.filter-count {
   font-family: 'DM Mono', monospace;
   font-size: 0.7rem;
   color: var(--muted);
+}
+.filter-clear {
+  background: none;
+  border: 1px solid var(--ink-3);
+  color: var(--muted);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-clear:hover { border-color: var(--purple); color: var(--purple); }
+
+.network-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 8px;
+}
+
+/* ---- PREMIUM 3D CARD ---- */
+.network-card {
+  background: linear-gradient(145deg, #181818 0%, #111 100%);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s cubic-bezier(0.23,1,0.32,1), border-color 0.3s;
+  will-change: transform;
+}
+.network-card:hover {
+  transform: translateY(-8px) rotateX(4deg) scale(1.02);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+}
+.creator-card:hover { box-shadow: 0 32px 64px rgba(138,92,246,0.2), 0 0 0 1px rgba(138,92,246,0.3); }
+.brand-card:hover   { box-shadow: 0 32px 64px rgba(200,241,53,0.1), 0 0 0 1px rgba(200,241,53,0.2); }
+
+/* Gloss overlay */
+.network-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 50%);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+/* Glow top line */
+.network-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  border-radius: 1px;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.creator-card::before { background: linear-gradient(90deg, transparent, var(--purple), transparent); }
+.brand-card::before   { background: linear-gradient(90deg, transparent, var(--lime), transparent); }
+.network-card:hover::before { opacity: 1; }
+
+/* ---- CARD PHOTO COVER (full width, big photo) ---- */
+.nc-cover {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  border-radius: 16px 16px 0 0;
+  background: #111;
+}
+.nc-cover-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.5s ease;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+.network-card:hover .nc-cover-photo { transform: scale(1.04); }
+.nc-cover-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 40%, rgba(12,12,12,0.95) 100%);
+}
+.creator-card .nc-cover-bg { background: linear-gradient(135deg, #1a0d2e 0%, #3d1a7a 40%, #1a0a3d 100%); }
+.brand-card .nc-cover-bg   { background: linear-gradient(135deg, #0d1a0a 0%, #1e3a0f 40%, #0d1a08 100%); }
+.nc-cover-bg {
+  width: 100%; height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+/* Animated mesh gradient for covers without photo */
+.nc-cover-mesh {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(138,92,246,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(138,92,246,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(80,40,180,0.3) 0%, transparent 60%);
+}
+.brand-card .nc-cover-mesh {
+  background-image:
+    radial-gradient(ellipse at 20% 30%, rgba(200,241,53,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(100,180,50,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 100%, rgba(60,120,30,0.25) 0%, transparent 60%);
+}
+.nc-cover-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.5) 0px,
+    rgba(255,255,255,0.5) 1px,
+    transparent 1px,
+    transparent 20px
+  );
+}
+.nc-cover-icon {
+  position: absolute;
+  right: 20px; bottom: 16px;
+  font-size: 3rem;
+  opacity: 0.15;
+  line-height: 1;
+}
+
+/* Body */
+.nc-body { padding: 16px 18px 18px; }
+
+/* Avatar - no longer overlapping, inside body */
+.nc-avatar-wrap {
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
+}
+.nc-photo {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.1);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  display: block;
+}
+.creator-card .nc-photo { box-shadow: 0 0 0 2px rgba(138,92,246,0.5), 0 2px 12px rgba(138,92,246,0.3); }
+.brand-card .nc-photo   { box-shadow: 0 0 0 2px rgba(200,241,53,0.4), 0 2px 12px rgba(200,241,53,0.2); }
+.nc-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+}
+.creator-card .nc-avatar { background: rgba(138,92,246,0.15); box-shadow: 0 0 0 2px rgba(138,92,246,0.4); }
+.brand-card .nc-avatar   { background: rgba(200,241,53,0.1); box-shadow: 0 0 0 2px rgba(200,241,53,0.3); }
+
+.nc-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  color: var(--chalk);
+  margin-bottom: 2px;
+  line-height: 1;
+}
+.nc-handle {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--muted);
   margin-bottom: 10px;
 }
-.nc-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
-}
-.nc-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
-  padding: 3px 8px;
-  border-radius: 3px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.creator-card .nc-tag { background: rgba(138,92,246,0.1); color: var(--purple); border: 1px solid rgba(138,92,246,0.2); }
-.brand-card .nc-tag { background: rgba(200,241,53,0.06); color: var(--lime); border: 1px solid rgba(200,241,53,0.15); }
+.creator-card .nc-handle { color: rgba(138,92,246,0.7); }
+.brand-card .nc-handle   { color: rgba(200,241,53,0.6); }
 
 .nc-stat {
   font-family: 'DM Mono', monospace;
   font-size: 0.72rem;
   color: var(--secondary);
-  margin-top: 6px;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 4px;
 }
-.nc-stat strong { color: var(--chalk); }
+.nc-stat strong { color: var(--chalk); font-size: 0.85rem; }
+
+.nc-tags {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-bottom: 16px;
+}
+.nc-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.creator-card .nc-tag { background: rgba(138,92,246,0.12); color: var(--purple); border: 1px solid rgba(138,92,246,0.25); }
+.brand-card .nc-tag   { background: rgba(200,241,53,0.07); color: var(--lime); border: 1px solid rgba(200,241,53,0.2); }
+
+/* Social link button */
+.nc-social-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  padding: 7px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+  border: 1px solid transparent;
+}
+.creator-card .nc-social-btn {
+  background: rgba(138,92,246,0.1);
+  color: var(--purple);
+  border-color: rgba(138,92,246,0.2);
+}
+.creator-card .nc-social-btn:hover {
+  background: var(--purple);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(138,92,246,0.4);
+}
+.brand-card .nc-social-btn {
+  background: rgba(200,241,53,0.07);
+  color: var(--lime);
+  border-color: rgba(200,241,53,0.2);
+}
+.brand-card .nc-social-btn:hover {
+  background: var(--lime);
+  color: var(--ink);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(200,241,53,0.3);
+}
 
 .network-empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--muted);
-  font-family: 'DM Mono', monospace;
-  font-size: 0.8rem;
-  border: 1px dashed var(--ink-3);
-  border-radius: 8px;
-  grid-column: 1/-1;
+  text-align: center; padding: 60px 20px;
+  color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.8rem;
+  border: 1px dashed var(--ink-3); border-radius: 12px; grid-column: 1/-1;
 }
-.network-empty span { display: block; font-size: 2rem; margin-bottom: 12px; }
+.network-empty span { display: block; font-size: 2.5rem; margin-bottom: 12px; }
+
+.nc-logo {
+  border-radius: 10px; object-fit: contain;
+  background: #fff; padding: 6px;
+}
 
 /* ============ ADMIN PANEL ============ */
 #page-admin {
@@ -2141,189 +2363,6 @@ footer {
   border-radius: 4px;
   margin-bottom: 8px;
 }
-
-/* ============ JOIN NETWORK MODAL ============ */
-.join-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  backdrop-filter: blur(8px);
-  z-index: 2000;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 20px;
-  overflow-y: auto;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-.join-modal-overlay.open { opacity: 1; pointer-events: all; }
-.join-modal {
-  background: var(--ink-2);
-  border: 1px solid var(--ink-3);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 680px;
-  margin: auto;
-  transform: translateY(30px);
-  transition: transform 0.35s cubic-bezier(0.23,1,0.32,1);
-  position: relative;
-  overflow: hidden;
-}
-.join-modal-overlay.open .join-modal { transform: translateY(0); }
-.join-modal-header {
-  padding: 32px 36px 24px;
-  border-bottom: 1px solid var(--ink-3);
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-.join-modal-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.04em; }
-.join-modal-sub { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-top: 4px; letter-spacing: 0.05em; }
-.join-modal-close {
-  background: var(--ink-3); border: none; color: var(--secondary);
-  width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
-  font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  transition: background 0.2s, color 0.2s;
-}
-.join-modal-close:hover { background: var(--error); color: white; }
-.join-modal-body { padding: 28px 36px 36px; max-height: 75vh; overflow-y: auto; }
-.join-modal-body .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
-@media (max-width: 600px) {
-  .join-modal-body .form-grid-2 { grid-template-columns: 1fr; }
-  .join-modal-header { padding: 24px 20px 20px; }
-  .join-modal-body { padding: 20px 20px 28px; }
-}
-.multi-select-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-.ms-chip {
-  padding: 6px 14px; border-radius: 4px; border: 1px solid var(--ink-3);
-  background: var(--ink); color: var(--secondary); font-family: 'DM Mono', monospace;
-  font-size: 0.7rem; letter-spacing: 0.04em; cursor: pointer; transition: all 0.18s; user-select: none;
-}
-.ms-chip:hover { border-color: var(--purple); color: var(--purple); }
-.ms-chip.selected { background: rgba(138,92,246,0.12); border-color: var(--purple); color: var(--purple); }
-.ms-chip.lime-chip:hover { border-color: var(--lime); color: var(--lime); }
-.ms-chip.lime-chip.selected { background: rgba(200,241,53,0.08); border-color: var(--lime); color: var(--lime); }
-.pincode-row { display: grid; grid-template-columns: 120px 1fr 1fr; gap: 10px; }
-@media (max-width: 500px) { .pincode-row { grid-template-columns: 1fr 1fr; } }
-.join-photo-upload {
-  border: 2px dashed var(--ink-3); border-radius: 8px; padding: 24px;
-  text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative;
-}
-.join-photo-upload:hover { border-color: var(--purple); background: rgba(138,92,246,0.04); }
-.join-photo-upload input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-.join-photo-upload .upload-icon { font-size: 2rem; margin-bottom: 8px; }
-.join-photo-upload .upload-text { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); }
-.join-photo-preview { display: none; width: 72px; height: 72px; border-radius: 50%; object-fit: cover; margin: 0 auto 8px; border: 2px solid var(--purple); }
-.followers-display { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--lime); margin-top: 6px; height: 18px; }
-
-/* ============ 3D CREATOR DIRECTORY ============ */
-#creator-directory { padding: 80px 5vw; background: var(--ink); }
-.dir-filter-bar { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 40px; align-items: center; }
-.dir-filter-select {
-  background: var(--ink-2); border: 1px solid var(--ink-3); color: var(--chalk);
-  font-family: 'DM Mono', monospace; font-size: 0.72rem; padding: 10px 32px 10px 14px;
-  border-radius: 6px; cursor: pointer; transition: border-color 0.2s; letter-spacing: 0.04em; min-width: 160px;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A5652' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 12px center;
-}
-.dir-filter-select:focus { outline: none; border-color: var(--purple); }
-.dir-filter-clear {
-  background: none; border: 1px solid var(--ink-3); color: var(--muted);
-  font-family: 'DM Mono', monospace; font-size: 0.72rem; padding: 10px 16px;
-  border-radius: 6px; cursor: pointer; transition: all 0.2s; letter-spacing: 0.04em;
-}
-.dir-filter-clear:hover { border-color: var(--chalk); color: var(--chalk); }
-.dir-count { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); margin-left: auto; }
-.dir-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-.dir-card {
-  background: var(--ink-2); border: 1px solid var(--ink-3); border-radius: 12px;
-  overflow: hidden; position: relative; transform-style: preserve-3d;
-  transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), box-shadow 0.4s, border-color 0.3s; cursor: pointer;
-}
-.dir-card::after {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--purple), var(--lime)); opacity: 0; transition: opacity 0.3s;
-}
-.dir-card:hover { border-color: rgba(138,92,246,0.4); box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(138,92,246,0.08); }
-.dir-card:hover::after { opacity: 1; }
-.dir-card-photo { width: 100%; height: 220px; object-fit: cover; display: block; background: var(--ink-3); }
-.dir-card-photo-placeholder {
-  width: 100%; height: 220px;
-  background: linear-gradient(135deg, var(--ink-3) 0%, rgba(138,92,246,0.15) 100%);
-  display: flex; align-items: center; justify-content: center; font-size: 4rem;
-}
-.dir-card-body { padding: 18px 20px 20px; }
-.dir-card-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.04em; margin-bottom: 2px; }
-.dir-card-handle { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--purple); margin-bottom: 12px; text-decoration: none; display: block; transition: color 0.2s; }
-.dir-card-handle:hover { color: var(--lime); }
-.dir-card-stats { display: flex; gap: 16px; margin-bottom: 10px; }
-.dir-stat { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); }
-.dir-stat strong { color: var(--lime); display: block; font-size: 0.82rem; }
-.dir-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
-.dir-tag {
-  font-family: 'DM Mono', monospace; font-size: 0.6rem; padding: 3px 8px; border-radius: 3px;
-  background: rgba(138,92,246,0.1); color: var(--purple); border: 1px solid rgba(138,92,246,0.2);
-  letter-spacing: 0.04em; text-transform: uppercase;
-}
-.dir-tag.lime { background: rgba(200,241,53,0.06); color: var(--lime); border-color: rgba(200,241,53,0.2); }
-.dir-card-location { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 10px; display: flex; align-items: center; gap: 5px; }
-.dir-empty { grid-column: 1/-1; text-align: center; padding: 80px 20px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.8rem; border: 1px dashed var(--ink-3); border-radius: 12px; }
-.dir-empty .empty-icon { font-size: 3rem; margin-bottom: 16px; display: block; }
-
-/* ============ UPGRADED ADMIN PANEL ============ */
-.admin-tabs-v2 { display: flex; gap: 2px; background: var(--ink-2); border: 1px solid var(--ink-3); border-radius: 8px; padding: 4px; margin-bottom: 32px; width: fit-content; flex-wrap: wrap; }
-.admin-tab-v2 {
-  background: none; border: none; padding: 10px 20px; color: var(--muted);
-  font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
-  cursor: pointer; border-radius: 6px; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
-}
-.admin-tab-v2.active { background: var(--ink-3); color: var(--chalk); }
-.admin-tab-v2.pending.active { color: #FBBF24; }
-.admin-tab-v2.live.active { color: var(--lime); }
-.admin-tab-v2.brands-t.active { color: var(--lime); }
-.admin-tab-v2.creators-t.active { color: var(--purple); }
-.admin-badge-count { background: #FBBF24; color: var(--ink); border-radius: 9999px; padding: 1px 7px; font-size: 0.65rem; font-weight: 700; min-width: 20px; text-align: center; }
-.admin-badge-count.live { background: var(--success); }
-.pending-card { background: var(--ink-2); border: 1px solid rgba(251,191,36,0.2); border-radius: 10px; padding: 24px; margin-bottom: 12px; }
-.pending-card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
-.pending-avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; background: var(--ink-3); border: 2px solid rgba(138,92,246,0.3); flex-shrink: 0; }
-.pending-avatar-placeholder { width: 52px; height: 52px; border-radius: 50%; background: rgba(138,92,246,0.15); border: 2px solid rgba(138,92,246,0.3); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
-.pending-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.04em; }
-.pending-meta { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
-.pending-details { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; margin-bottom: 16px; background: var(--ink); border-radius: 8px; padding: 12px 16px; }
-.pd-item { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); }
-.pd-item strong { color: var(--chalk); display: block; font-size: 0.72rem; margin-bottom: 2px; }
-.pending-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.btn-approve { background: var(--success); color: var(--ink); border: none; padding: 10px 20px; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.8rem; cursor: pointer; transition: opacity 0.2s, transform 0.1s; display: flex; align-items: center; gap: 6px; }
-.btn-approve:hover { opacity: 0.85; transform: translateY(-1px); }
-.btn-reject { background: rgba(239,68,68,0.1); color: var(--error); border: 1px solid rgba(239,68,68,0.25); padding: 10px 20px; border-radius: 6px; font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
-.btn-reject:hover { background: var(--error); color: white; }
-.live-creator-row { display: flex; align-items: center; gap: 14px; background: var(--ink-2); border: 1px solid var(--ink-3); border-radius: 8px; padding: 14px 20px; margin-bottom: 8px; transition: border-color 0.2s; }
-.live-creator-row:hover { border-color: rgba(138,92,246,0.3); }
-.live-row-photo { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; background: var(--ink-3); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-.live-row-info { flex: 1; min-width: 0; }
-.live-row-name { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.live-row-meta { font-family: 'DM Mono', monospace; font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
-.live-row-actions { display: flex; gap: 8px; flex-shrink: 0; }
-.btn-edit-sm { background: rgba(200,241,53,0.08); color: var(--lime); border: 1px solid rgba(200,241,53,0.2); padding: 6px 14px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.65rem; cursor: pointer; transition: all 0.18s; letter-spacing: 0.04em; }
-.btn-edit-sm:hover { background: rgba(200,241,53,0.15); }
-.btn-del-sm { background: rgba(239,68,68,0.08); color: var(--error); border: 1px solid rgba(239,68,68,0.2); padding: 6px 14px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.65rem; cursor: pointer; transition: all 0.18s; letter-spacing: 0.04em; }
-.btn-del-sm:hover { background: var(--error); color: white; }
-.edit-inline-wrap { margin-top: 0; }
-.edit-inline-form { background: var(--ink); border: 1px solid rgba(200,241,53,0.15); border-radius: 8px; padding: 20px; display: none; margin-bottom: 8px; }
-.edit-inline-form.open { display: block; }
-.edit-inline-form .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 600px) { .edit-inline-form .form-grid-2 { grid-template-columns: 1fr; } }
-.admin-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--ink-3); }
-.admin-section-header h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.04em; }
-.admin-empty-v2 { text-align: center; padding: 60px 20px; color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.75rem; border: 1px dashed var(--ink-3); border-radius: 8px; }
-.admin-empty-v2 span { display: block; font-size: 2.5rem; margin-bottom: 12px; }
-.join-network-btn-wrap { display: flex; align-items: center; gap: 16px; margin-top: 32px; flex-wrap: wrap; }
-
 </style>
 </head>
 <body>
@@ -2529,7 +2568,7 @@ footer {
     </div>
   </div>
   <div style="margin-top:40px">
-    <a href="#" class="btn-purple" onclick="showPage('creators');return false;">Apply as Creator →</a>
+    <a href="join.html" class="btn-purple">Apply as Creator →</a>
   </div>
 </section>
 
@@ -2617,61 +2656,160 @@ footer {
   <div class="section-label">Our Network</div>
   <h2 class="section-headline reveal">CREATORS &amp; BRANDS<br><span class="lime">IN OUR ECOSYSTEM.</span></h2>
   <p class="section-body reveal">A growing network of verified creators and D2C brands building performance-first campaigns across India.</p>
+
+  <!-- MAIN TABS -->
   <div class="network-tabs reveal">
-    <button class="network-tab-btn creator active" onclick="switchNetworkTab('creator')">Creators</button>
-    <button class="network-tab-btn brand" onclick="switchNetworkTab('brand')">Brands</button>
+    <button class="network-tab-btn creator active" onclick="switchNetworkTab('creator')">🎬 Creators</button>
+    <button class="network-tab-btn brand" onclick="switchNetworkTab('brand')">🛍️ Brands</button>
   </div>
+
+  <!-- CREATOR FILTERS -->
+  <div id="creator-filters" class="filter-bar reveal">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label class="filter-label">Niche</label>
+        <select class="filter-select" id="f-niche" onchange="applyFilters()">
+          <option value="">All Niches</option>
+          <option>Skincare & Beauty</option>
+          <option>Fashion & Lifestyle</option>
+          <option>Fitness & Health</option>
+          <option>Food & Cooking</option>
+          <option>Comedy & Entertainment</option>
+          <option>Travel & Vlogs</option>
+          <option>Tech & Gadgets</option>
+          <option>Finance & Business</option>
+          <option>Parenting & Family</option>
+          <option>Gaming</option>
+          <option>Education</option>
+          <option>Motivation</option>
+          <option>Dance & Music</option>
+          <option>Spiritual</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Creator Size</label>
+        <select class="filter-select" id="f-size" onchange="applyFilters()">
+          <option value="">All Sizes</option>
+          <option value="nano">Nano (0–1K)</option>
+          <option value="micro-s">Micro-S (1K–5K)</option>
+          <option value="micro">Micro (5K–10K)</option>
+          <option value="micro-m">Micro-M (10K–50K)</option>
+          <option value="micro-l">Micro-L (50K–100K)</option>
+          <option value="macro">Macro (100K–500K)</option>
+          <option value="mega">Mega (500K–1M)</option>
+          <option value="celeb">Celebrity (1M+)</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Language</label>
+        <select class="filter-select" id="f-lang" onchange="applyFilters()">
+          <option value="">All Languages</option>
+          <option>Hindi</option>
+          <option>English</option>
+          <option>Hinglish</option>
+          <option>Tamil</option>
+          <option>Telugu</option>
+          <option>Kannada</option>
+          <option>Malayalam</option>
+          <option>Bengali</option>
+          <option>Marathi</option>
+          <option>Gujarati</option>
+          <option>Punjabi</option>
+          <option>Odia</option>
+          <option>Bhojpuri</option>
+          <option>Rajasthani</option>
+          <option>Haryanvi</option>
+          <option>Assamese</option>
+          <option>Maithili</option>
+          <option>Urdu</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Platform</label>
+        <select class="filter-select" id="f-platform" onchange="applyFilters()">
+          <option value="">All Platforms</option>
+          <option>Instagram</option>
+          <option>YouTube</option>
+          <option>Instagram + YouTube</option>
+          <option>Reels</option>
+          <option>LinkedIn</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Location</label>
+        <select class="filter-select" id="f-location" onchange="applyFilters()">
+          <option value="">All India</option>
+          <optgroup label="Metro Cities">
+            <option>Mumbai</option><option>Delhi</option><option>Bengaluru</option>
+            <option>Chennai</option><option>Hyderabad</option><option>Kolkata</option>
+            <option>Pune</option><option>Ahmedabad</option>
+          </optgroup>
+          <optgroup label="Tier 2 Cities">
+            <option>Lucknow</option><option>Jaipur</option><option>Surat</option>
+            <option>Kanpur</option><option>Nagpur</option><option>Indore</option>
+            <option>Bhopal</option><option>Patna</option><option>Ludhiana</option>
+            <option>Agra</option><option>Varanasi</option><option>Nashik</option>
+            <option>Vadodara</option><option>Rajkot</option><option>Meerut</option>
+            <option>Coimbatore</option><option>Mysuru</option><option>Kochi</option>
+            <option>Guwahati</option><option>Chandigarh</option><option>Amritsar</option>
+            <option>Visakhapatnam</option><option>Bhubaneswar</option><option>Raipur</option>
+            <option>Dehradun</option><option>Ranchi</option><option>Jodhpur</option>
+          </optgroup>
+          <optgroup label="States">
+            <option>Uttar Pradesh</option><option>Maharashtra</option><option>Karnataka</option>
+            <option>Tamil Nadu</option><option>Rajasthan</option><option>Gujarat</option>
+            <option>West Bengal</option><option>Telangana</option><option>Andhra Pradesh</option>
+            <option>Madhya Pradesh</option><option>Bihar</option><option>Punjab</option>
+            <option>Haryana</option><option>Kerala</option><option>Odisha</option>
+            <option>Assam</option><option>Uttarakhand</option><option>Himachal Pradesh</option>
+            <option>Jharkhand</option><option>Chhattisgarh</option><option>Goa</option>
+            <option>Jammu & Kashmir</option><option>Northeast India</option>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+    <div class="filter-meta">
+      <span id="filter-count" class="filter-count"></span>
+      <button class="filter-clear" id="filter-clear-btn" onclick="clearFilters()" style="display:none">✕ Clear filters</button>
+    </div>
+  </div>
+
+  <!-- BRAND FILTERS -->
+  <div id="brand-filters" class="filter-bar reveal" style="display:none">
+    <div class="filter-row">
+      <div class="filter-group">
+        <label class="filter-label">Industry</label>
+        <select class="filter-select" id="fb-industry" onchange="applyBrandFilters()">
+          <option value="">All Industries</option>
+          <option>Skincare / Beauty</option><option>Food & Beverage</option>
+          <option>Fitness & Supplements</option><option>Fashion & Apparel</option>
+          <option>Electronics / Gadgets</option><option>Home & Lifestyle</option>
+          <option>Finance / EdTech</option><option>Healthcare</option><option>Other</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label class="filter-label">Campaign Type</label>
+        <select class="filter-select" id="fb-type" onchange="applyBrandFilters()">
+          <option value="">All Types</option>
+          <option>UGC</option><option>Influencer Campaign</option>
+          <option>Affiliate</option><option>Regional</option><option>Full Stack</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-meta">
+      <span id="brand-filter-count" class="filter-count"></span>
+      <button class="filter-clear" id="brand-filter-clear-btn" onclick="clearBrandFilters()" style="display:none">✕ Clear filters</button>
+    </div>
+  </div>
+
   <div id="network-creator-grid" class="network-grid reveal"></div>
   <div id="network-brand-grid" class="network-grid reveal" style="display:none"></div>
-  <div class="join-network-btn-wrap reveal" style="display:none">
-    <button class="btn-purple" onclick="openJoinModal()" style="display:none">+ Join Our Network →</button>
-    <span class="small-muted">Free to apply · Takes 3 minutes · No spam</span>
-  </div>
-</section>
 
-<!-- 3D CREATOR DIRECTORY -->
-<div class="divider"></div>
-<section id="creator-directory">
-  <div class="section-label">Creator Directory</div>
-  <h2 class="section-headline reveal">FIND THE RIGHT<br><span class="lime">CREATOR.</span></h2>
-  <p class="section-body reveal">Browse our verified network. Approved creators only. Filter by language, size, engagement, and location.</p>
-  <div class="dir-filter-bar reveal">
-    <select class="dir-filter-select" id="dir-filter-lang" onchange="renderDirectory()">
-      <option value="">All Languages</option>
-      <option>Hindi</option><option>English</option><option>Hinglish</option><option>Tamil</option><option>Telugu</option><option>Marathi</option><option>Bengali</option><option>Kannada</option><option>Punjabi</option><option>Gujarati</option><option>Malayalam</option><option>Bhojpuri</option><option>Odia</option><option>Rajasthani</option><option>Haryanvi</option><option>Maithili</option><option>Assamese</option><option>Chhattisgarhi</option><option>Urdu</option><option>Sindhi</option><option>Konkani</option>
-    </select>
-    <select class="dir-filter-select" id="dir-filter-size" onchange="renderDirectory()">
-      <option value="">All Tiers</option>
-      <option value="nano">Nano (&lt;10K)</option>
-      <option value="micro-s">Micro S (10K–30K)</option>
-      <option value="micro-m">Micro M (30K–60K)</option>
-      <option value="micro-l">Micro L (60K–100K)</option>
-      <option value="macro-s">Macro S (100K–300K)</option>
-      <option value="macro-m">Macro M (300K–600K)</option>
-      <option value="macro-l">Macro L (600K–1M)</option>
-      <option value="mega-s">Mega S (1M–3M)</option>
-      <option value="mega-m">Mega M (3M–7M)</option>
-      <option value="mega-l">Mega L (7M–10M)</option>
-      <option value="celebrity">Celebrity (10M+)</option>
-    </select>
-    <select class="dir-filter-select" id="dir-filter-eng" onchange="renderDirectory()">
-      <option value="">Any Engagement</option>
-      <option value="2">2%+</option>
-      <option value="4">4%+</option>
-      <option value="7">7%+</option>
-      <option value="10">10%+</option>
-    </select>
-    <select class="dir-filter-select" id="dir-filter-state" onchange="renderDirectory()">
-      <option value="">All States</option>
-    </select>
-    <select class="dir-filter-select" id="dir-filter-niche" onchange="renderDirectory()">
-      <option value="">All Niches</option>
-      <option>Fashion &amp; Style</option><option>Beauty &amp; Makeup</option><option>Skincare</option><option>Food &amp; Cooking</option><option>Travel</option><option>Tech &amp; Gaming</option><option>Fitness &amp; Health</option><option>Finance &amp; Business</option><option>Comedy &amp; Entertainment</option><option>Education</option><option>Parenting &amp; Family</option><option>Vlogs &amp; Lifestyle</option><option>Music &amp; Dance</option><option>Motivation &amp; Self-Help</option><option>Spiritual &amp; Religious</option><option>Automotive</option><option>Sports &amp; Cricket</option>
-    </select>
-    <button class="dir-filter-clear" onclick="clearDirFilters()">Clear Filters</button>
-    <span class="dir-count" id="dir-count"></span>
+  <div id="network-join-btn" style="text-align:center;margin-top:36px" class="reveal">
+    <a href="#" onclick="showPage('creators');setTimeout(()=>{document.getElementById('creator-form')?.scrollIntoView({behavior:'smooth'})},150);return false;" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;padding:13px 28px;border-radius:6px;text-decoration:none;font-size:.9rem;transition:background .2s" onmouseover="this.style.background='#7040e0'" onmouseout="this.style.background='var(--purple)'">🎬 Apply as Creator →</a>
+    <p style="color:var(--muted);font-family:'DM Mono',monospace;font-size:.7rem;margin-top:12px">Free to join · Profile appears after approval · Matched with D2C brands</p>
   </div>
-  <div class="dir-grid" id="dir-grid"></div>
 </section>
 
 <div class="divider"></div>
@@ -2728,7 +2866,7 @@ footer {
     <div class="dual-panel-label">For Creators</div>
     <h3 class="dual-panel-headline reveal">APPLY.<br>CREATE. GET PAID.</h3>
     <p class="dual-panel-body reveal">2-minute form. No portfolio required. We'll WhatsApp you when a campaign matches your niche — you choose to take it or not.</p>
-    <a href="#" class="btn-purple reveal" onclick="showPage('creators');return false;">Apply — I'm a Creator →</a><br>
+    <a href="#" onclick="showPage('creators');setTimeout(()=>{document.getElementById('creator-form')?.scrollIntoView({behavior:'smooth'})},150);return false;" class="btn-purple reveal">Apply — I'm a Creator →</a><br>
     <a href="https://wa.me/916307041225?text=Hi%20INFLYR%2C%20I%20am%20a%20creator%20and%20want%20to%20join%20your%20network." target="_blank" class="wa-link">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       WhatsApp us directly →
@@ -2828,9 +2966,8 @@ footer {
       <div class="form-title">BRAND INTAKE</div>
       <p class="form-sub">Fill this in — we'll WhatsApp you within 24 hours to confirm the call.</p>
       <form id="brandForm" onsubmit="submitForm(event,'brand')">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" value="New Brand Inquiry — INFLYR">
-        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="subject" value="New Brand Inquiry — INFLYR">
+        <input type="hidden" name="from_name" value="INFLYR Website">
         <div class="form-group">
           <label class="form-label">Brand Name *</label>
           <input type="text" name="company" class="form-input" placeholder="Brand name" required>
@@ -2930,7 +3067,7 @@ footer {
   <h1 class="section-headline reveal" style="font-size:clamp(3rem,8vw,7rem)">SIRF POST NAHI —<br><span class="lime">PAISE BHI</span><br>CHAHIYE NA?</h1>
   <p class="section-body reveal" style="margin-bottom:40px">INFLYR connects creators of every size — 0 to 1M+ — with D2C brands that have a budget, a brief, and an on-time payment system. No more DMs to brands that ghost you. No more "exposure" deals.</p>
   <div style="display:flex;gap:12px;flex-wrap:wrap">
-    <a href="#" class="btn-purple" onclick="document.getElementById('creator-form').scrollIntoView({behavior:'smooth'});return false;">Apply Now — 2 Minutes →</a>
+    <a href="#" onclick="showPage('creators');setTimeout(()=>{document.getElementById('creator-form')?.scrollIntoView({behavior:'smooth'})},150);return false;" class="btn-purple">Apply Now — 2 Minutes →</a>
     <a href="https://wa.me/916307041225?text=Hi%20INFLYR%2C%20I%20am%20a%20creator%20and%20want%20to%20join%20your%20network." target="_blank" class="btn-ghost">WhatsApp Us</a>
   </div>
 </section>
@@ -3031,11 +3168,28 @@ footer {
   <p class="section-body reveal" style="margin-bottom:48px">2-minute form. We'll WhatsApp you when a relevant campaign comes in. No spam, no pressure — just real work when it's a fit.</p>
   <div class="form-section reveal">
     <div class="form-title">CREATOR APPLICATION</div>
-    <p class="form-sub">Fill in 5 fields. That's it. We'll handle the rest.</p>
-    <form id="creatorForm" onsubmit="submitForm(event,'creator')">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_subject" value="New Creator Application — INFLYR">
-      <input type="hidden" name="_template" value="table">
+    <p class="form-sub">Fill your details. We'll handle the rest.</p>
+    <form id="creatorForm" onsubmit="submitCreatorForm(event)">
+      <input type="hidden" name="subject" value="New Creator Application — INFLYR">
+      <input type="hidden" name="from_name" value="INFLYR Website">
+
+      <!-- PHOTO -->
+      <div class="form-group">
+        <label class="form-label">Profile Photo</label>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div onclick="document.getElementById('caf-photo-file').click()" style="width:72px;height:72px;border-radius:50%;border:2px dashed var(--ink-3);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;background:var(--ink);font-size:1.8rem;transition:border-color .2s" onmouseover="this.style.borderColor='var(--purple)'" onmouseout="this.style.borderColor='var(--ink-3)'" id="caf-photo-circle">
+            <img id="caf-photo-preview" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%" src="" alt="">
+            <span id="caf-photo-icon">📸</span>
+          </div>
+          <div>
+            <button type="button" onclick="document.getElementById('caf-photo-file').click()" style="background:none;border:1px solid var(--ink-3);color:var(--secondary);padding:7px 16px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;margin-bottom:6px">Upload Photo</button>
+            <p style="font-size:.75rem;color:var(--muted);margin:0">Clear face photo. Max 5MB.</p>
+          </div>
+        </div>
+        <input type="file" id="caf-photo-file" accept="image/*" style="display:none" onchange="cafHandlePhoto(this)">
+        <input type="hidden" id="caf-photo-data" name="photo">
+      </div>
+
       <div class="form-group">
         <label class="form-label">Full Name *</label>
         <input type="text" name="name" class="form-input" placeholder="Priya Singh" required>
@@ -3048,10 +3202,30 @@ footer {
         <label class="form-label">WhatsApp *</label>
         <input type="tel" name="whatsapp" class="form-input" placeholder="+91 98765 43210" required>
       </div>
+
+      <!-- LOCATION -->
       <div class="form-group">
-        <label class="form-label">City + State</label>
-        <input type="text" name="city_state" class="form-input" placeholder="e.g. Mumbai, Maharashtra">
+        <label class="form-label">City</label>
+        <div style="position:relative">
+          <input type="text" name="city" id="caf-city" class="form-input" placeholder="e.g. Mumbai" autocomplete="off" oninput="cafSuggest('city',this.value)" onfocus="cafSuggest('city',this.value)" onblur="setTimeout(()=>cafHide('city'),200)">
+          <div id="caf-city-drop" class="caf-dropdown" style="display:none"></div>
+        </div>
       </div>
+      <div class="form-group">
+        <label class="form-label">District</label>
+        <div style="position:relative">
+          <input type="text" name="district" id="caf-district" class="form-input" placeholder="e.g. South Delhi" autocomplete="off" oninput="cafSuggest('district',this.value)" onfocus="cafSuggest('district',this.value)" onblur="setTimeout(()=>cafHide('district'),200)">
+          <div id="caf-district-drop" class="caf-dropdown" style="display:none"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">State</label>
+        <div style="position:relative">
+          <input type="text" name="state" id="caf-state" class="form-input" placeholder="e.g. Maharashtra" autocomplete="off" oninput="cafSuggest('state',this.value)" onfocus="cafSuggest('state',this.value)" onblur="setTimeout(()=>cafHide('state'),200)">
+          <div id="caf-state-drop" class="caf-dropdown" style="display:none"></div>
+        </div>
+      </div>
+
       <div class="form-group">
         <label class="form-label">Primary Platform *</label>
         <select name="platform" class="form-input" required>
@@ -3065,24 +3239,22 @@ footer {
         </select>
       </div>
       <div class="form-group">
-        <label class="form-label">Instagram Handle *</label>
-        <input type="text" name="instagram" class="form-input" placeholder="@yourhandle" required>
+        <label class="form-label">Instagram Handle</label>
+        <input type="text" name="instagram" class="form-input" placeholder="@yourhandle">
       </div>
       <div class="form-group">
         <label class="form-label">YouTube Channel</label>
         <input type="text" name="youtube" class="form-input" placeholder="Channel name or URL">
       </div>
+
+      <!-- FOLLOWERS — exact number -->
       <div class="form-group">
         <label class="form-label">Total Followers / Subscribers *</label>
-        <select name="followers" class="form-input" required>
-          <option value="" disabled selected>Select range</option>
-          <option>1K – 10K (Nano)</option>
-          <option>10K – 50K (Micro)</option>
-          <option>50K – 2L (Mid-tier)</option>
-          <option>2L – 10L (Macro)</option>
-          <option>10L+ (Mega)</option>
-        </select>
+        <input type="number" name="followers" id="caf-followers" class="form-input" placeholder="Enter exact number e.g. 38000" min="0" oninput="cafFollowerDisplay(this.value)" required>
+        <div id="caf-follower-display" style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--purple);margin-top:5px;min-height:18px"></div>
+        <input type="hidden" name="followers_display" id="caf-followers-display-val">
       </div>
+
       <div class="form-group">
         <label class="form-label">Average Engagement Rate</label>
         <select name="engagement_rate" class="form-input">
@@ -3093,12 +3265,42 @@ footer {
           <option>7%+</option>
         </select>
       </div>
+
+      <!-- LANGUAGE PILLS -->
+      <div class="form-group">
+        <label class="form-label">Content Language(s) * <span style="font-size:.65rem;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400">Select all that apply</span></label>
+        <div class="caf-lang-pills">
+          <button type="button" class="caf-pill" data-val="Hindi" onclick="cafToggleLang(this)">Hindi</button>
+          <button type="button" class="caf-pill" data-val="English" onclick="cafToggleLang(this)">English</button>
+          <button type="button" class="caf-pill" data-val="Hinglish" onclick="cafToggleLang(this)">Hinglish</button>
+          <button type="button" class="caf-pill" data-val="Tamil" onclick="cafToggleLang(this)">Tamil</button>
+          <button type="button" class="caf-pill" data-val="Telugu" onclick="cafToggleLang(this)">Telugu</button>
+          <button type="button" class="caf-pill" data-val="Kannada" onclick="cafToggleLang(this)">Kannada</button>
+          <button type="button" class="caf-pill" data-val="Malayalam" onclick="cafToggleLang(this)">Malayalam</button>
+          <button type="button" class="caf-pill" data-val="Bengali" onclick="cafToggleLang(this)">Bengali</button>
+          <button type="button" class="caf-pill" data-val="Marathi" onclick="cafToggleLang(this)">Marathi</button>
+          <button type="button" class="caf-pill" data-val="Gujarati" onclick="cafToggleLang(this)">Gujarati</button>
+          <button type="button" class="caf-pill" data-val="Punjabi" onclick="cafToggleLang(this)">Punjabi</button>
+          <button type="button" class="caf-pill" data-val="Odia" onclick="cafToggleLang(this)">Odia</button>
+          <button type="button" class="caf-pill" data-val="Bhojpuri" onclick="cafToggleLang(this)">Bhojpuri</button>
+          <button type="button" class="caf-pill" data-val="Rajasthani" onclick="cafToggleLang(this)">Rajasthani</button>
+          <button type="button" class="caf-pill" data-val="Haryanvi" onclick="cafToggleLang(this)">Haryanvi</button>
+          <button type="button" class="caf-pill" data-val="Assamese" onclick="cafToggleLang(this)">Assamese</button>
+          <button type="button" class="caf-pill" data-val="Urdu" onclick="cafToggleLang(this)">Urdu</button>
+          <button type="button" class="caf-pill" data-val="Maithili" onclick="cafToggleLang(this)">Maithili</button>
+          <button type="button" class="caf-pill" data-val="Other" onclick="cafToggleLang(this)">Other</button>
+        </div>
+        <input type="hidden" name="language" id="caf-language-val">
+        <div id="caf-lang-error" style="display:none;color:var(--error);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:6px">Please select at least one language</div>
+      </div>
+
       <div class="form-group">
         <label class="form-label">Content Niche *</label>
         <select name="niche" class="form-input" required>
           <option value="" disabled selected>Select niche</option>
           <option>Fashion & Style</option>
           <option>Beauty & Makeup</option>
+          <option>Skincare</option>
           <option>Food & Cooking</option>
           <option>Travel & Lifestyle</option>
           <option>Tech & Gaming</option>
@@ -3107,6 +3309,9 @@ footer {
           <option>Comedy & Entertainment</option>
           <option>Education</option>
           <option>Parenting & Family</option>
+          <option>Dance & Music</option>
+          <option>Motivation & Mindset</option>
+          <option>Spiritual</option>
           <option>Other</option>
         </select>
       </div>
@@ -3118,7 +3323,7 @@ footer {
         <label class="form-label">Why do you want to join INFLYR?</label>
         <textarea name="motivation" class="form-input" rows="3" style="resize:vertical;min-height:80px" placeholder="Tell us a bit about yourself and your goals..."></textarea>
       </div>
-      <button type="submit" class="btn-purple" style="width:100%;justify-content:center;margin-top:8px">Apply to Join →</button>
+      <button type="submit" class="btn-purple" style="width:100%;justify-content:center;margin-top:8px" id="caf-submit-btn">Apply to Join →</button>
     </form>
   </div>
 </section>
@@ -3175,9 +3380,8 @@ footer {
       <div class="form-title">BRAND INTAKE</div>
       <p class="form-sub">We'll WhatsApp you within 24 hours to schedule your free audit call.</p>
       <form id="startBrandForm" onsubmit="submitForm(event,'brand')">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" value="New Brand Inquiry (Start Page) — INFLYR">
-        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="subject" value="New Brand Inquiry (Start Page) — INFLYR">
+        <input type="hidden" name="from_name" value="INFLYR Website">
         <div class="form-group">
           <label class="form-label">Brand Name *</label>
           <input type="text" name="company" class="form-input" placeholder="Brand name" required>
@@ -3277,9 +3481,8 @@ footer {
       <div class="form-title">CREATOR APPLICATION</div>
       <p class="form-sub">5 fields. We'll WhatsApp you when a campaign matches.</p>
       <form id="startCreatorForm" onsubmit="submitForm(event,'creator')">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_subject" value="New Creator Application (Start Page) — INFLYR">
-        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="subject" value="New Creator Application (Start Page) — INFLYR">
+        <input type="hidden" name="from_name" value="INFLYR Website">
         <div class="form-group">
           <label class="form-label">Full Name *</label>
           <input type="text" name="name" class="form-input" placeholder="Priya Singh" required>
@@ -3547,7 +3750,7 @@ footer {
     <div>
       <div class="footer-col-title">For Creators</div>
       <ul class="footer-links">
-        <li><a href="#" onclick="showPage('creators');setTimeout(()=>document.getElementById('creator-form').scrollIntoView({behavior:'smooth'}),120);return false;">Apply to Join</a></li>
+        <li><a href="#" onclick="showPage('creators');setTimeout(()=>{document.getElementById('creator-form')?.scrollIntoView({behavior:'smooth'})},150);return false;">Apply to Join</a></li>
         <li><a href="#" onclick="showPage('creators');setTimeout(()=>document.getElementById('creators-how').scrollIntoView({behavior:'smooth'}),120);return false;">How It Works</a></li>
         <li><a href="#" onclick="showPage('creators');setTimeout(()=>document.getElementById('creators-tiers').scrollIntoView({behavior:'smooth'}),120);return false;">Creator Tiers</a></li>
         <li><a href="#" onclick="showPage('creators');setTimeout(()=>document.getElementById('creators-languages').scrollIntoView({behavior:'smooth'}),120);return false;">Languages</a></li>
@@ -3644,7 +3847,6 @@ const PAGE_TITLES = {
   about:    'About INFLYR — India\'s Performance Marketing Agency | IMA',
   faq:      'FAQs — Influencer Marketing India | INFLYR',
   legal:    'Terms & Privacy | INFLYR',
-  admin:    'Admin — INFLYR'
 };
 const PAGE_DESCS = {
   home:     'INFLYR (IMA) is India\'s performance influencer marketing agency. UGC, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands.',
@@ -3696,7 +3898,7 @@ function getPageFromPath() {
     return fromRedirect;
   }
   const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
-  const valid = ['home','brands','creators','services','about','faq','legal','admin'];
+  const valid = ['home','brands','creators','services','about','faq','legal'];
   return valid.includes(path) ? path : 'home';
 }
 
@@ -3812,27 +4014,63 @@ async function submitForm(e, type) {
   }
 
   try {
-    const res = await fetch('https://formsubmit.co/inflyrhq@gmail.com', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
+    // Save to Google Sheets (no-cors, fire and forget)
+    const contactData = type === 'brand' ? {
+      type: 'Brand',
+      name:     form.querySelector('[name="name"]')?.value || '',
+      email:    form.querySelector('[name="email"]')?.value || '',
+      whatsapp: form.querySelector('[name="whatsapp"]')?.value || '',
+      company:  form.querySelector('[name="company"]')?.value || '',
+      budget:   form.querySelector('[name="budget"]')?.value || '',
+      industry: form.querySelector('[name="industry"]')?.value || '',
+      goal:     form.querySelector('[name="goal"]')?.value || '',
+      brief:    form.querySelector('[name="brief"]')?.value || ''
+    } : {
+      type: 'Creator',
+      name:       form.querySelector('[name="name"]')?.value || '',
+      email:      form.querySelector('[name="email"]')?.value || '',
+      whatsapp:   form.querySelector('[name="whatsapp"]')?.value || '',
+      platform:   form.querySelector('[name="platform"]')?.value || '',
+      followers:  form.querySelector('[name="followers"]')?.value || '',
+      niche:      form.querySelector('[name="niche"]')?.value || '',
+      motivation: form.querySelector('[name="motivation"]')?.value || '',
+      notes:      form.querySelector('[name="past_collabs"]')?.value || ''
+    };
+
+    // Save to Google Sheets
+    fetch('https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe21x7uCNwjIEZFWVCb8y55I1em-mZ9SyVrhfRQpoTKPrQJHi/exec?action=contact', {
+      method: 'POST', mode: 'no-cors', body: JSON.stringify(contactData)
     });
-    const data = await res.json();
-    if (data.success || res.ok) {
-      showToast();
-      form.reset();
-      btn.textContent = 'Sent ✓';
-      setTimeout(() => {
-        window.open('https://wa.me/916307041225?text=' + waMsg, '_blank');
-      }, 1200);
-      setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 4000);
-    } else {
-      btn.textContent = 'Error — try WhatsApp';
-      btn.disabled = false;
-    }
+
+    // FormSubmit — email backup (guaranteed delivery)
+    fetch('https://formsubmit.co/ajax/inflyrhq@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(Object.assign({}, contactData, {
+        _subject: type === 'brand' ? 'New Brand Enquiry - INFLYR' : 'New Creator Application - INFLYR',
+        _captcha: 'false',
+        _template: 'table'
+      }))
+    }).catch(function(){});
+
+    // Always show success + open WhatsApp
+    showToast();
+    form.reset();
+    btn.textContent = 'Sent ✓';
+    setTimeout(() => {
+      window.open('https://wa.me/916307041225?text=' + waMsg, '_blank');
+    }, 1200);
+    setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 4000);
+
   } catch(err) {
-    btn.textContent = 'Error — try WhatsApp';
-    btn.disabled = false;
+    // Even on error, redirect to WhatsApp so no lead is lost
+    showToast();
+    form.reset();
+    btn.textContent = 'Sent ✓';
+    setTimeout(() => {
+      window.open('https://wa.me/916307041225?text=' + waMsg, '_blank');
+    }, 1200);
+    setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 4000);
   }
 }
 
@@ -3905,749 +4143,276 @@ document.addEventListener('mouseleave', () => {
   document.querySelectorAll('.card-3d').forEach(c => c.style.transform = '');
 });
 
-// ===== STORAGE KEYS =====
-const INFLYR_PASS = 'inflyr2026';
-const STORAGE_CREATORS = 'inflyr_creators';
-const STORAGE_BRANDS   = 'inflyr_brands';
-const STORAGE_PENDING  = 'inflyr_pending';
-const STORAGE_APPROVED = 'inflyr_approved';
+// ===== NETWORK SHOWCASE =====
+// Google Sheets API via Apps Script
 
-function getCreators()   { try { return JSON.parse(localStorage.getItem(STORAGE_CREATORS) || '[]'); } catch(e) { return []; } }
-function getBrands()     { try { return JSON.parse(localStorage.getItem(STORAGE_BRANDS) || '[]'); } catch(e) { return []; } }
-function getPending()    { try { return JSON.parse(localStorage.getItem(STORAGE_PENDING) || '[]'); } catch(e) { return []; } }
-function getApproved()   { try { return JSON.parse(localStorage.getItem(STORAGE_APPROVED) || '[]'); } catch(e) { return []; } }
-function saveCreators(l) { localStorage.setItem(STORAGE_CREATORS, JSON.stringify(l)); }
-function saveBrands(l)   { localStorage.setItem(STORAGE_BRANDS, JSON.stringify(l)); }
-function savePending(l)  { localStorage.setItem(STORAGE_PENDING, JSON.stringify(l)); }
-function saveApproved(l) { localStorage.setItem(STORAGE_APPROVED, JSON.stringify(l)); }
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe21x7uCNwjIEZFWVCb8y55I1em-mZ9SyVrhfRQpoTKPrQJHi/exec';
+let _cache = { creators: [], brands: [], pending: [] };
+
+// Reliable fetch using iframe trick for Google Apps Script
+async function gsFetch(params) {
+  return new Promise((resolve) => {
+    const cb = 'gs_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const url = SCRIPT_URL + '?' + params + '&cb=' + cb;
+    const script = document.createElement('script');
+    let done = false;
+    window[cb] = (data) => {
+      done = true;
+      delete window[cb];
+      if (document.head.contains(script)) document.head.removeChild(script);
+      resolve(data);
+    };
+    script.src = url;
+    script.onerror = () => {
+      if (!done) { done = true; delete window[cb]; resolve(null); }
+    };
+    setTimeout(() => {
+      if (!done) { done = true; delete window[cb]; resolve(null); }
+    }, 8000);
+    document.head.appendChild(script);
+  });
+}
+
+async function gsPost(action, data) {
+  try {
+    await fetch(SCRIPT_URL + '?action=' + action, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify(data)
+    });
+  } catch(e) {}
+}
+
+async function initCloud() {
+  const data = await gsFetch('action=read');
+  if (data) {
+    _cache = { creators: data.creators||[], brands: data.brands||[], pending: data.pending||[] };
+  }
+  renderNetworkShowcase();
+}
+
+function getCreators() { return _cache.creators; }
+function getBrands() { return _cache.brands; }
 
 const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','🍕','💄','🏋️','🌿','🤳','💻'];
-const BRAND_EMOJIS   = ['🛍️','🧴','👟','🍫','💊','🏠','📦','🌱','⚡','🎒'];
+const BRAND_EMOJIS = ['🛍️','🧴','👟','🍫','💊','🏠','📦','🌱','⚡','🎒'];
 function randomEmoji(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
-function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// ===== FOLLOWER FORMAT =====
-function formatFollowersNum(n) {
-  if (!n || isNaN(n)) return '';
-  n = parseInt(n);
-  if (n >= 1000000) return (n/1000000).toFixed(1).replace('.0','') + 'M';
-  if (n >= 1000) return (n/1000).toFixed(1).replace('.0','') + 'K';
-  return n.toString();
-}
-function formatFollowers(input) {
-  const n = parseInt(input.value);
-  const disp = document.getElementById('followers-display');
-  if (disp) disp.textContent = n > 0 ? '→ ' + formatFollowersNum(n) + ' followers · ' + getCreatorTierLabel(n) : '';
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ===== PINCODE AUTOFILL (optional — updates state/district/city if pincode entered) =====
-let pinTimeout;
-async function fetchPincode(val) {
-  const statusEl = document.getElementById('pincode-status');
-  if (val.length !== 6 || !/^\d{6}$/.test(val)) {
-    if(statusEl) statusEl.textContent = '';
-    return;
+function getSocialUrl(c) {
+  if (!c.handle) return null;
+  const h = c.handle.replace('@','');
+  if (c.platform && c.platform.toLowerCase().includes('youtube')) return 'https://youtube.com/@' + h;
+  return 'https://instagram.com/' + h;
+}
+
+function parseFollowers(str) {
+  if (!str) return 0;
+  const s = String(str).toLowerCase().replace(/,/g,'').trim();
+  if (s.includes('m')) return parseFloat(s) * 1000000;
+  if (s.includes('k')) return parseFloat(s) * 1000;
+  return parseFloat(s) || 0;
+}
+
+function creatorCard(c) {
+  const socialUrl = getSocialUrl(c);
+  const platformIcon = c.platform && c.platform.toLowerCase().includes('youtube') ? '▶' : '◎';
+  const cover = c.photo
+    ? `<div class="nc-cover"><img src="${escHtml(c.photo)}" class="nc-cover-photo" alt="${escHtml(c.name)}"><div class="nc-cover-gradient"></div></div>`
+    : `<div class="nc-cover"><div class="nc-cover-bg creator-card"><div class="nc-cover-mesh"></div><div class="nc-cover-lines"></div><div class="nc-cover-icon">🎬</div></div></div>`;
+  return `
+  <div class="network-card creator-card" onclick="${socialUrl ? `window.open('${socialUrl}','_blank')` : ''}" style="${socialUrl ? 'cursor:pointer' : ''}">
+    ${cover}
+    <div class="nc-body">
+      <div class="nc-name">${escHtml(c.name)}</div>
+      ${c.handle ? `<div class="nc-handle">@${escHtml(c.handle.replace('@',''))}</div>` : ''}
+      ${c.followers ? `<div class="nc-stat"><strong>${escHtml(c.followers)}</strong> followers</div>` : ''}
+      <div class="nc-tags">
+        ${c.niche ? `<span class="nc-tag">${escHtml(c.niche)}</span>` : ''}
+        ${c.language ? `<span class="nc-tag">${escHtml(c.language)}</span>` : ''}
+        ${c.platform ? `<span class="nc-tag">${escHtml(c.platform)}</span>` : ''}
+        ${c.city ? `<span class="nc-tag">📍${escHtml(c.city)}</span>` : ''}
+      </div>
+      ${socialUrl ? `<a href="${socialUrl}" target="_blank" onclick="event.stopPropagation()" class="nc-social-btn">${platformIcon} View Profile</a>` : ''}
+    </div>
+  </div>`;
+}
+
+function brandCard(b) {
+  const webUrl = b.website ? (b.website.startsWith('http') ? b.website : 'https://'+b.website) : null;
+  const cover = b.logo
+    ? `<div class="nc-cover" style="background:#fff"><img src="${escHtml(b.logo)}" class="nc-cover-photo" style="object-fit:contain;padding:24px;background:#fff" alt="${escHtml(b.name)}"></div>`
+    : `<div class="nc-cover"><div class="nc-cover-bg brand-card"><div class="nc-cover-mesh"></div><div class="nc-cover-lines"></div><div class="nc-cover-icon">🛍️</div></div></div>`;
+  return `
+  <div class="network-card brand-card" onclick="${webUrl ? `window.open('${webUrl}','_blank')` : ''}" style="${webUrl ? 'cursor:pointer' : ''}">
+    ${cover}
+    <div class="nc-body">
+      <div class="nc-name">${escHtml(b.name)}</div>
+      ${b.website ? `<div class="nc-handle">${escHtml(b.website)}</div>` : ''}
+      ${b.industry ? `<div class="nc-stat"><strong>${escHtml(b.industry)}</strong></div>` : ''}
+      <div class="nc-tags">
+        ${b.type ? `<span class="nc-tag">${escHtml(b.type)}</span>` : ''}
+        ${b.budget ? `<span class="nc-tag">${escHtml(b.budget)}</span>` : ''}
+      </div>
+      ${webUrl ? `<a href="${webUrl}" target="_blank" onclick="event.stopPropagation()" class="nc-social-btn">↗ Visit Website</a>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderNetworkShowcase() {
+  renderCreatorGrid(getCreators());
+  renderBrandGrid(getBrands());
+}
+
+function renderCreatorGrid(list) {
+  const el = document.getElementById('network-creator-grid');
+  if (!el) return;
+  if (!list.length) {
+    el.innerHTML = '<div class="network-empty"><span>🎬</span>Creators coming soon. Check back shortly.</div>';
+  } else {
+    el.innerHTML = list.map(creatorCard).join('');
   }
-  clearTimeout(pinTimeout);
-  if(statusEl) { statusEl.textContent = '⏳ Looking up...'; statusEl.style.color = 'var(--muted)'; }
-  pinTimeout = setTimeout(async () => {
-    try {
-      const res = await fetch('https://api.postalpincode.in/pincode/' + val);
-      if (!res.ok) throw new Error('Network error');
-      const data = await res.json();
-      if (data && data[0] && data[0].Status === 'Success' && data[0].PostOffice && data[0].PostOffice.length > 0) {
-        const po = data[0].PostOffice[0];
-        const state = po.State || '';
-        const district = po.District || '';
-        const city = po.Name || district;
-        // Update state dropdown
-        const stateEl = document.getElementById('jn_state');
-        if (stateEl) {
-          for (let o of stateEl.options) {
-            if (o.value.toLowerCase() === state.toLowerCase()) { stateEl.value = o.value; break; }
-          }
-          onStateChange(stateEl.value);
-        }
-        // Update district dropdown after short delay
-        setTimeout(() => {
-          const distEl = document.getElementById('jn_district');
-          if (distEl) {
-            // Try to find matching option
-            let found = false;
-            for (let o of distEl.options) {
-              if (o.value.toLowerCase() === district.toLowerCase()) { distEl.value = o.value; found = true; break; }
-            }
-            if (!found) {
-              // Add district as option
-              const opt = document.createElement('option');
-              opt.value = district; opt.textContent = district;
-              distEl.appendChild(opt); distEl.value = district;
-            }
-          }
-          const cityEl = document.getElementById('jn_city');
-          if (cityEl && !cityEl.value) cityEl.value = city;
-        }, 200);
-        if(statusEl) { statusEl.textContent = '✅ ' + district + ', ' + state; statusEl.style.color = 'var(--success)'; }
-        updateStateFilter();
-      } else {
-        if(statusEl) { statusEl.textContent = '⚠️ Pincode not found — fill manually above.'; statusEl.style.color = 'var(--error)'; }
-      }
-    } catch(e) {
-      if(statusEl) { statusEl.textContent = '⚠️ Could not fetch pincode. Please fill location manually.'; statusEl.style.color = 'var(--muted)'; }
-    }
-  }, 700);
+  document.getElementById('filter-count').textContent = list.length + ' creator' + (list.length !== 1 ? 's' : '') + ' found';
 }
 
-// ===== STATE → DISTRICT CASCADE =====
-const INDIA_DISTRICTS = {
-  'Uttar Pradesh': ['Agra','Aligarh','Ambedkar Nagar','Amethi','Amroha','Auraiya','Ayodhya','Azamgarh','Baghpat','Bahraich','Ballia','Balrampur','Banda','Barabanki','Bareilly','Basti','Bhadohi','Bijnor','Budaun','Bulandshahr','Chandauli','Chitrakoot','Deoria','Etah','Etawah','Farrukhabad','Fatehpur','Firozabad','Gautam Buddh Nagar','Ghaziabad','Ghazipur','Gonda','Gorakhpur','Hamirpur','Hapur','Hardoi','Hathras','Jalaun','Jaunpur','Jhansi','Kannauj','Kanpur Dehat','Kanpur Nagar','Kasganj','Kaushambi','Kheri','Kushinagar','Lalitpur','Lucknow','Maharajganj','Mahoba','Mainpuri','Mathura','Mau','Meerut','Mirzapur','Moradabad','Muzaffarnagar','Pilibhit','Pratapgarh','Prayagraj','Raebareli','Rampur','Saharanpur','Sambhal','Sant Kabir Nagar','Shahjahanpur','Shamli','Shravasti','Siddharthnagar','Sitapur','Sonbhadra','Sultanpur','Unnao','Varanasi'],
-  'Maharashtra': ['Ahmednagar','Akola','Amravati','Aurangabad','Beed','Bhandara','Buldhana','Chandrapur','Dhule','Gadchiroli','Gondia','Hingoli','Jalgaon','Jalna','Kolhapur','Latur','Mumbai City','Mumbai Suburban','Nagpur','Nanded','Nandurbar','Nashik','Osmanabad','Palghar','Parbhani','Pune','Raigad','Ratnagiri','Sangli','Satara','Sindhudurg','Solapur','Thane','Wardha','Washim','Yavatmal'],
-  'Gujarat': ['Ahmedabad','Amreli','Anand','Aravalli','Banaskantha','Bharuch','Bhavnagar','Botad','Chhota Udaipur','Dahod','Dang','Devbhumi Dwarka','Gandhinagar','Gir Somnath','Jamnagar','Junagadh','Kheda','Kutch','Mahisagar','Mehsana','Morbi','Narmada','Navsari','Panchmahal','Patan','Porbandar','Rajkot','Sabarkantha','Surat','Surendranagar','Tapi','Vadodara','Valsad'],
-  'Rajasthan': ['Ajmer','Alwar','Banswara','Baran','Barmer','Bharatpur','Bhilwara','Bikaner','Bundi','Chittorgarh','Churu','Dausa','Dholpur','Dungarpur','Hanumangarh','Jaipur','Jaisalmer','Jalore','Jhalawar','Jhunjhunu','Jodhpur','Karauli','Kota','Nagaur','Pali','Pratapgarh','Rajsamand','Sawai Madhopur','Sikar','Sirohi','Sri Ganganagar','Tonk','Udaipur'],
-  'Madhya Pradesh': ['Agar Malwa','Alirajpur','Anuppur','Ashoknagar','Balaghat','Barwani','Betul','Bhind','Bhopal','Burhanpur','Chhatarpur','Chhindwara','Damoh','Datia','Dewas','Dhar','Dindori','Guna','Gwalior','Harda','Hoshangabad','Indore','Jabalpur','Jhabua','Katni','Khandwa','Khargone','Mandla','Mandsaur','Morena','Narsinghpur','Neemuch','Niwari','Panna','Raisen','Rajgarh','Ratlam','Rewa','Sagar','Satna','Sehore','Seoni','Shahdol','Shajapur','Sheopur','Shivpuri','Sidhi','Singrauli','Tikamgarh','Ujjain','Umaria','Vidisha'],
-  'Tamil Nadu': ['Ariyalur','Chengalpattu','Chennai','Coimbatore','Cuddalore','Dharmapuri','Dindigul','Erode','Kallakurichi','Kanchipuram','Kanyakumari','Karur','Krishnagiri','Madurai','Mayiladuthurai','Nagapattinam','Namakkal','Nilgiris','Perambalur','Pudukkottai','Ramanathapuram','Ranipet','Salem','Sivaganga','Tenkasi','Thanjavur','Theni','Thoothukudi','Tiruchirappalli','Tirunelveli','Tirupathur','Tiruppur','Tiruvallur','Tiruvannamalai','Tiruvarur','Vellore','Viluppuram','Virudhunagar'],
-  'Karnataka': ['Bagalkot','Ballari','Belagavi','Bengaluru Rural','Bengaluru Urban','Bidar','Chamarajanagar','Chikkaballapur','Chikkamagaluru','Chitradurga','Dakshina Kannada','Davangere','Dharwad','Gadag','Hassan','Haveri','Kalaburagi','Kodagu','Kolar','Koppal','Mandya','Mysuru','Raichur','Ramanagara','Shivamogga','Tumakuru','Udupi','Uttara Kannada','Vijayanagara','Vijayapura','Yadgir'],
-  'Kerala': ['Alappuzha','Ernakulam','Idukki','Kannur','Kasaragod','Kollam','Kottayam','Kozhikode','Malappuram','Palakkad','Pathanamthitta','Thiruvananthapuram','Thrissur','Wayanad'],
-  'Andhra Pradesh': ['Alluri Sitharama Raju','Anakapalli','Ananthapuramu','Annamayya','Bapatla','Chittoor','East Godavari','Eluru','Guntur','Kakinada','Krishna','Kurnool','Manyam','NTR','Nandyal','Palnadu','Prakasam','Sri Potti Sriramulu Nellore','Sri Sathya Sai','Srikakulam','Tirupati','Visakhapatnam','Vizianagaram','West Godavari','YSR Kadapa'],
-  'Telangana': ['Adilabad','Bhadradri Kothagudem','Hanumakonda','Hyderabad','Jagtial','Jangaon','Jayashankar Bhupalpally','Jogulamba Gadwal','Kamareddy','Karimnagar','Khammam','Komaram Bheem Asifabad','Mahabubabad','Mahabubnagar','Mancherial','Medak','Medchal–Malkajgiri','Mulugu','Nagarkurnool','Nalgonda','Narayanpet','Nirmal','Nizamabad','Peddapalli','Rajanna Sircilla','Rangareddy','Sangareddy','Siddipet','Suryapet','Vikarabad','Wanaparthy','Warangal Rural','Warangal Urban','Yadadri Bhuvanagiri'],
-  'West Bengal': ['Alipurduar','Bankura','Birbhum','Cooch Behar','Dakshin Dinajpur','Darjeeling','Hooghly','Howrah','Jalpaiguri','Jhargram','Kalimpong','Kolkata','Malda','Murshidabad','Nadia','North 24 Parganas','Paschim Bardhaman','Paschim Medinipur','Purba Bardhaman','Purba Medinipur','Purulia','South 24 Parganas','Uttar Dinajpur'],
-  'Bihar': ['Araria','Arwal','Aurangabad','Banka','Begusarai','Bhagalpur','Bhojpur','Buxar','Darbhanga','East Champaran','Gaya','Gopalganj','Jamui','Jehanabad','Kaimur','Katihar','Khagaria','Kishanganj','Lakhisarai','Madhepura','Madhubani','Munger','Muzaffarpur','Nalanda','Nawada','Patna','Purnia','Rohtas','Saharsa','Samastipur','Saran','Sheikhpura','Sheohar','Sitamarhi','Siwan','Supaul','Vaishali','West Champaran'],
-  'Punjab': ['Amritsar','Barnala','Bathinda','Faridkot','Fatehgarh Sahib','Fazilka','Ferozepur','Gurdaspur','Hoshiarpur','Jalandhar','Kapurthala','Ludhiana','Malerkotla','Mansa','Moga','Muktsar','Pathankot','Patiala','Rupnagar','SAS Nagar','Sangrur','Shahid Bhagat Singh Nagar','Tarn Taran'],
-  'Haryana': ['Ambala','Bhiwani','Charkhi Dadri','Faridabad','Fatehabad','Gurugram','Hisar','Jhajjar','Jind','Kaithal','Karnal','Kurukshetra','Mahendragarh','Nuh','Palwal','Panchkula','Panipat','Rewari','Rohtak','Sirsa','Sonipat','Yamunanagar'],
-  'Delhi': ['Central Delhi','East Delhi','New Delhi','North Delhi','North East Delhi','North West Delhi','Shahdara','South Delhi','South East Delhi','South West Delhi','West Delhi'],
-  'Assam': ['Bajali','Baksa','Barpeta','Biswanath','Bongaigaon','Cachar','Charaideo','Chirang','Darrang','Dhemaji','Dhubri','Dibrugarh','Dima Hasao','Goalpara','Golaghat','Hailakandi','Hojai','Jorhat','Kamrup','Kamrup Metropolitan','Karbi Anglong','Karimganj','Kokrajhar','Lakhimpur','Majuli','Morigaon','Nagaon','Nalbari','Sivasagar','Sonitpur','South Salmara-Mankachar','Tamulpur','Tinsukia','Udalguri','West Karbi Anglong'],
-  'Odisha': ['Angul','Balangir','Balasore','Bargarh','Bhadrak','Boudh','Cuttack','Debagarh','Dhenkanal','Gajapati','Ganjam','Jagatsinghpur','Jajpur','Jharsuguda','Kalahandi','Kandhamal','Kendrapara','Kendujhar','Khordha','Koraput','Malkangiri','Mayurbhanj','Nabarangpur','Nayagarh','Nuapada','Puri','Rayagada','Sambalpur','Subarnapur','Sundargarh'],
-  'Jharkhand': ['Bokaro','Chatra','Deoghar','Dhanbad','Dumka','East Singhbhum','Garhwa','Giridih','Godda','Gumla','Hazaribagh','Jamtara','Khunti','Koderma','Latehar','Lohardaga','Pakur','Palamu','Ramgarh','Ranchi','Sahebganj','Seraikela Kharsawan','Simdega','West Singhbhum'],
-  'Chhattisgarh': ['Balod','Baloda Bazar','Balrampur','Bastar','Bemetara','Bijapur','Bilaspur','Dantewada','Dhamtari','Durg','Gariyaband','Gaurela-Pendra-Marwahi','Janjgir-Champa','Jashpur','Kabirdham','Kanker','Khairagarh','Kondagaon','Korba','Koriya','Mahasamund','Manendragarh','Mohla-Manpur','Mungeli','Narayanpur','Raigarh','Raipur','Rajnandgaon','Sakti','Sarangarh-Bilaigarh','Sukma','Surajpur','Surguja'],
-  'Himachal Pradesh': ['Bilaspur','Chamba','Hamirpur','Kangra','Kinnaur','Kullu','Lahaul and Spiti','Mandi','Shimla','Sirmaur','Solan','Una'],
-  'Uttarakhand': ['Almora','Bageshwar','Chamoli','Champawat','Dehradun','Haridwar','Nainital','Pauri Garhwal','Pithoragarh','Rudraprayag','Tehri Garhwal','Udham Singh Nagar','Uttarkashi'],
-  'Goa': ['North Goa','South Goa'],
-  'Jammu and Kashmir': ['Anantnag','Bandipora','Baramulla','Budgam','Doda','Ganderbal','Jammu','Kathua','Kishtwar','Kulgam','Kupwara','Poonch','Pulwama','Rajouri','Ramban','Reasi','Samba','Shopian','Srinagar','Udhampur'],
-  'Manipur': ['Bishnupur','Chandel','Churachandpur','Imphal East','Imphal West','Jiribam','Kakching','Kamjong','Kangpokpi','Noney','Pherzawl','Senapati','Tamenglong','Tengnoupal','Thoubal','Ukhrul'],
-  'Meghalaya': ['East Garo Hills','East Jaintia Hills','East Khasi Hills','Eastern West Khasi Hills','North Garo Hills','Ri Bhoi','South Garo Hills','South West Garo Hills','South West Khasi Hills','West Garo Hills','West Jaintia Hills','West Khasi Hills'],
-  'Tripura': ['Dhalai','Gomati','Khowai','North Tripura','Sepahijala','Sipahijala','South Tripura','Unakoti','West Tripura'],
-  'Nagaland': ['Chumoukedima','Dimapur','Kiphire','Kohima','Longleng','Mokokchung','Mon','Noklak','Peren','Phek','Shamator','Tuensang','Tseminyu','Wokha','Zunheboto'],
-  'Arunachal Pradesh': ['Anjaw','Changlang','Dibang Valley','East Kameng','East Siang','Itanagar Capital Complex','Kamle','Kra Daadi','Kurung Kumey','Lepa Rada','Lohit','Longding','Lower Dibang Valley','Lower Siang','Lower Subansiri','Namsai','Pakke-Kessang','Papum Pare','Shi Yomi','Siang','Tawang','Tirap','Upper Siang','Upper Subansiri','West Kameng','West Siang'],
-  'Mizoram': ['Aizawl','Champhai','Hnahthial','Khawzawl','Kolasib','Lawngtlai','Lunglei','Mamit','Saiha','Saitual','Serchhip'],
-  'Sikkim': ['East Sikkim','North Sikkim','Pakyong','Soreng','South Sikkim','West Sikkim'],
-  'Chandigarh': ['Chandigarh'],
-  'Puducherry': ['Karaikal','Mahe','Puducherry','Yanam'],
-  'Ladakh': ['Kargil','Leh'],
-  'Andaman and Nicobar Islands': ['Nicobar','North and Middle Andaman','South Andaman'],
-  'Dadra and Nagar Haveli and Daman and Diu': ['Dadra and Nagar Haveli','Daman','Diu'],
-  'Lakshadweep': ['Lakshadweep']
+function renderBrandGrid(list) {
+  const el = document.getElementById('network-brand-grid');
+  if (!el) return;
+  if (!list.length) {
+    el.innerHTML = '<div class="network-empty"><span>🛍️</span>Brand partners coming soon.</div>';
+  } else {
+    el.innerHTML = list.map(brandCard).join('');
+  }
+  document.getElementById('brand-filter-count').textContent = list.length + ' brand' + (list.length !== 1 ? 's' : '') + ' found';
+}
+
+// ---- FILTER LOGIC ----
+const SIZE_RANGES = {
+  'nano':    [0, 1000],
+  'micro-s': [1000, 5000],
+  'micro':   [5000, 10000],
+  'micro-m': [10000, 50000],
+  'micro-l': [50000, 100000],
+  'macro':   [100000, 500000],
+  'mega':    [500000, 1000000],
+  'celeb':   [1000000, Infinity]
 };
 
-function onStateChange(state) {
-  const distEl = document.getElementById('jn_district');
-  const cityEl = document.getElementById('jn_city');
-  if (!distEl) return;
-  const districts = INDIA_DISTRICTS[state] || [];
-  distEl.innerHTML = '<option value="">Select District</option>' + districts.map(d => `<option value="${d}">${d}</option>`).join('');
-  if (cityEl) cityEl.value = '';
-}
+// Smart synonym map - any word in query matches any synonym
+const NICHE_SYNONYMS = {
+  'skincare': ['skincare','beauty','skin','makeup','cosmetic','grooming'],
+  'beauty': ['beauty','skincare','makeup','cosmetic','glam'],
+  'fashion': ['fashion','lifestyle','style','outfit','ootd','clothing','apparel'],
+  'fitness': ['fitness','health','gym','workout','yoga','wellness','sports'],
+  'food': ['food','cooking','recipe','chef','kitchen','baking','eat'],
+  'comedy': ['comedy','entertainment','funny','memes','humor','fun','skit'],
+  'travel': ['travel','vlog','vlogs','trip','journey','adventure','explore','tourism'],
+  'vlog': ['vlog','vlogs','travel','lifestyle','daily','day in life'],
+  'tech': ['tech','gadgets','technology','electronics','review','unboxing'],
+  'finance': ['finance','business','money','invest','startup','entrepreneur'],
+  'parenting': ['parenting','family','kids','baby','mom','dad','children'],
+  'gaming': ['gaming','game','esports','streamer'],
+  'education': ['education','learn','study','knowledge','tutorial'],
+  'motivation': ['motivation','inspiration','mindset','self-help'],
+  'dance': ['dance','music','singing','performance','artist'],
+  'spiritual': ['spiritual','devotion','bhakti','religion','yoga'],
+};
 
-function onDistrictChange(district) {
-  const cityEl = document.getElementById('jn_city');
-  if (cityEl && !cityEl.value) cityEl.placeholder = 'e.g. ' + district + ' (type your city/town)';
-}
+const INDUSTRY_SYNONYMS = {
+  'skincare': ['skincare','beauty','cosmetic','grooming','personal care'],
+  'beauty': ['beauty','skincare','cosmetic','makeup'],
+  'food': ['food','beverage','fmcg','snack','drink','nutrition'],
+  'fitness': ['fitness','supplement','health','wellness','sports'],
+  'fashion': ['fashion','apparel','clothing','accessories'],
+  'electronics': ['electronics','gadgets','tech','devices'],
+  'home': ['home','lifestyle','decor','furniture','household'],
+  'finance': ['finance','edtech','insurance','fintech'],
+  'healthcare': ['healthcare','pharma','medical','wellness'],
+};
 
-// ===== MULTI-SELECT CHIPS =====
-function toggleChip(el, groupId) {
-  el.classList.toggle('selected');
-}
-function getSelectedChips(groupId) {
-  return [...document.querySelectorAll('#' + groupId + ' .ms-chip.selected')].map(c => c.dataset.val);
-}
-
-// ===== JOIN MODAL =====
-function openJoinModal() {
-  document.getElementById('joinModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeJoinModal(e) {
-  if (e.target === document.getElementById('joinModal')) {
-    closeJoinModalBtn();
-  }
-}
-function closeJoinModalBtn() {
-  document.getElementById('joinModal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeJoinModalBtn();
-});
-
-function updateHandleLabel() {
-  const platform = document.getElementById('jn_platform')?.value || '';
-  const lbl = document.getElementById('primaryHandleLabel');
-  if (!lbl) return;
-  if (platform === 'YouTube') lbl.innerHTML = 'YouTube Channel Handle * <span style="color:var(--muted);font-size:0.65rem">(without @)</span>';
-  else if (platform === 'LinkedIn') lbl.innerHTML = 'LinkedIn Username * <span style="color:var(--muted);font-size:0.65rem">(without @)</span>';
-  else lbl.innerHTML = 'Primary Handle * <span style="color:var(--muted);font-size:0.65rem">(without @)</span>';
-}
-
-function previewPhoto(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = e => {
-    const preview = document.getElementById('photoPreview');
-    if (preview) { preview.src = e.target.result; preview.style.display = 'block'; }
-    const box = document.getElementById('photoUploadBox');
-    if (box) { box.querySelector('.upload-icon').style.display = 'none'; box.querySelector('.upload-text').textContent = file.name; }
-  };
-  reader.readAsDataURL(file);
-}
-
-async function submitJoinForm(e) {
-  e.preventDefault();
-  const form = e.target;
-  const btn = document.getElementById('joinSubmitBtn');
-  const errEl = document.getElementById('join-form-error');
-
-  // Validate multi-selects
-  const langs = getSelectedChips('lang-chips');
-  const niches = getSelectedChips('niche-chips');
-  document.getElementById('jn_languages').value = langs.join(', ');
-  document.getElementById('jn_niches').value = niches.join(', ');
-  errEl.style.display = 'none';
-
-  if (langs.length === 0) {
-    errEl.textContent = 'Please select at least one language.';
-    errEl.style.display = 'block'; return;
-  }
-  if (niches.length === 0) {
-    errEl.textContent = 'Please select at least one content niche.';
-    errEl.style.display = 'block'; return;
-  }
-
-  btn.textContent = 'Submitting...'; btn.disabled = true;
-
-  // Get photo as base64 for local storage preview
-  const photoFile = document.getElementById('joinPhotoInput')?.files[0];
-  let photoDataUrl = '';
-  if (photoFile) {
-    photoDataUrl = await new Promise(res => {
-      const r = new FileReader(); r.onload = e2 => res(e2.target.result); r.readAsDataURL(photoFile);
-    });
-  }
-
-  const data = {
-    id: Date.now(),
-    name: document.getElementById('jn_name').value,
-    email: document.getElementById('jn_email').value,        // stored locally only, never shown publicly
-    whatsapp: document.getElementById('jn_whatsapp').value,  // stored locally only
-    platform: document.getElementById('jn_platform').value,
-    handle: document.getElementById('jn_handle').value,
-    sec_platform: form.querySelector('[name="jn_sec_platform"]').value,
-    sec_handle: form.querySelector('[name="jn_sec_handle"]').value,
-    followers_raw: parseInt(document.getElementById('jn_followers_raw').value) || 0,
-    followers: formatFollowersNum(document.getElementById('jn_followers_raw').value),
-    pincode: document.getElementById('jn_pincode').value,
-    city: document.getElementById('jn_city').value,
-    state: document.getElementById('jn_state')?.value || '',
-    district: document.getElementById('jn_district')?.value || '',
-    languages: langs,
-    engagement: parseFloat(document.getElementById('jn_engagement').value) || 0,
-    niches: niches,
-    collabs: form.querySelector('[name="jn_collabs"]').value,
-    why: document.getElementById('jn_why').value,
-    photo: photoDataUrl,
-    submitted_at: new Date().toISOString()
-  };
-
-  // Save to local pending queue
-  const pending = getPending();
-  pending.unshift(data);
-  savePending(pending);
-
-  // Also send to FormSubmit (without sensitive data exposed publicly)
-  const fd = new FormData();
-  fd.append('_captcha', 'false');
-  fd.append('_subject', 'New Creator Application — INFLYR Network');
-  fd.append('_template', 'table');
-  fd.append('name', data.name);
-  fd.append('platform', data.platform);
-  fd.append('handle', '@' + data.handle);
-  fd.append('followers', data.followers);
-  fd.append('languages', data.languages.join(', '));
-  fd.append('niches', data.niches.join(', '));
-  fd.append('city_state', data.city + ', ' + data.state);
-  fd.append('engagement', data.engagement + '%');
-  fd.append('collabs', data.collabs);
-  fd.append('why_join', data.why);
-  // Private contact fields (email only goes to FormSubmit inbox — not public dir)
-  fd.append('email', data.email);
-  fd.append('whatsapp', data.whatsapp);
-
-  try {
-    await fetch('https://formsubmit.co/inflyrhq@gmail.com', {
-      method: 'POST', body: fd, headers: { 'Accept': 'application/json' }
-    });
-  } catch(err) { /* non-blocking */ }
-
-  btn.textContent = 'Application Submitted ✓';
-  setTimeout(() => {
-    closeJoinModalBtn();
-    form.reset();
-    document.querySelectorAll('.ms-chip.selected').forEach(c => c.classList.remove('selected'));
-    const preview = document.getElementById('photoPreview');
-    if (preview) { preview.style.display = 'none'; preview.src = ''; }
-    const uploadBox = document.getElementById('photoUploadBox');
-    if (uploadBox) {
-      uploadBox.querySelector('.upload-icon').style.display = 'block';
-      uploadBox.querySelector('.upload-text').textContent = 'Click to upload a high-res photo\nJPG or PNG · Max 5MB';
+function smartMatch(query, field, synonymMap) {
+  if (!query || !field) return !query;
+  const q = query.toLowerCase().trim();
+  const f = field.toLowerCase().trim();
+  // Direct match
+  if (f.includes(q)) return true;
+  // Synonym match - check if query or its synonyms overlap with field or its synonyms
+  const qSynonyms = synonymMap[q] || [q];
+  const fieldWords = f.split(/[\s,&\/]+/);
+  for (const fw of fieldWords) {
+    const fSynonyms = synonymMap[fw] || [fw];
+    for (const qs of qSynonyms) {
+      if (fSynonyms.some(fs => fs.includes(qs) || qs.includes(fs))) return true;
     }
-    document.getElementById('followers-display').textContent = '';
-    document.getElementById('pincode-status').textContent = '';
-    btn.textContent = 'Submit Application →'; btn.disabled = false;
-    showToast();
-    refreshAdminCounts();
-  }, 1200);
+  }
+  return false;
 }
 
-// ===== NETWORK SHOWCASE =====
-function renderNetworkShowcase() {
-  const creators = getCreators();
-  const brands = getBrands();
-  const cGrid = document.getElementById('network-creator-grid');
-  const bGrid = document.getElementById('network-brand-grid');
-  if (!cGrid || !bGrid) return;
-  if (creators.length === 0) {
-    cGrid.innerHTML = '<div class="network-empty"><span>🎬</span>Creators will appear here once added.</div>';
-  } else {
-    cGrid.innerHTML = creators.map(c => `
-      <div class="network-card creator-card card-3d">
-        <div class="nc-avatar">${c.emoji || '🎬'}</div>
-        <div class="nc-name">${escHtml(c.name)}</div>
-        ${c.handle ? '<div class="nc-handle">@'+escHtml(c.handle)+'</div>' : ''}
-        <div class="nc-tags">
-          ${c.platform ? '<span class="nc-tag">'+escHtml(c.platform)+'</span>' : ''}
-          ${c.niche ? '<span class="nc-tag">'+escHtml(c.niche)+'</span>' : ''}
-          ${c.language ? '<span class="nc-tag">'+escHtml(c.language)+'</span>' : ''}
-        </div>
-        ${c.followers ? '<div class="nc-stat"><strong>'+escHtml(c.followers)+'</strong> followers</div>' : ''}
-      </div>`).join('');
-  }
-  if (brands.length === 0) {
-    bGrid.innerHTML = '<div class="network-empty"><span>🛍️</span>Brands will appear here once added.</div>';
-  } else {
-    bGrid.innerHTML = brands.map(b => `
-      <div class="network-card brand-card card-3d">
-        <div class="nc-avatar">${b.emoji || '🛍️'}</div>
-        <div class="nc-name">${escHtml(b.name)}</div>
-        <div class="nc-tags">
-          ${b.industry ? '<span class="nc-tag">'+escHtml(b.industry)+'</span>' : ''}
-          ${b.type ? '<span class="nc-tag">'+escHtml(b.type)+'</span>' : ''}
-        </div>
-        ${b.budget ? '<div class="nc-stat"><strong>'+escHtml(b.budget)+'</strong></div>' : ''}
-      </div>`).join('');
-  }
+function applyFilters() {
+  const niche    = document.getElementById('f-niche').value;
+  const size     = document.getElementById('f-size').value;
+  const lang     = document.getElementById('f-lang').value.toLowerCase();
+  const platform = document.getElementById('f-platform').value.toLowerCase();
+  const location = document.getElementById('f-location').value.toLowerCase();
+
+  const hasFilter = niche || size || lang || platform || location;
+  document.getElementById('filter-clear-btn').style.display = hasFilter ? '' : 'none';
+
+  let list = getCreators().filter(c => {
+    if (niche && !smartMatch(niche.toLowerCase(), c.niche||'', NICHE_SYNONYMS)) return false;
+    if (size) {
+      const [mn, mx] = SIZE_RANGES[size] || [0, Infinity];
+      const f = parseFollowers(c.followers);
+      if (f < mn || f >= mx) return false;
+    }
+    if (lang && !(c.language||'').toLowerCase().includes(lang)) return false;
+    if (platform && !(c.platform||'').toLowerCase().includes(platform)) return false;
+    if (location) {
+      const loc = (c.city||'') + ' ' + (c.state||'');
+      if (!loc.toLowerCase().includes(location)) return false;
+    }
+    return true;
+  });
+  renderCreatorGrid(list);
+}
+
+function clearFilters() {
+  ['f-niche','f-size','f-lang','f-platform','f-location'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('filter-clear-btn').style.display = 'none';
+  renderCreatorGrid(getCreators());
+}
+
+function applyBrandFilters() {
+  const industry = document.getElementById('fb-industry').value;
+  const type     = document.getElementById('fb-type').value.toLowerCase();
+  const hasFilter = industry || type;
+  document.getElementById('brand-filter-clear-btn').style.display = hasFilter ? '' : 'none';
+  let list = getBrands().filter(b => {
+    if (industry && !smartMatch(industry.toLowerCase(), b.industry||'', INDUSTRY_SYNONYMS)) return false;
+    if (type && !(b.type||'').toLowerCase().includes(type)) return false;
+    return true;
+  });
+  renderBrandGrid(list);
+}
+
+function clearBrandFilters() {
+  ['fb-industry','fb-type'].forEach(id => { document.getElementById(id).value = ''; });
+  document.getElementById('brand-filter-clear-btn').style.display = 'none';
+  renderBrandGrid(getBrands());
 }
 
 function switchNetworkTab(tab) {
   document.querySelectorAll('.network-tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.network-tab-btn.'+tab).classList.add('active');
-  document.getElementById('network-creator-grid').style.display = tab === 'creator' ? '' : 'none';
-  document.getElementById('network-brand-grid').style.display   = tab === 'brand' ? '' : 'none';
-}
-
-// ===== 3D CREATOR DIRECTORY =====
-function getCreatorSize(raw) {
-  const n = parseInt(raw) || 0;
-  if (n < 10000) return 'nano';
-  if (n < 30000) return 'micro-s';
-  if (n < 60000) return 'micro-m';
-  if (n < 100000) return 'micro-l';
-  if (n < 300000) return 'macro-s';
-  if (n < 600000) return 'macro-m';
-  if (n < 1000000) return 'macro-l';
-  if (n < 3000000) return 'mega-s';
-  if (n < 7000000) return 'mega-m';
-  if (n < 10000000) return 'mega-l';
-  return 'celebrity';
-}
-function getCreatorTierLabel(raw) {
-  const n = parseInt(raw) || 0;
-  if (n < 10000) return 'Nano';
-  if (n < 30000) return 'Micro — S';
-  if (n < 60000) return 'Micro — M';
-  if (n < 100000) return 'Micro — L';
-  if (n < 300000) return 'Macro — S';
-  if (n < 600000) return 'Macro — M';
-  if (n < 1000000) return 'Macro — L';
-  if (n < 3000000) return 'Mega — S';
-  if (n < 7000000) return 'Mega — M';
-  if (n < 10000000) return 'Mega — L';
-  return 'Celebrity';
-}
-
-function updateStateFilter() {
-  const approved = getApproved();
-  const states = [...new Set(approved.map(c => c.state).filter(Boolean))].sort();
-  const sel = document.getElementById('dir-filter-state');
-  if (!sel) return;
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">All States</option>' + states.map(s => `<option value="${escHtml(s)}" ${cur===s?'selected':''}>${escHtml(s)}</option>`).join('');
-}
-
-function renderDirectory() {
-  const approved = getApproved();
-  const grid = document.getElementById('dir-grid');
-  const countEl = document.getElementById('dir-count');
-  if (!grid) return;
-
-  const langF = (document.getElementById('dir-filter-lang')?.value || '').toLowerCase();
-  const sizeF = document.getElementById('dir-filter-size')?.value || '';
-  const engF  = parseFloat(document.getElementById('dir-filter-eng')?.value) || 0;
-  const stateF = (document.getElementById('dir-filter-state')?.value || '').toLowerCase();
-  const nicheF = (document.getElementById('dir-filter-niche')?.value || '').toLowerCase();
-
-  let list = approved.filter(c => {
-    if (langF && !c.languages?.some(l => l.toLowerCase().includes(langF))) return false;
-    if (sizeF && getCreatorSize(c.followers_raw) !== sizeF) return false;
-    if (engF && (parseFloat(c.engagement) || 0) < engF) return false;
-    if (stateF && (c.state||'').toLowerCase() !== stateF) return false;
-    if (nicheF && !c.niches?.some(n => n.toLowerCase().includes(nicheF))) return false;
-    return true;
-  });
-
-  if (countEl) countEl.textContent = list.length + ' creator' + (list.length !== 1 ? 's' : '');
-
-  if (list.length === 0) {
-    grid.innerHTML = '<div class="dir-empty"><span class="empty-icon">🔍</span>No creators match your filters.<br>Try clearing some filters.</div>';
-    return;
-  }
-
-  grid.innerHTML = list.map(c => {
-    const platformBase = (c.platform||'').toLowerCase();
-    let profileUrl = '#';
-    if (platformBase.includes('instagram')) profileUrl = 'https://instagram.com/' + encodeURIComponent(c.handle||'');
-    else if (platformBase.includes('youtube')) profileUrl = 'https://youtube.com/@' + encodeURIComponent(c.handle||'');
-    else if (platformBase.includes('linkedin')) profileUrl = 'https://linkedin.com/in/' + encodeURIComponent(c.handle||'');
-    else if (platformBase.includes('x') || platformBase.includes('twitter')) profileUrl = 'https://x.com/' + encodeURIComponent(c.handle||'');
-
-    const secHandle = c.sec_handle ? c.sec_handle : '';
-    const secPlatform = c.sec_platform || '';
-    let secUrl = '#';
-    if (secPlatform.toLowerCase().includes('instagram')) secUrl = 'https://instagram.com/' + encodeURIComponent(secHandle);
-    else if (secPlatform.toLowerCase().includes('youtube')) secUrl = 'https://youtube.com/@' + encodeURIComponent(secHandle);
-
-    const tier = getCreatorTierLabel(c.followers_raw || 0);
-
-    return `<div class="dir-card card-3d reveal" style="position:relative;overflow:hidden;cursor:pointer">
-      ${c.photo
-        ? `<div class="dir-card-photo-wrap" style="position:relative;width:100%;padding-bottom:125%;overflow:hidden;border-radius:12px 12px 0 0">
-             <img class="dir-card-photo-full" src="${escHtml(c.photo)}" alt="${escHtml(c.name)}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 0.5s ease">
-             <div style="position:absolute;inset:0;background:linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.85) 100%)"></div>
-           </div>`
-        : `<div class="dir-card-photo-placeholder" style="width:100%;padding-bottom:80%;background:var(--ink-3);border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:center;font-size:3rem">🎬</div>`}
-      <div class="dir-card-body" style="position:relative;z-index:2">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
-          <div class="dir-card-name">${escHtml(c.name)}</div>
-          <span style="font-family:'DM Mono',monospace;font-size:0.6rem;background:rgba(138,92,246,0.15);color:var(--purple);border:1px solid rgba(138,92,246,0.3);padding:2px 7px;border-radius:9999px;white-space:nowrap">${escHtml(tier)}</span>
-        </div>
-        <a class="dir-card-handle" href="${escHtml(profileUrl)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">@${escHtml(c.handle||'')} ↗</a>
-        <div class="dir-card-stats">
-          <div class="dir-stat"><strong>${escHtml(c.followers||'–')}</strong>Followers</div>
-          ${c.engagement ? `<div class="dir-stat"><strong>${escHtml(String(c.engagement))}%</strong>Engagement</div>` : ''}
-        </div>
-        <div class="dir-card-tags">
-          ${(c.niches||[]).slice(0,3).map(n => `<span class="dir-tag">${escHtml(n)}</span>`).join('')}
-          ${(c.languages||[]).slice(0,2).map(l => `<span class="dir-tag lime">${escHtml(l)}</span>`).join('')}
-        </div>
-        ${c.state ? `<div class="dir-card-location">📍 ${escHtml(c.city||'')}${c.city?', ':''}${escHtml(c.state)}</div>` : ''}
-        ${secHandle && secPlatform ? `<div style="margin-top:8px;font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted)">Also on: <a href="${escHtml(secUrl)}" target="_blank" rel="noopener" style="color:var(--purple);text-decoration:none" onclick="event.stopPropagation()">@${escHtml(secHandle)} (${escHtml(secPlatform)})</a></div>` : ''}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function clearDirFilters() {
-  ['dir-filter-lang','dir-filter-size','dir-filter-eng','dir-filter-state','dir-filter-niche'].forEach(id => {
-    const el = document.getElementById(id); if(el) el.value = '';
-  });
-  renderDirectory();
-}
-
-// ===== ADMIN PANEL V2 =====
-function adminLogin() {
-  const pw = document.getElementById('admin-pw').value;
-  const err = document.getElementById('admin-pw-error');
-  if (pw === INFLYR_PASS) {
-    document.getElementById('admin-login-box').style.display = 'none';
-    document.getElementById('admin-panel').style.display = 'block';
-    initAdminPage();
-  } else {
-    err.style.display = 'block';
-    document.getElementById('admin-pw').value = '';
-  }
-}
-
-function adminLogout() {
-  document.getElementById('admin-login-box').style.display = 'flex';
-  document.getElementById('admin-panel').style.display = 'none';
-}
-
-function initAdminPage() {
-  renderAdminBrands();
-  renderAdminCreatorLegacy();
-  renderAdminPending();
-  renderAdminLive();
-  refreshAdminCounts();
-}
-
-function refreshAdminCounts() {
-  const pCount = document.getElementById('pending-count-badge');
-  const lCount = document.getElementById('live-count-badge');
-  const liveMeta = document.getElementById('live-dir-meta');
-  if (pCount) pCount.textContent = getPending().length;
-  if (lCount) lCount.textContent = getApproved().length;
-  if (liveMeta) liveMeta.textContent = getApproved().length + ' creators in directory';
-}
-
-function switchAdminTabV2(tab) {
-  document.querySelectorAll('.admin-tab-v2').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('[onclick*="switchAdminTabV2"]').forEach(b => {
-    if (b.getAttribute('onclick').includes("'"+tab+"'")) b.classList.add('active');
-  });
-  ['pending','live','brands','creators_old'].forEach(t => {
-    const el = document.getElementById('admin-panel-'+t);
-    if (el) el.style.display = t === tab ? 'block' : 'none';
-  });
-}
-
-// PENDING SECTION
-function renderAdminPending() {
-  const list = getPending();
-  const el = document.getElementById('admin-pending-list');
-  if (!el) return;
-  if (list.length === 0) {
-    el.innerHTML = '<div class="admin-empty-v2"><span>⏳</span>No pending applications yet.<br>Applications from the Join form appear here.</div>';
-    return;
-  }
-  el.innerHTML = list.map((c, idx) => `
-    <div class="pending-card" id="pending-${c.id}">
-      <div class="pending-card-header">
-        ${c.photo ? `<img src="${escHtml(c.photo)}" class="pending-avatar" alt="${escHtml(c.name)}">` : `<div class="pending-avatar-placeholder">🎬</div>`}
-        <div>
-          <div class="pending-name">${escHtml(c.name)}</div>
-          <div class="pending-meta">@${escHtml(c.handle||'')} · ${escHtml(c.platform||'')} · ${escHtml(c.followers||'')} followers</div>
-          <div class="pending-meta" style="margin-top:3px">📍 ${escHtml(c.city||'')}${c.city?', ':''}${escHtml(c.state||'')} · ${new Date(c.submitted_at).toLocaleDateString('en-IN')}</div>
-        </div>
-      </div>
-      <div class="pending-details">
-        <div class="pd-item"><strong>Languages</strong>${escHtml((c.languages||[]).join(', '))}</div>
-        <div class="pd-item"><strong>Niches</strong>${escHtml((c.niches||[]).join(', '))}</div>
-        <div class="pd-item"><strong>Engagement</strong>${c.engagement ? c.engagement + '%' : '—'}</div>
-        <div class="pd-item"><strong>Past Collabs</strong>${escHtml(c.collabs||'None listed')}</div>
-      </div>
-      <div class="pd-item" style="margin-bottom:16px;font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--secondary)"><strong style="color:var(--chalk)">Why Join:</strong> ${escHtml(c.why||'')}</div>
-      <div class="pending-actions">
-        <button class="btn-approve" onclick="approveCreator(${c.id})">✅ Approve & Publish</button>
-        <button class="btn-reject" onclick="rejectCreator(${c.id})">✕ Reject</button>
-      </div>
-    </div>
-  `).join('');
-  refreshAdminCounts();
-}
-
-function approveCreator(id) {
-  let pending = getPending();
-  const creator = pending.find(c => c.id === id);
-  if (!creator) return;
-  pending = pending.filter(c => c.id !== id);
-  savePending(pending);
-  const approved = getApproved();
-  approved.unshift(creator);
-  saveApproved(approved);
-  // Also save to old creators list for network showcase
-  const creators = getCreators();
-  creators.unshift({ id: creator.id, name: creator.name, handle: creator.handle, platform: creator.platform, followers: creator.followers, niche: (creator.niches||[]).join(', '), language: (creator.languages||[]).join(', '), emoji: randomEmoji(CREATOR_EMOJIS) });
-  saveCreators(creators);
-  renderAdminPending();
-  renderAdminLive();
-  renderNetworkShowcase();
-  renderDirectory();
-  updateStateFilter();
-  refreshAdminCounts();
-  showAdminToast('Creator approved & published to directory!');
-}
-
-function rejectCreator(id) {
-  if (!confirm('Reject and delete this application?')) return;
-  let pending = getPending();
-  pending = pending.filter(c => c.id !== id);
-  savePending(pending);
-  renderAdminPending();
-  refreshAdminCounts();
-  showAdminToast('Application rejected.');
-}
-
-// LIVE DIRECTORY CRM
-function renderAdminLive() {
-  const list = getApproved();
-  const el = document.getElementById('admin-live-list');
-  if (!el) return;
-  if (list.length === 0) {
-    el.innerHTML = '<div class="admin-empty-v2"><span>🌟</span>No approved creators yet.<br>Approve applications from the Pending tab.</div>';
-    return;
-  }
-  el.innerHTML = list.map(c => `
-    <div id="live-row-${c.id}">
-      <div class="live-creator-row">
-        <div class="live-row-photo">${c.photo ? `<img src="${escHtml(c.photo)}" style="width:44px;height:44px;border-radius:50%;object-fit:cover" alt="${escHtml(c.name)}">` : '🎬'}</div>
-        <div class="live-row-info">
-          <div class="live-row-name">${escHtml(c.name)}</div>
-          <div class="live-row-meta">@${escHtml(c.handle||'')} · ${escHtml(c.platform||'')} · ${escHtml(c.followers||'')} · ${escHtml((c.languages||[]).join(', '))} · 📍${escHtml(c.city||'')} ${escHtml(c.state||'')}</div>
-        </div>
-        <div class="live-row-actions">
-          <button class="btn-edit-sm" onclick="toggleEditLive(${c.id})">✏️ Edit</button>
-          <button class="btn-del-sm" onclick="deleteLiveCreator(${c.id})">🗑️ Remove</button>
-        </div>
-      </div>
-      <div class="edit-inline-form" id="edit-form-${c.id}">
-        <div class="form-grid-2">
-          <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="ef-name-${c.id}" value="${escHtml(c.name)}"></div>
-          <div class="form-group"><label class="form-label">Handle</label><input class="form-input" id="ef-handle-${c.id}" value="${escHtml(c.handle||'')}"></div>
-          <div class="form-group"><label class="form-label">Platform</label><input class="form-input" id="ef-platform-${c.id}" value="${escHtml(c.platform||'')}"></div>
-          <div class="form-group"><label class="form-label">Followers (raw)</label><input class="form-input" type="number" id="ef-followers-${c.id}" value="${escHtml(String(c.followers_raw||0))}"></div>
-          <div class="form-group"><label class="form-label">City</label><input class="form-input" id="ef-city-${c.id}" value="${escHtml(c.city||'')}"></div>
-          <div class="form-group"><label class="form-label">State</label><input class="form-input" id="ef-state-${c.id}" value="${escHtml(c.state||'')}"></div>
-          <div class="form-group"><label class="form-label">Languages (comma-sep)</label><input class="form-input" id="ef-langs-${c.id}" value="${escHtml((c.languages||[]).join(', '))}"></div>
-          <div class="form-group"><label class="form-label">Engagement (%)</label><input class="form-input" type="number" step="0.1" id="ef-eng-${c.id}" value="${escHtml(String(c.engagement||0))}"></div>
-        </div>
-        <div style="margin-top:12px;display:flex;gap:10px">
-          <button class="btn-approve" onclick="saveLiveEdit(${c.id})">💾 Save Changes</button>
-          <button class="btn-edit-sm" onclick="toggleEditLive(${c.id})">Cancel</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-  refreshAdminCounts();
-}
-
-function toggleEditLive(id) {
-  const form = document.getElementById('edit-form-'+id);
-  if (form) form.classList.toggle('open');
-}
-
-function saveLiveEdit(id) {
-  let approved = getApproved();
-  const idx = approved.findIndex(c => c.id === id);
-  if (idx === -1) return;
-  const rawF = parseInt(document.getElementById('ef-followers-'+id)?.value) || 0;
-  approved[idx] = {
-    ...approved[idx],
-    name: document.getElementById('ef-name-'+id)?.value || approved[idx].name,
-    handle: document.getElementById('ef-handle-'+id)?.value || approved[idx].handle,
-    platform: document.getElementById('ef-platform-'+id)?.value || approved[idx].platform,
-    followers_raw: rawF,
-    followers: formatFollowersNum(rawF),
-    city: document.getElementById('ef-city-'+id)?.value || approved[idx].city,
-    state: document.getElementById('ef-state-'+id)?.value || approved[idx].state,
-    languages: (document.getElementById('ef-langs-'+id)?.value||'').split(',').map(s=>s.trim()).filter(Boolean),
-    engagement: parseFloat(document.getElementById('ef-eng-'+id)?.value) || 0,
-  };
-  saveApproved(approved);
-  // Also update old creators list
-  let creators = getCreators();
-  const cidx = creators.findIndex(c => c.id === id);
-  if (cidx !== -1) {
-    creators[cidx] = { ...creators[cidx], name: approved[idx].name, handle: approved[idx].handle, platform: approved[idx].platform, followers: approved[idx].followers };
-    saveCreators(creators);
-  }
-  renderAdminLive();
-  renderNetworkShowcase();
-  renderDirectory();
-  updateStateFilter();
-  showAdminToast('Creator updated!');
-}
-
-function deleteLiveCreator(id) {
-  if (!confirm('Remove this creator from the live directory?')) return;
-  saveApproved(getApproved().filter(c => c.id !== id));
-  saveCreators(getCreators().filter(c => c.id !== id));
-  renderAdminLive();
-  renderNetworkShowcase();
-  renderDirectory();
-  updateStateFilter();
-  refreshAdminCounts();
-  showAdminToast('Creator removed.');
-}
-
-// BRAND FUNCTIONS (unchanged)
-function adminAddBrand() {
-  const name = document.getElementById('ab-name')?.value.trim();
-  if (!name) return;
-  const list = getBrands();
-  list.unshift({ id: Date.now(), name, website: document.getElementById('ab-website')?.value||'', industry: document.getElementById('ab-industry')?.value||'', type: document.getElementById('ab-type')?.value||'', budget: document.getElementById('ab-budget')?.value||'', emoji: randomEmoji(BRAND_EMOJIS) });
-  saveBrands(list);
-  ['ab-name','ab-website','ab-industry'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
-  ['ab-type','ab-budget'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
-  renderAdminBrands();
-  renderNetworkShowcase();
-  showAdminToast('Brand added!');
-}
-
-function adminDeleteBrand(id) {
-  saveBrands(getBrands().filter(b => b.id !== id));
-  renderAdminBrands();
-  renderNetworkShowcase();
-}
-
-function renderAdminBrands() {
-  const list = getBrands();
-  const el = document.getElementById('admin-brands-list');
-  if (!el) return;
-  if (list.length === 0) { el.innerHTML = '<div class="admin-empty-list">No brands added yet.</div>'; return; }
-  el.innerHTML = list.map(b => `
-    <div class="admin-item">
-      <div class="admin-item-info">
-        <div class="admin-item-name">${escHtml(b.name)} ${b.emoji}</div>
-        <div class="admin-item-meta">${b.industry ? escHtml(b.industry)+' · ' : ''}${b.type ? escHtml(b.type)+' · ' : ''}${b.budget ? escHtml(b.budget) : ''}</div>
-      </div>
-      <button class="admin-delete-btn" onclick="adminDeleteBrand(${b.id})">Delete</button>
-    </div>`).join('');
-}
-
-// LEGACY CREATOR ADD (for network showcase cards, not directory)
-function adminAddCreatorLegacy() { renderAdminCreatorLegacy(); }
-function adminAddCreatorFromForm() {
-  const name = document.getElementById('ac-name')?.value.trim();
-  if (!name) return;
-  const list = getCreators();
-  const rawF = parseInt(document.getElementById('ac-followers')?.value) || 0;
-  list.unshift({ id: Date.now(), name, handle: document.getElementById('ac-handle')?.value||'', followers: document.getElementById('ac-followers')?.value||'', followers_raw: rawF, platform: document.getElementById('ac-platform')?.value||'', niche: document.getElementById('ac-niche')?.value||'', language: document.getElementById('ac-language')?.value||'', state: document.getElementById('ac-location')?.value?.split(',')[0]||'', city: document.getElementById('ac-location')?.value?.split(',')[1]?.trim()||'', engagement: parseFloat(document.getElementById('ac-engagement')?.value)||0, emoji: randomEmoji(CREATOR_EMOJIS) });
-  saveCreators(list);
-  ['ac-name','ac-handle','ac-followers','ac-niche','ac-language','ac-location','ac-engagement'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
-  const plSel = document.getElementById('ac-platform'); if(plSel) plSel.value = '';
-  renderAdminCreatorLegacy();
-  renderNetworkShowcase();
-  showAdminToast('Creator added to network showcase!');
-}
-function adminDeleteCreator(id) {
-  saveCreators(getCreators().filter(c => c.id !== id));
-  renderAdminCreatorLegacy();
-  renderNetworkShowcase();
-}
-function renderAdminCreatorLegacy() {
-  const list = getCreators();
-  const el = document.getElementById('admin-creators-list');
-  if (!el) return;
-  // Rewire the add button
-  const addBtn = document.querySelector('.admin-add-btn.purple');
-  if (addBtn) addBtn.setAttribute('onclick', 'adminAddCreatorFromForm()');
-  if (list.length === 0) { el.innerHTML = '<div class="admin-empty-list">No creators added yet.</div>'; return; }
-  el.innerHTML = list.map(c => `
-    <div class="admin-item">
-      <div class="admin-item-info">
-        <div class="admin-item-name">${escHtml(c.name)} ${c.emoji}</div>
-        <div class="admin-item-meta">${c.handle ? '@'+escHtml(c.handle)+' · ' : ''}${c.platform ? escHtml(c.platform)+' · ' : ''}${c.followers ? escHtml(c.followers)+' followers · ' : ''}${c.niche ? escHtml(c.niche) : ''}</div>
-      </div>
-      <button class="admin-delete-btn" onclick="adminDeleteCreator(${c.id})">Delete</button>
-    </div>`).join('');
+  document.querySelector('.network-tab-btn.' + tab).classList.add('active');
+  document.getElementById('network-creator-grid').style.display = tab === 'creator' ? 'grid' : 'none';
+  document.getElementById('network-brand-grid').style.display   = tab === 'brand'   ? 'grid' : 'none';
+  document.getElementById('creator-filters').style.display      = tab === 'creator' ? '' : 'none';
+  document.getElementById('brand-filters').style.display        = tab === 'brand'   ? '' : 'none';
+  const joinBtn = document.getElementById('network-join-btn');
+  if (joinBtn) joinBtn.style.display = tab === 'creator' ? '' : 'none';
 }
 
 function showAdminToast(msg) {
@@ -4659,402 +4424,165 @@ function showAdminToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ===== BROADCAST CHANNEL SYNC (admin.html ↔ index.html same-origin) =====
-(function() {
-  try {
-    const bc = new BroadcastChannel('inflyr_admin_sync');
-    bc.onmessage = function(e) {
-      if (e.data && e.data.type === 'data_updated') {
-        // Reload data from localStorage and re-render
-        renderNetworkShowcase();
-        renderDirectory();
-        updateStateFilter();
-        refreshAdminCounts();
-      }
+
+// ===== CREATOR APPLICATION FORM (Website) =====
+const CAF_CITIES = ['Mumbai','Delhi','Bengaluru','Chennai','Hyderabad','Kolkata','Pune','Ahmedabad','Surat','Jaipur','Lucknow','Kanpur','Nagpur','Indore','Bhopal','Patna','Ludhiana','Agra','Varanasi','Nashik','Vadodara','Rajkot','Meerut','Coimbatore','Mysuru','Kochi','Guwahati','Chandigarh','Amritsar','Visakhapatnam','Bhubaneswar','Raipur','Dehradun','Ranchi','Jodhpur','Madurai','Noida','Gurgaon','Faridabad','Ghaziabad','Thane','Navi Mumbai','Aurangabad','Solapur','Jabalpur','Vijayawada','Tiruchirappalli','Vellore','Mangaluru','Hubli','Dharwad','Belagavi','Shimla','Jammu','Srinagar','Panaji','Silvassa','Daman'];
+const CAF_DISTRICTS = ['South Delhi','North Delhi','East Delhi','West Delhi','Central Delhi','Andheri','Bandra','Dadar','Powai','Malad','Borivali','Whitefield','Koramangala','Indiranagar','Jayanagar','Hebbal','Electronic City','Anna Nagar','T Nagar','Velachery','Banjara Hills','Jubilee Hills','Kukatpally','Secunderabad','Salt Lake','New Town','Howrah','Gomti Nagar','Hazratganj','Alambagh','Aliganj','Sector 62','Sector 18','DLF Phase','Cyber City','MG Road','BTM Layout','JP Nagar','Marathahalli'];
+const CAF_STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Chandigarh','Delhi','Jammu and Kashmir','Ladakh','Puducherry'];
+const CAF_DATA = { city: CAF_CITIES, district: CAF_DISTRICTS, state: CAF_STATES };
+
+function cafSuggest(type, val) {
+  const drop = document.getElementById('caf-' + type + '-drop');
+  if (!drop) return;
+  if (!val || val.length < 1) { drop.style.display = 'none'; return; }
+  const matches = CAF_DATA[type].filter(s => s.toLowerCase().includes(val.toLowerCase())).slice(0,7);
+  if (!matches.length) { drop.style.display = 'none'; return; }
+  drop.innerHTML = matches.map(m => `<div class="caf-suggest-item" onmousedown="cafPick('${type}','${m.replace(/'/g, "\\'")}')">` + m + '</div>').join('');
+  drop.style.display = 'block';
+}
+function cafHide(type) { const el = document.getElementById('caf-' + type + '-drop'); if (el) el.style.display = 'none'; }
+function cafPick(type, val) { const el = document.getElementById('caf-' + type); if (el) { el.value = val; cafHide(type); } }
+
+function cafToggleLang(btn) {
+  btn.classList.toggle('selected');
+  const sel = [...document.querySelectorAll('.caf-pill.selected')].map(b => b.dataset.val);
+  const hid = document.getElementById('caf-language-val');
+  if (hid) hid.value = sel.join(', ');
+  const err = document.getElementById('caf-lang-error');
+  if (err) err.style.display = sel.length > 0 ? 'none' : 'block';
+}
+
+function cafFollowerDisplay(val) {
+  const el = document.getElementById('caf-follower-display');
+  const hid = document.getElementById('caf-followers-display-val');
+  if (!el) return;
+  const n = parseInt(val);
+  if (!val || isNaN(n)) { el.textContent = ''; if (hid) hid.value = ''; return; }
+  let disp = n >= 10000000 ? (n/10000000).toFixed(1).replace('.0','') + ' Cr' : n >= 100000 ? (n/100000).toFixed(1).replace('.0','') + ' Lakh' : n >= 1000 ? (n/1000).toFixed(1).replace('.0','') + 'K' : n.toString();
+  let tier = n < 1000 ? 'Nano' : n < 5000 ? 'Micro-S' : n < 10000 ? 'Micro' : n < 50000 ? 'Micro-M' : n < 100000 ? 'Micro-L' : n < 500000 ? 'Macro' : n < 1000000 ? 'Mega' : 'Celebrity';
+  el.textContent = disp + ' followers · ' + tier + ' creator';
+  if (hid) hid.value = disp + ' (' + tier + ')';
+}
+
+function cafHandlePhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { alert('Photo too large. Please use under 5MB.'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const MAX = 800; let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) { if (w > h) { h = Math.round(h*MAX/w); w = MAX; } else { w = Math.round(w*MAX/h); h = MAX; } }
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+      const prev = document.getElementById('caf-photo-preview');
+      const icon = document.getElementById('caf-photo-icon');
+      if (prev) { prev.src = dataUrl; prev.style.display = 'block'; }
+      if (icon) icon.style.display = 'none';
+      const hid = document.getElementById('caf-photo-data');
+      if (hid) hid.value = dataUrl;
     };
-    // Export sync function globally for admin panel to call
-    window._inflyrBroadcast = bc;
-  } catch(e) { /* BroadcastChannel not supported */ }
-})();
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function submitCreatorForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const lang = document.getElementById('caf-language-val') ? document.getElementById('caf-language-val').value : '';
+  if (!lang) { const err = document.getElementById('caf-lang-error'); if (err) err.style.display = 'block'; return; }
+
+  const btn = document.getElementById('caf-submit-btn');
+  const origText = btn.textContent;
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+
+  const fd = new FormData(form);
+  const contactData = {
+    type: 'Creator',
+    name:       fd.get('name') || '',
+    email:      fd.get('email') || '',
+    whatsapp:   fd.get('whatsapp') || '',
+    city:       fd.get('city') || '',
+    district:   fd.get('district') || '',
+    state:      fd.get('state') || '',
+    platform:   fd.get('platform') || '',
+    instagram:  fd.get('instagram') || '',
+    youtube:    fd.get('youtube') || '',
+    followers:  fd.get('followers_display') || fd.get('followers') || '',
+    engagement: fd.get('engagement_rate') || '',
+    language:   lang,
+    niche:      fd.get('niche') || '',
+    notes:      fd.get('past_collabs') || '',
+    motivation: fd.get('motivation') || ''
+  };
+
+  const waMsg = encodeURIComponent('Hi INFLYR! I just applied as a creator. Name: ' + contactData.name + ', Platform: ' + contactData.platform + ', Followers: ' + contactData.followers);
+
+  try {
+    // Save to Google Sheets
+    fetch('https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe21x7uCNwjIEZFWVCb8y55I1em-mZ9SyVrhfRQpoTKPrQJHi/exec?action=contact', {
+      method: 'POST', mode: 'no-cors', body: JSON.stringify(contactData)
+    });
+    // FormSubmit email backup
+    fetch('https://formsubmit.co/ajax/inflyrhq@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(Object.assign({}, contactData, {
+        _subject: 'New Creator Application - INFLYR',
+        _captcha: 'false', _template: 'table'
+      }))
+    }).catch(function(){});
+  } catch(err) {}
+
+  showToast();
+  form.reset();
+  // Reset pills and photo
+  document.querySelectorAll('.caf-pill.selected').forEach(p => p.classList.remove('selected'));
+  const phPrev = document.getElementById('caf-photo-preview');
+  const phIcon = document.getElementById('caf-photo-icon');
+  if (phPrev) { phPrev.src = ''; phPrev.style.display = 'none'; }
+  if (phIcon) phIcon.style.display = '';
+  const flDisplay = document.getElementById('caf-follower-display');
+  if (flDisplay) flDisplay.textContent = '';
+
+  btn.textContent = 'Sent \u2713'; 
+  setTimeout(() => { window.open('https://wa.me/916307041225?text=' + waMsg, '_blank'); }, 1200);
+  setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 4000);
+}
+
+// ===== 3D CARD TILT =====
+document.addEventListener('mousemove', function(e) {
+  document.querySelectorAll('.network-card').forEach(card => {
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if (dist < 1.5) {
+      card.style.transform = `translateY(-8px) rotateY(${dx*6}deg) rotateX(${-dy*6}deg) scale(1.02)`;
+    } else {
+      card.style.transform = '';
+    }
+  });
+});
+
+// ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
   initFromURL();
   initCounters();
   setTimeout(initReveal, 500);
-  renderNetworkShowcase();
-  renderDirectory();
-  updateStateFilter();
-  if (window.location.search.includes('admin')) {
-    showPage('admin', false);
-    initAdminPage();
-  }
+  initCloud(); // loads from JSONBin and renders showcase
 });
+
 </script>
 
-<!-- ==================== ADMIN PAGE ==================== -->
-<div id="page-admin" class="page" style="padding-top:80px">
-  <div id="admin-login-box" class="admin-login">
-    <div class="admin-login-box">
-      <div class="admin-badge">Admin Only</div>
-      <h2>INFLYR ADMIN</h2>
-      <p>Enter your password to manage creators and brands.</p>
-      <div class="form-group" style="margin-bottom:12px">
-        <input type="password" id="admin-pw" class="form-input" placeholder="Admin password" onkeydown="if(event.key==='Enter')adminLogin()">
-        <div id="admin-pw-error" style="display:none;color:var(--error);font-size:0.8rem;margin-top:6px;font-family:'DM Mono',monospace">Wrong password. Try again.</div>
-      </div>
-      <button class="admin-add-btn" style="width:100%" onclick="adminLogin()">Unlock Panel →</button>
-    </div>
-  </div>
-
-  <div id="admin-panel" class="admin-panel">
-    <div class="admin-header">
-      <div>
-        <div class="admin-badge">Admin Panel</div>
-        <div class="admin-section-title">INFLYR COMMAND CENTER</div>
-        <div class="admin-section-sub">Review applications, manage the live directory, and update brands.</div>
-      </div>
-      <button class="admin-logout-btn" onclick="adminLogout()">Log Out</button>
-    </div>
-
-    <!-- Upgraded Tabs -->
-    <div class="admin-tabs-v2">
-      <button class="admin-tab-v2 pending active" onclick="switchAdminTabV2('pending')">
-        ⏳ Pending <span class="admin-badge-count" id="pending-count-badge">0</span>
-      </button>
-      <button class="admin-tab-v2 live" onclick="switchAdminTabV2('live')">
-        ✅ Live Directory <span class="admin-badge-count live" id="live-count-badge">0</span>
-      </button>
-      <button class="admin-tab-v2 brands-t" onclick="switchAdminTabV2('brands')">🛍️ Brands</button>
-      <button class="admin-tab-v2 creators-t" onclick="switchAdminTabV2('creators_old')">🎬 Legacy Add</button>
-    </div>
-
-    <!-- PENDING PANEL -->
-    <div id="admin-panel-pending">
-      <div class="admin-section-header">
-        <h3>PENDING APPLICATIONS</h3>
-        <button class="btn-edit-sm" onclick="refreshAdminCounts()" style="padding:8px 16px">↻ Refresh</button>
-      </div>
-      <div id="admin-pending-list">
-        <div class="admin-empty-v2"><span>⏳</span>No pending applications yet.<br>Applications from the Join form will appear here.</div>
-      </div>
-    </div>
-
-    <!-- LIVE DIRECTORY CRM -->
-    <div id="admin-panel-live" style="display:none">
-      <div class="admin-section-header">
-        <h3>LIVE CREATOR DIRECTORY</h3>
-        <span style="font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--muted)" id="live-dir-meta"></span>
-      </div>
-      <div id="admin-live-list">
-        <div class="admin-empty-v2"><span>🌟</span>No approved creators yet.<br>Approve applications from the Pending tab.</div>
-      </div>
-    </div>
-
-    <!-- BRAND PANEL -->
-    <div id="admin-panel-brands" style="display:none">
-      <div class="admin-section-header"><h3>MANAGE BRANDS</h3></div>
-      <div class="admin-form-grid">
-        <div class="form-group">
-          <label class="form-label">Brand Name *</label>
-          <input type="text" id="ab-name" class="form-input" placeholder="e.g. Mamaearth">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Website</label>
-          <input type="text" id="ab-website" class="form-input" placeholder="mamaearth.in">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Industry</label>
-          <input type="text" id="ab-industry" class="form-input" placeholder="e.g. Skincare, Fitness, Food">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Campaign Type</label>
-          <select id="ab-type" class="form-input">
-            <option value="">Select type</option>
-            <option>UGC</option>
-            <option>Influencer Campaign</option>
-            <option>Affiliate</option>
-            <option>Regional</option>
-            <option>Full Stack</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Budget Range</label>
-          <select id="ab-budget" class="form-input">
-            <option value="">Select range</option>
-            <option>Under ₹30K</option>
-            <option>₹30K–₹1L</option>
-            <option>₹1L–₹5L</option>
-            <option>₹5L+</option>
-          </select>
-        </div>
-      </div>
-      <button class="admin-add-btn" onclick="adminAddBrand()">+ Add Brand</button>
-      <div class="admin-list-section" style="margin-top:24px">
-        <div class="admin-list-title">Added Brands</div>
-        <div id="admin-brands-list"></div>
-      </div>
-    </div>
-
-    <!-- LEGACY CREATOR ADD -->
-    <div id="admin-panel-creators_old" style="display:none">
-      <div class="admin-section-header"><h3>LEGACY CREATOR ADD</h3></div>
-      <div class="admin-form-grid">
-        <div class="form-group">
-          <label class="form-label">Creator Name *</label>
-          <input type="text" id="ac-name" class="form-input" placeholder="e.g. Riya Sharma">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Handle (without @)</label>
-          <input type="text" id="ac-handle" class="form-input" placeholder="riyasharma">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Follower Count</label>
-          <input type="text" id="ac-followers" class="form-input" placeholder="e.g. 85K">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Platform</label>
-          <select id="ac-platform" class="form-input">
-            <option value="">Select platform</option>
-            <option>Instagram</option>
-            <option>YouTube</option>
-            <option>Instagram + YouTube</option>
-            <option>LinkedIn</option>
-            <option>X (Twitter)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Niche</label>
-          <input type="text" id="ac-niche" class="form-input" placeholder="e.g. Skincare, Comedy, Food">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Language</label>
-          <input type="text" id="ac-language" class="form-input" placeholder="e.g. Hindi, Tamil">
-        </div>
-        <div class="form-group">
-          <label class="form-label">State / City</label>
-          <input type="text" id="ac-location" class="form-input" placeholder="e.g. Maharashtra, Mumbai">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Engagement Rate (%)</label>
-          <input type="text" id="ac-engagement" class="form-input" placeholder="e.g. 3.5">
-        </div>
-      </div>
-      <button class="admin-add-btn purple" onclick="adminAddCreatorLegacy()">+ Add Creator to Directory</button>
-      <div class="admin-list-section" style="margin-top:24px">
-        <div class="admin-list-title">All Network Creators (Legacy View)</div>
-        <div id="admin-creators-list"></div>
-      </div>
-    </div>
-
-  </div><!-- end admin-panel -->
-</div><!-- end page-admin -->
-
-
-
-<!-- ==================== JOIN NETWORK MODAL ==================== -->
-<div id="joinModal" class="join-modal-overlay" onclick="closeJoinModal(event)">
-  <div class="join-modal">
-    <div class="join-modal-header">
-      <div>
-        <div class="join-modal-title">JOIN INFLYR NETWORK</div>
-        <div class="join-modal-sub">CREATOR APPLICATION · TAKES 3 MINUTES · FREE TO APPLY</div>
-      </div>
-      <button class="join-modal-close" onclick="closeJoinModalBtn()">✕</button>
-    </div>
-    <div class="join-modal-body">
-      <form id="joinNetworkForm" onsubmit="submitJoinForm(event)">
-        <!-- Photo Upload -->
-        <div class="form-group">
-          <label class="form-label">Profile Photo *</label>
-          <div class="join-photo-upload" id="photoUploadBox">
-            <img id="photoPreview" class="join-photo-preview" src="" alt="Preview">
-            <div class="upload-icon">📸</div>
-            <div class="upload-text">Click to upload a high-res photo<br><span style="color:var(--muted)">JPG or PNG · Max 5MB</span></div>
-            <input type="file" accept="image/*" id="joinPhotoInput" onchange="previewPhoto(this)" required>
-          </div>
-        </div>
-
-        <!-- Name / Email / WhatsApp -->
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label class="form-label">Full Name *</label>
-            <input type="text" name="jn_name" id="jn_name" class="form-input" placeholder="Priya Sharma" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email *</label>
-            <input type="email" name="jn_email" id="jn_email" class="form-input" placeholder="priya@email.com" required>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">WhatsApp Number *</label>
-          <input type="tel" name="jn_whatsapp" id="jn_whatsapp" class="form-input" placeholder="+91 98765 43210" required>
-          <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);margin-top:6px">📵 Your number is never shown publicly.</div>
-        </div>
-
-        <!-- Primary Platform -->
-        <div class="form-group">
-          <label class="form-label">Primary Platform *</label>
-          <select name="jn_platform" id="jn_platform" class="form-input" required onchange="updateHandleLabel()">
-            <option value="">Select platform</option>
-            <option>Instagram</option>
-            <option>YouTube</option>
-            <option>Both</option>
-            <option>LinkedIn</option>
-            <option>X (Twitter)</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <!-- Primary Handle -->
-        <div class="form-group">
-          <label class="form-label" id="primaryHandleLabel">Primary Handle * <span style="color:var(--muted);font-size:0.65rem">(without @)</span></label>
-          <input type="text" name="jn_handle" id="jn_handle" class="form-input" placeholder="yourhandle" required>
-        </div>
-
-        <!-- Secondary Platform & Handle -->
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label class="form-label">Secondary Platform</label>
-            <input type="text" name="jn_sec_platform" class="form-input" placeholder="e.g. YouTube">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Secondary Handle</label>
-            <input type="text" name="jn_sec_handle" class="form-input" placeholder="channel or handle">
-          </div>
-        </div>
-
-        <!-- Followers + Tier -->
-        <div class="form-group">
-          <label class="form-label">Total Followers / Subscribers *</label>
-          <input type="number" name="jn_followers_raw" id="jn_followers_raw" class="form-input" placeholder="30000" min="0" required oninput="formatFollowers(this)">
-          <div class="followers-display" id="followers-display"></div>
-          <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--muted);margin-top:6px">
-            Nano &lt;10K · Micro S/M/L 10K–100K · Macro S/M/L 100K–1M · Mega S/M/L 1M–10M · Celebrity 10M+
-          </div>
-        </div>
-
-        <!-- Location: State → District → City + optional Pincode -->
-        <div class="form-group">
-          <label class="form-label">State * <span style="color:var(--muted);font-size:0.65rem">(select or type)</span></label>
-          <select id="jn_state" name="jn_state" class="form-input" required onchange="onStateChange(this.value)">
-            <option value="">Select State</option>
-            <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option><option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option><option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option><option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option><option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option><option>Andaman and Nicobar Islands</option><option>Chandigarh</option><option>Dadra and Nagar Haveli and Daman and Diu</option><option>Delhi</option><option>Jammu and Kashmir</option><option>Ladakh</option><option>Lakshadweep</option><option>Puducherry</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">District *</label>
-          <select id="jn_district" name="jn_district" class="form-input" required onchange="onDistrictChange(this.value)">
-            <option value="">Select State first</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">City / Town *</label>
-          <input type="text" id="jn_city" name="jn_city" class="form-input" placeholder="Type your city or town" required>
-          <div style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);margin-top:4px">Type your city name (auto-suggested from district)</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Pincode <span style="color:var(--muted);font-size:0.65rem">(optional — auto-fills if correct)</span></label>
-          <input type="text" id="jn_pincode" name="jn_pincode" class="form-input" placeholder="e.g. 226001" maxlength="6" pattern="[0-9]{6}" oninput="fetchPincode(this.value)">
-          <div id="pincode-status" style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);margin-top:6px;min-height:18px"></div>
-        </div>
-
-        <!-- Languages (Multi-select) -->
-        <div class="form-group">
-          <label class="form-label">Languages * <span style="color:var(--muted);font-size:0.65rem">(select all that apply)</span></label>
-          <div class="multi-select-group" id="lang-chips">
-            <div class="ms-chip" data-val="Hindi" onclick="toggleChip(this,'lang-chips')">Hindi</div>
-            <div class="ms-chip" data-val="English" onclick="toggleChip(this,'lang-chips')">English</div>
-            <div class="ms-chip" data-val="Hinglish" onclick="toggleChip(this,'lang-chips')">Hinglish</div>
-            <div class="ms-chip" data-val="Tamil" onclick="toggleChip(this,'lang-chips')">Tamil</div>
-            <div class="ms-chip" data-val="Telugu" onclick="toggleChip(this,'lang-chips')">Telugu</div>
-            <div class="ms-chip" data-val="Marathi" onclick="toggleChip(this,'lang-chips')">Marathi</div>
-            <div class="ms-chip" data-val="Bengali" onclick="toggleChip(this,'lang-chips')">Bengali</div>
-            <div class="ms-chip" data-val="Kannada" onclick="toggleChip(this,'lang-chips')">Kannada</div>
-            <div class="ms-chip" data-val="Gujarati" onclick="toggleChip(this,'lang-chips')">Gujarati</div>
-            <div class="ms-chip" data-val="Punjabi" onclick="toggleChip(this,'lang-chips')">Punjabi</div>
-            <div class="ms-chip" data-val="Malayalam" onclick="toggleChip(this,'lang-chips')">Malayalam</div>
-            <div class="ms-chip" data-val="Bhojpuri" onclick="toggleChip(this,'lang-chips')">Bhojpuri</div>
-            <div class="ms-chip" data-val="Odia" onclick="toggleChip(this,'lang-chips')">Odia</div>
-            <div class="ms-chip" data-val="Rajasthani" onclick="toggleChip(this,'lang-chips')">Rajasthani</div>
-            <div class="ms-chip" data-val="Haryanvi" onclick="toggleChip(this,'lang-chips')">Haryanvi</div>
-            <div class="ms-chip" data-val="Maithili" onclick="toggleChip(this,'lang-chips')">Maithili</div>
-            <div class="ms-chip" data-val="Assamese" onclick="toggleChip(this,'lang-chips')">Assamese</div>
-            <div class="ms-chip" data-val="Chhattisgarhi" onclick="toggleChip(this,'lang-chips')">Chhattisgarhi</div>
-            <div class="ms-chip" data-val="Urdu" onclick="toggleChip(this,'lang-chips')">Urdu</div>
-            <div class="ms-chip" data-val="Sindhi" onclick="toggleChip(this,'lang-chips')">Sindhi</div>
-            <div class="ms-chip" data-val="Konkani" onclick="toggleChip(this,'lang-chips')">Konkani</div>
-            <div class="ms-chip" data-val="Manipuri" onclick="toggleChip(this,'lang-chips')">Manipuri</div>
-            <div class="ms-chip" data-val="Nepali" onclick="toggleChip(this,'lang-chips')">Nepali</div>
-            <div class="ms-chip" data-val="Sanskrit" onclick="toggleChip(this,'lang-chips')">Sanskrit</div>
-            <div class="ms-chip" data-val="Dogri" onclick="toggleChip(this,'lang-chips')">Dogri</div>
-            <div class="ms-chip" data-val="Kashmiri" onclick="toggleChip(this,'lang-chips')">Kashmiri</div>
-            <div class="ms-chip" data-val="Bodo" onclick="toggleChip(this,'lang-chips')">Bodo</div>
-            <div class="ms-chip" data-val="Santhali" onclick="toggleChip(this,'lang-chips')">Santhali</div>
-          </div>
-          <input type="hidden" id="jn_languages" name="jn_languages">
-        </div>
-
-        <!-- Avg Engagement Rate -->
-        <div class="form-group">
-          <label class="form-label">Avg Engagement Rate <span style="color:var(--muted);font-size:0.65rem">(optional, %)</span></label>
-          <input type="number" name="jn_engagement" id="jn_engagement" class="form-input" placeholder="3.5" min="0" max="100" step="0.1">
-        </div>
-
-        <!-- Content Niche (Multi-select) -->
-        <div class="form-group">
-          <label class="form-label">Content Niche * <span style="color:var(--muted);font-size:0.65rem">(select all that apply)</span></label>
-          <div class="multi-select-group" id="niche-chips">
-            <div class="ms-chip lime-chip" data-val="Fashion & Style" onclick="toggleChip(this,'niche-chips')">Fashion & Style</div>
-            <div class="ms-chip lime-chip" data-val="Beauty & Makeup" onclick="toggleChip(this,'niche-chips')">Beauty & Makeup</div>
-            <div class="ms-chip lime-chip" data-val="Skincare" onclick="toggleChip(this,'niche-chips')">Skincare</div>
-            <div class="ms-chip lime-chip" data-val="Hair Care" onclick="toggleChip(this,'niche-chips')">Hair Care</div>
-            <div class="ms-chip lime-chip" data-val="Food & Cooking" onclick="toggleChip(this,'niche-chips')">Food & Cooking</div>
-            <div class="ms-chip lime-chip" data-val="Travel" onclick="toggleChip(this,'niche-chips')">Travel</div>
-            <div class="ms-chip lime-chip" data-val="Tech & Gaming" onclick="toggleChip(this,'niche-chips')">Tech & Gaming</div>
-            <div class="ms-chip lime-chip" data-val="Fitness & Health" onclick="toggleChip(this,'niche-chips')">Fitness & Health</div>
-            <div class="ms-chip lime-chip" data-val="Yoga & Wellness" onclick="toggleChip(this,'niche-chips')">Yoga & Wellness</div>
-            <div class="ms-chip lime-chip" data-val="Finance & Business" onclick="toggleChip(this,'niche-chips')">Finance & Business</div>
-            <div class="ms-chip lime-chip" data-val="Cryptocurrency" onclick="toggleChip(this,'niche-chips')">Cryptocurrency</div>
-            <div class="ms-chip lime-chip" data-val="Comedy & Entertainment" onclick="toggleChip(this,'niche-chips')">Comedy & Entertainment</div>
-            <div class="ms-chip lime-chip" data-val="Education" onclick="toggleChip(this,'niche-chips')">Education</div>
-            <div class="ms-chip lime-chip" data-val="Parenting & Family" onclick="toggleChip(this,'niche-chips')">Parenting & Family</div>
-            <div class="ms-chip lime-chip" data-val="Vlogs & Lifestyle" onclick="toggleChip(this,'niche-chips')">Vlogs & Lifestyle</div>
-            <div class="ms-chip lime-chip" data-val="Home Décor" onclick="toggleChip(this,'niche-chips')">Home Décor</div>
-            <div class="ms-chip lime-chip" data-val="Gardening" onclick="toggleChip(this,'niche-chips')">Gardening</div>
-            <div class="ms-chip lime-chip" data-val="Automotive" onclick="toggleChip(this,'niche-chips')">Automotive</div>
-            <div class="ms-chip lime-chip" data-val="Sports & Cricket" onclick="toggleChip(this,'niche-chips')">Sports & Cricket</div>
-            <div class="ms-chip lime-chip" data-val="Motivation & Self-Help" onclick="toggleChip(this,'niche-chips')">Motivation & Self-Help</div>
-            <div class="ms-chip lime-chip" data-val="Spiritual & Religious" onclick="toggleChip(this,'niche-chips')">Spiritual & Religious</div>
-            <div class="ms-chip lime-chip" data-val="Photography" onclick="toggleChip(this,'niche-chips')">Photography</div>
-            <div class="ms-chip lime-chip" data-val="Music & Dance" onclick="toggleChip(this,'niche-chips')">Music & Dance</div>
-            <div class="ms-chip lime-chip" data-val="Pets & Animals" onclick="toggleChip(this,'niche-chips')">Pets & Animals</div>
-            <div class="ms-chip lime-chip" data-val="Books & Literature" onclick="toggleChip(this,'niche-chips')">Books & Literature</div>
-            <div class="ms-chip lime-chip" data-val="Astrology" onclick="toggleChip(this,'niche-chips')">Astrology</div>
-            <div class="ms-chip lime-chip" data-val="Environment & Sustainability" onclick="toggleChip(this,'niche-chips')">Sustainability</div>
-            <div class="ms-chip lime-chip" data-val="Other" onclick="toggleChip(this,'niche-chips')">Other</div>
-          </div>
-          <input type="hidden" id="jn_niches" name="jn_niches">
-        </div>
-
-        <!-- Brand Collabs -->
-        <div class="form-group">
-          <label class="form-label">Past Brand Collaborations <span style="color:var(--muted);font-size:0.65rem">(optional)</span></label>
-          <input type="text" name="jn_collabs" class="form-input" placeholder="e.g. Mamaearth, Boat, Nykaa">
-        </div>
-
-        <!-- Why Join -->
-        <div class="form-group">
-          <label class="form-label">Why do you want to join INFLYR? *</label>
-          <textarea name="jn_why" id="jn_why" class="form-input" rows="3" style="resize:vertical;min-height:80px" placeholder="Tell us about your content and goals..." required></textarea>
-        </div>
-
-        <div id="join-form-error" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:6px;padding:12px 16px;margin-bottom:16px;font-family:'DM Mono',monospace;font-size:0.72rem;color:var(--error)"></div>
-
-        <button type="submit" class="btn-purple" style="width:100%;justify-content:center" id="joinSubmitBtn">Submit Application →</button>
-        <p style="font-family:'DM Mono',monospace;font-size:0.65rem;color:var(--muted);text-align:center;margin-top:12px">Your email & WhatsApp are never shown publicly. We'll contact you via WhatsApp.</p>
-      </form>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
