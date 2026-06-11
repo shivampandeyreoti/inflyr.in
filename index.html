@@ -4038,7 +4038,7 @@ async function submitForm(e, type) {
     };
 
     // Save to Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe21x7uCNwjIEZFWVCb8y55I1em-mZ9SyVrhfRQpoTKPrQJHi/exec?action=contact', {
+    fetch('https://script.google.com/macros/s/AKfycbzAb6FxyhTdrmQ09hR1Z2jVUXvRDw9vNpGVb6IIqVUxutn32VkuzDc2VcHRGzEJyrz4/exec?action=contact', {
       method: 'POST', mode: 'no-cors', body: JSON.stringify(contactData)
     });
 
@@ -4146,7 +4146,7 @@ document.addEventListener('mouseleave', () => {
 // ===== NETWORK SHOWCASE =====
 // Google Sheets API via Apps Script
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe21x7uCNwjIEZFWVCb8y55I1em-mZ9SyVrhfRQpoTKPrQJHi/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAb6FxyhTdrmQ09hR1Z2jVUXvRDw9vNpGVb6IIqVUxutn32VkuzDc2VcHRGzEJyrz4/exec';
 let _cache = { creators: [], brands: [], pending: [] };
 
 // Reliable fetch using iframe trick for Google Apps Script
@@ -4618,7 +4618,7 @@ async function submitCreatorForm(e) {
 
   try {
     // Save to Google Sheets
-    fetch('https://script.google.com/macros/s/AKfycbwXeneUeIBrC-pZ-KRKe21x7uCNwjIEZFWVCb8y55I1em-mZ9SyVrhfRQpoTKPrQJHi/exec?action=contact', {
+    fetch('https://script.google.com/macros/s/AKfycbzAb6FxyhTdrmQ09hR1Z2jVUXvRDw9vNpGVb6IIqVUxutn32VkuzDc2VcHRGzEJyrz4/exec?action=contact', {
       method: 'POST', mode: 'no-cors', body: JSON.stringify(contactData)
     });
     // FormSubmit email backup
