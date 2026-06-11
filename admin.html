@@ -469,26 +469,21 @@ async function cloudSave() {
 
   const payload = JSON.stringify(db);
 
-  // Try multiple times
-  let saved = false;
-  for (let i = 0; i < 3; i++) {
-    try {
-      showLoader(i > 0 ? `Retrying... (${i+1}/3)` : 'Saving to cloud...');
-      await fetch(SCRIPT_URL + '?action=write', {
-        method: 'POST',
-        mode: 'no-cors',
-        body: payload
-      });
-      saved = true;
-      break;
-    } catch(e) {
-      await new Promise(r => setTimeout(r, 1500));
-    }
-  }
+  // Use JSONP GET — avoids 302 redirect issue with no-cors POST
+  await new Promise((resolve) => {
+    const cb = 'save_' + Date.now();
+    const data = encodeURIComponent(payload);
+    const url = SCRIPT_URL + '?action=write&data=' + data + '&cb=' + cb;
+    const script = document.createElement('script');
+    let done = false;
+    window[cb] = () => { done = true; delete window[cb]; if (script.parentNode) script.parentNode.removeChild(script); resolve(); };
+    script.onerror = () => { done = true; delete window[cb]; resolve(); };
+    setTimeout(() => { if (!done) { done = true; delete window[cb]; resolve(); } }, 10000);
+    script.src = url;
+    document.head.appendChild(script);
+  });
 
-  await new Promise(r => setTimeout(r, 1500)); // give Apps Script time to process
   hideLoader();
-  return saved;
 }
 
 // ---- Auth ----
