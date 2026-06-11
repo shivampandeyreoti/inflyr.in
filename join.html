@@ -487,29 +487,24 @@ async function submitForm() {
     try { localStorage.setItem('pending_photo_' + entry.id, photoData); } catch(e) {}
   }
 
-  try {
-    // Use add_pending — safely appends without overwriting existing data
-    await fetch(SCRIPT_URL + '?action=add_pending', {
-      method: 'POST',
-      mode:   'no-cors',
-      body:   JSON.stringify(entry)
-    });
+  // JSONP GET — 302 redirect problem nahi aati (same method as admin uses)
+  await new Promise((resolve) => {
+    const cb = 'jp_' + Date.now();
+    const data = encodeURIComponent(JSON.stringify(entry));
+    const url = SCRIPT_URL + '?action=add_pending&data=' + data + '&cb=' + cb;
+    const script = document.createElement('script');
+    let done = false;
+    window[cb] = () => { done = true; delete window[cb]; if (script.parentNode) script.parentNode.removeChild(script); resolve(); };
+    script.onerror = () => { done = true; delete window[cb]; resolve(); };
+    setTimeout(() => { if (!done) { done = true; delete window[cb]; resolve(); } }, 8000);
+    script.src = url;
+    document.head.appendChild(script);
+  });
 
-    // Small delay to let Apps Script process
-    await new Promise(r => setTimeout(r, 1500));
-
-    document.getElementById('loadingOverlay').classList.remove('show');
-    document.getElementById('joinForm').style.display   = 'none';
-    document.getElementById('successScreen').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-  } catch(e) {
-    // Still show success — no-cors fetch errors are expected, data saves fine
-    document.getElementById('loadingOverlay').classList.remove('show');
-    document.getElementById('joinForm').style.display   = 'none';
-    document.getElementById('successScreen').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  document.getElementById('loadingOverlay').classList.remove('show');
+  document.getElementById('joinForm').style.display   = 'none';
+  document.getElementById('successScreen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
 </body>
