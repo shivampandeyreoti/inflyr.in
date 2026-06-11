@@ -3203,26 +3203,26 @@ footer {
         <input type="tel" name="whatsapp" class="form-input" placeholder="+91 98765 43210" required>
       </div>
 
-      <!-- LOCATION -->
+      <!-- LOCATION: State first, then District, then City -->
       <div class="form-group">
-        <label class="form-label">City</label>
+        <label class="form-label">State</label>
         <div style="position:relative">
-          <input type="text" name="city" id="caf-city" class="form-input" placeholder="e.g. Mumbai" autocomplete="off" oninput="cafSuggest('city',this.value)" onfocus="cafSuggest('city',this.value)" onblur="setTimeout(()=>cafHide('city'),200)">
-          <div id="caf-city-drop" class="caf-dropdown" style="display:none"></div>
+          <input type="text" name="state" id="caf-state" class="form-input" placeholder="Type your state..." autocomplete="off" oninput="cafSuggest('state',this.value)" onfocus="cafSuggest('state',this.value)" onblur="setTimeout(()=>cafHide('state'),200)">
+          <div id="caf-state-drop" class="caf-dropdown" style="display:none"></div>
         </div>
       </div>
       <div class="form-group">
         <label class="form-label">District</label>
         <div style="position:relative">
-          <input type="text" name="district" id="caf-district" class="form-input" placeholder="e.g. South Delhi" autocomplete="off" oninput="cafSuggest('district',this.value)" onfocus="cafSuggest('district',this.value)" onblur="setTimeout(()=>cafHide('district'),200)">
+          <input type="text" name="district" id="caf-district" class="form-input" placeholder="Select state first..." autocomplete="off" oninput="cafSuggest('district',this.value)" onfocus="cafSuggest('district',this.value)" onblur="setTimeout(()=>cafHide('district'),200)">
           <div id="caf-district-drop" class="caf-dropdown" style="display:none"></div>
         </div>
       </div>
       <div class="form-group">
-        <label class="form-label">State</label>
+        <label class="form-label">City</label>
         <div style="position:relative">
-          <input type="text" name="state" id="caf-state" class="form-input" placeholder="e.g. Maharashtra" autocomplete="off" oninput="cafSuggest('state',this.value)" onfocus="cafSuggest('state',this.value)" onblur="setTimeout(()=>cafHide('state'),200)">
-          <div id="caf-state-drop" class="caf-dropdown" style="display:none"></div>
+          <input type="text" name="city" id="caf-city" class="form-input" placeholder="Select district first..." autocomplete="off" oninput="cafSuggest('city',this.value)" onfocus="cafSuggest('city',this.value)" onblur="setTimeout(()=>cafHide('city'),200)">
+          <div id="caf-city-drop" class="caf-dropdown" style="display:none"></div>
         </div>
       </div>
 
@@ -4426,22 +4426,114 @@ function showAdminToast(msg) {
 
 
 // ===== CREATOR APPLICATION FORM (Website) =====
-const CAF_CITIES = ['Mumbai','Delhi','Bengaluru','Chennai','Hyderabad','Kolkata','Pune','Ahmedabad','Surat','Jaipur','Lucknow','Kanpur','Nagpur','Indore','Bhopal','Patna','Ludhiana','Agra','Varanasi','Nashik','Vadodara','Rajkot','Meerut','Coimbatore','Mysuru','Kochi','Guwahati','Chandigarh','Amritsar','Visakhapatnam','Bhubaneswar','Raipur','Dehradun','Ranchi','Jodhpur','Madurai','Noida','Gurgaon','Faridabad','Ghaziabad','Thane','Navi Mumbai','Aurangabad','Solapur','Jabalpur','Vijayawada','Tiruchirappalli','Vellore','Mangaluru','Hubli','Dharwad','Belagavi','Shimla','Jammu','Srinagar','Panaji','Silvassa','Daman'];
-const CAF_DISTRICTS = ['South Delhi','North Delhi','East Delhi','West Delhi','Central Delhi','Andheri','Bandra','Dadar','Powai','Malad','Borivali','Whitefield','Koramangala','Indiranagar','Jayanagar','Hebbal','Electronic City','Anna Nagar','T Nagar','Velachery','Banjara Hills','Jubilee Hills','Kukatpally','Secunderabad','Salt Lake','New Town','Howrah','Gomti Nagar','Hazratganj','Alambagh','Aliganj','Sector 62','Sector 18','DLF Phase','Cyber City','MG Road','BTM Layout','JP Nagar','Marathahalli'];
-const CAF_STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Chandigarh','Delhi','Jammu and Kashmir','Ladakh','Puducherry'];
-const CAF_DATA = { city: CAF_CITIES, district: CAF_DISTRICTS, state: CAF_STATES };
+// ===== CASCADING LOCATION DATA =====
+const CAF_STATE_DISTRICTS = {
+  'Delhi': ['Central Delhi','East Delhi','New Delhi','North Delhi','North East Delhi','North West Delhi','Shahdara','South Delhi','South East Delhi','South West Delhi','West Delhi'],
+  'Maharashtra': ['Mumbai City','Mumbai Suburban','Pune','Thane','Nashik','Aurangabad','Nagpur','Solapur','Kolhapur','Satara','Raigad','Ahmednagar','Jalgaon','Beed','Latur','Nanded','Washim','Akola','Amravati','Chandrapur'],
+  'Uttar Pradesh': ['Lucknow','Kanpur Nagar','Agra','Varanasi','Allahabad','Meerut','Ghaziabad','Gautam Buddha Nagar','Mathura','Bareilly','Aligarh','Moradabad','Saharanpur','Gorakhpur','Jhansi','Muzaffarnagar','Bareilly'],
+  'Karnataka': ['Bengaluru Urban','Bengaluru Rural','Mysuru','Mangaluru','Belagavi','Hubli-Dharwad','Tumakuru','Shivamogga','Vijayapura','Kalaburagi','Raichur','Bellary','Udupi','Hassan'],
+  'Tamil Nadu': ['Chennai','Coimbatore','Madurai','Tiruchirappalli','Salem','Tirunelveli','Vellore','Erode','Tiruppur','Dindigul','Thanjavur','Kancheepuram','Chengalpattu','Krishnagiri'],
+  'Gujarat': ['Ahmedabad','Surat','Vadodara','Rajkot','Bhavnagar','Jamnagar','Gandhinagar','Junagadh','Anand','Navsari','Bharuch','Mehsana','Banaskantha','Surendranagar'],
+  'Rajasthan': ['Jaipur','Jodhpur','Kota','Bikaner','Ajmer','Udaipur','Bhilwara','Alwar','Bharatpur','Sikar','Pali','Sri Ganganagar','Nagaur','Chittorgarh'],
+  'West Bengal': ['Kolkata','North 24 Parganas','South 24 Parganas','Howrah','Hooghly','Murshidabad','Nadia','Burdwan','Bankura','Birbhum','Jalpaiguri','Darjeeling','Malda'],
+  'Telangana': ['Hyderabad','Rangareddy','Medchal-Malkajgiri','Sangareddy','Nalgonda','Warangal Urban','Karimnagar','Nizamabad','Khammam','Mahbubnagar'],
+  'Andhra Pradesh': ['Visakhapatnam','Vijayawada','Guntur','Kurnool','Tirupati','Nellore','Kadapa','Anantapur','East Godavari','West Godavari'],
+  'Punjab': ['Ludhiana','Amritsar','Jalandhar','Patiala','Bathinda','Mohali','Hoshiarpur','Gurdaspur','Firozpur','Faridkot','Moga'],
+  'Haryana': ['Gurugram','Faridabad','Ambala','Karnal','Rohtak','Hisar','Panipat','Sonipat','Yamuna Nagar','Bhiwani','Rewari','Palwal','Panchkula'],
+  'Kerala': ['Thiruvananthapuram','Kollam','Kottayam','Ernakulam','Thrissur','Palakkad','Malappuram','Kozhikode','Kannur','Kasargod'],
+  'Bihar': ['Patna','Gaya','Bhagalpur','Muzaffarpur','Purnia','Darbhanga','Begusarai','Samastipur','Munger','Nalanda'],
+  'Madhya Pradesh': ['Bhopal','Indore','Jabalpur','Gwalior','Ujjain','Sagar','Rewa','Satna','Ratlam','Dewas'],
+  'Odisha': ['Khordha','Cuttack','Ganjam','Sundargarh','Balasore','Puri','Sambalpur','Mayurbhanj','Jajpur'],
+  'Assam': ['Kamrup Metropolitan','Kamrup','Dibrugarh','Jorhat','Sivasagar','Sonitpur','Nagaon','Cachar'],
+  'Jharkhand': ['Ranchi','Dhanbad','Bokaro','East Singhbhum','Hazaribagh','Giridih','Deoghar'],
+  'Chhattisgarh': ['Raipur','Durg','Bilaspur','Korba','Rajnandgaon','Bastar','Raigarh'],
+  'Uttarakhand': ['Dehradun','Haridwar','Udham Singh Nagar','Nainital','Pauri Garhwal','Tehri Garhwal','Almora'],
+  'Himachal Pradesh': ['Shimla','Kangra','Mandi','Solan','Sirmaur','Una','Hamirpur'],
+  'Goa': ['North Goa','South Goa'],
+  'Chandigarh': ['Chandigarh'],
+  'Jammu and Kashmir': ['Srinagar','Jammu','Baramulla','Anantnag','Kathua','Udhampur','Rajouri'],
+  'Ladakh': ['Leh','Kargil'],
+  'Puducherry': ['Puducherry','Karaikal','Mahe'],
+  'Tripura': ['West Tripura','South Tripura','North Tripura'],
+  'Manipur': ['Imphal West','Imphal East','Thoubal','Bishnupur','Churachandpur'],
+  'Meghalaya': ['East Khasi Hills','West Khasi Hills','Jaintia Hills','East Garo Hills'],
+  'Sikkim': ['East Sikkim','West Sikkim','North Sikkim','South Sikkim'],
+  'Arunachal Pradesh': ['Itanagar','Tawang','East Kameng','West Kameng','Papum Pare'],
+  'Nagaland': ['Kohima','Dimapur','Mokokchung','Tuensang','Wokha'],
+  'Mizoram': ['Aizawl','Lunglei','Champhai','Serchhip'],
+};
+
+const CAF_DISTRICT_CITIES = {
+  'Mumbai City': ['Churchgate','Fort','Marine Lines','Byculla','Dharavi','Mahim','Parel','Dadar','Mazgaon'],
+  'Mumbai Suburban': ['Andheri','Bandra','Borivali','Malad','Goregaon','Kandivali','Jogeshwari','Vile Parle','Santacruz','Khar','Powai','Vikhroli','Ghatkopar','Mulund'],
+  'Pune': ['Pune City','Pimpri-Chinchwad','Hadapsar','Kothrud','Baner','Hinjewadi','Viman Nagar','Wakad','Koregaon Park','Aundh','Katraj','Kondhwa','Shivajinagar'],
+  'Bengaluru Urban': ['Koramangala','Indiranagar','Whitefield','Electronic City','Jayanagar','JP Nagar','BTM Layout','HSR Layout','Marathahalli','Hebbal','Yelahanka','Bannerghatta','Rajajinagar','Malleswaram','Vijayanagar'],
+  'Central Delhi': ['Connaught Place','Karol Bagh','Paharganj','Darya Ganj','Chandni Chowk'],
+  'South Delhi': ['Lajpat Nagar','Greater Kailash','Hauz Khas','Vasant Kunj','Saket','Malviya Nagar','Defence Colony','Kalkaji','Alaknanda'],
+  'North Delhi': ['Model Town','Pitampura','Rohini','Shalimar Bagh','Ashok Vihar','Civil Lines'],
+  'West Delhi': ['Rajouri Garden','Janakpuri','Dwarka','Vikaspuri','Uttam Nagar','Tilak Nagar'],
+  'East Delhi': ['Preet Vihar','Laxmi Nagar','Mayur Vihar','Patparganj','Vishwas Nagar'],
+  'Gurugram': ['DLF Phase 1','DLF Phase 2','DLF Phase 3','DLF Phase 4','DLF Phase 5','Sohna Road','Golf Course Road','MG Road','Cyber City','Palam Vihar','Sector 56','Udyog Vihar'],
+  'Hyderabad': ['Banjara Hills','Jubilee Hills','Secunderabad','Ameerpet','Kondapur','Gachibowli','Kukatpally','KPHB','Dilsukhnagar','Malakpet','Madhapur','Miyapur'],
+  'Kamrup Metropolitan': ['Guwahati','Dispur','Jalukbari','Beltola','Geetanagar','Rukminigaon'],
+  'Lucknow': ['Hazratganj','Gomti Nagar','Alambagh','Aliganj','Indira Nagar','Vikas Nagar','Chinhat','Kalyanpur'],
+  'Bengaluru Rural': ['Devanahalli','Nelamangala','Doddaballapur','Hoskote'],
+  'Ernakulam': ['Kochi','Kakkanad','Edapally','Aluva','Perumbavoor','Muvattupuzha'],
+  'Thiruvananthapuram': ['Thiruvananthapuram City','Nedumangad','Attingal','Varkala'],
+  'Chennai': ['T Nagar','Anna Nagar','Adyar','Velachery','Chromepet','Tambaram','Porur','Ambattur','Perambur','Egmore'],
+  'Kamrup': ['Guwahati Rural','Boko','Rani','Chaygaon'],
+};
+
+const CAF_ALL_STATES = Object.keys(CAF_STATE_DISTRICTS).sort();
 
 function cafSuggest(type, val) {
-  const drop = document.getElementById('caf-' + type + '-drop');
+  var drop = document.getElementById('caf-' + type + '-drop');
   if (!drop) return;
-  if (!val || val.length < 1) { drop.style.display = 'none'; return; }
-  const matches = CAF_DATA[type].filter(s => s.toLowerCase().includes(val.toLowerCase())).slice(0,7);
+  var list = [];
+  if (type === 'state') {
+    list = CAF_ALL_STATES;
+  } else if (type === 'district') {
+    var stateEl = document.getElementById('caf-state');
+    var state = stateEl ? stateEl.value : '';
+    list = CAF_STATE_DISTRICTS[state] || Object.values(CAF_STATE_DISTRICTS).reduce(function(a,b){return a.concat(b);},[]);
+  } else if (type === 'city') {
+    var distEl = document.getElementById('caf-district');
+    var dist = distEl ? distEl.value : '';
+    list = CAF_DISTRICT_CITIES[dist] || ['Mumbai','Delhi','Bengaluru','Chennai','Hyderabad','Kolkata','Pune','Ahmedabad','Surat','Jaipur','Lucknow','Nagpur','Indore','Bhopal','Noida','Gurgaon','Faridabad','Thane','Kochi','Coimbatore','Mysuru'];
+  }
+  var q = val ? val.toLowerCase() : '';
+  var matches = q ? list.filter(function(s){ return s.toLowerCase().indexOf(q) > -1; }).slice(0,8) : list.slice(0,8);
   if (!matches.length) { drop.style.display = 'none'; return; }
-  drop.innerHTML = matches.map(m => `<div class="caf-suggest-item" onmousedown="cafPick('${type}','${m.replace(/'/g, "\\'")}')">` + m + '</div>').join('');
+  var html = '';
+  for (var i = 0; i < matches.length; i++) {
+    html += '<div class="caf-suggest-item" data-type="' + type + '" data-val="' + matches[i].replace(/"/g,"&quot;") + '" onmousedown="cafPickEl(this)">' + matches[i] + '</div>';
+  }
+  drop.innerHTML = html;
   drop.style.display = 'block';
 }
-function cafHide(type) { const el = document.getElementById('caf-' + type + '-drop'); if (el) el.style.display = 'none'; }
-function cafPick(type, val) { const el = document.getElementById('caf-' + type); if (el) { el.value = val; cafHide(type); } }
+function cafHide(type) {
+  var el = document.getElementById('caf-' + type + '-drop');
+  if (el) el.style.display = 'none';
+}
+function cafPickEl(div) {
+  cafPick(div.getAttribute('data-type'), div.getAttribute('data-val'));
+}
+function cafPick(type, val) {
+  var el = document.getElementById('caf-' + type);
+  if (el) { el.value = val; cafHide(type); }
+  if (type === 'state') {
+    var d = document.getElementById('caf-district');
+    var c = document.getElementById('caf-city');
+    if (d) d.value = '';
+    if (c) c.value = '';
+    setTimeout(function(){ cafSuggest('district',''); }, 100);
+  }
+  if (type === 'district') {
+    var c2 = document.getElementById('caf-city');
+    if (c2) c2.value = '';
+    setTimeout(function(){ cafSuggest('city',''); }, 100);
+  }
+}
 
 function cafToggleLang(btn) {
   btn.classList.toggle('selected');
@@ -4551,7 +4643,7 @@ async function submitCreatorForm(e) {
   const flDisplay = document.getElementById('caf-follower-display');
   if (flDisplay) flDisplay.textContent = '';
 
-  btn.textContent = 'Sent \u2713'; 
+  btn.textContent = 'Sent ✓'; 
   setTimeout(() => { window.open('https://wa.me/916307041225?text=' + waMsg, '_blank'); }, 1200);
   setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 4000);
 }
