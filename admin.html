@@ -1235,7 +1235,7 @@ function handlePhotoFile(file, hiddenId, areaId, thumbId, nameId) {
   if (nameEl) nameEl.textContent = file.name;
 
   // Compress to max 800px wide, quality 0.82
-  compressImage(file, 800, 0.82, function(dataUrl) {
+  compressImage(file, 400, 0.65, function(dataUrl) {
     // Set hidden input value (base64)
     const hidden = document.getElementById(hiddenId);
     if (hidden) hidden.value = dataUrl;
