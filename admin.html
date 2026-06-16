@@ -817,7 +817,7 @@ function openCreateModal(type) {
       <div style="margin:16px 0">
         <label class="mform-label">Content Language(s) <span style="color:var(--muted);text-transform:none">(select all that apply)</span></label>
         <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:8px" id="cf-lang-pills">
-          ${['Hindi','English','Hinglish','Bhojpuri','Tamil','Telugu','Marathi','Bengali','Kannada','Gujarati','Punjabi','Malayalam','Odia','Rajasthani','Haryanvi','Assamese','Maithili','Urdu','Other'].map(l=>\`<button type="button" class="admin-pill" data-val="\${l}" onclick="adminPillToggle(this,'cf-lang-val','cf-lang-pills')">\${l}</button>\`).join('')}
+          ${['Hindi','English','Hinglish','Bhojpuri','Tamil','Telugu','Marathi','Bengali','Kannada','Gujarati','Punjabi','Malayalam','Odia','Rajasthani','Haryanvi','Assamese','Maithili','Urdu','Other'].map(l=>'<button type="button" class="admin-pill" data-val="'+l+'" onclick="adminPillToggle(this,\'cf-lang-val\',\'cf-lang-pills\')">'+l+'</button>').join('')}
         </div>
         <input type="hidden" id="cf-lang-val">
       </div>
@@ -826,7 +826,7 @@ function openCreateModal(type) {
       <div style="margin:16px 0">
         <label class="mform-label">Content Niche(s) <span style="color:var(--muted);text-transform:none">(select all that apply)</span></label>
         <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:8px" id="cf-niche-pills">
-          ${['Fashion & Style','Beauty & Makeup','Skincare','Food & Cooking','Travel & Lifestyle','Tech & Gaming','Fitness & Health','Finance & Business','Comedy & Entertainment','Education','Parenting & Family','Dance & Music','Motivation & Mindset','Home & Decor','Vlogs','Spiritual','Other'].map(n=>\`<button type="button" class="admin-pill admin-pill-purple" data-val="\${n}" onclick="adminPillToggle(this,'cf-niche-val','cf-niche-pills')">\${n}</button>\`).join('')}
+          ${['Fashion & Style','Beauty & Makeup','Skincare','Food & Cooking','Travel & Lifestyle','Tech & Gaming','Fitness & Health','Finance & Business','Comedy & Entertainment','Education','Parenting & Family','Dance & Music','Motivation & Mindset','Home & Decor','Vlogs','Spiritual','Other'].map(n=>'<button type="button" class="admin-pill admin-pill-purple" data-val="'+n+'" onclick="adminPillToggle(this,\'cf-niche-val\',\'cf-niche-pills\')">'+n+'</button>').join('')}
         </div>
         <input type="hidden" id="cf-niche-val">
       </div>
@@ -840,10 +840,8 @@ function openCreateModal(type) {
       <div style="display:flex;gap:10px;margin-top:20px">
         <button class="btn-action btn-save" id="create-save-btn" onclick="submitCreate('creator')">＋ Add Creator</button>
         <button class="btn-action btn-cancel" onclick="closeModal()">Cancel</button>
-      </div>\`);
+      </div>`);
   } else {
-    openModal(`
-      <div class="modal-header"><div class="modal-title">ADD BRAND</div>  } else {
     openModal(`
       <div class="modal-header"><div class="modal-title">ADD BRAND</div><button class="modal-close" onclick="closeModal()">✕</button></div>
       <div class="mform-grid" id="create-form">
