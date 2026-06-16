@@ -492,10 +492,7 @@ nav.scrolled {
   align-items: center;
   gap: 0;
   text-decoration: none;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.6rem;
-  letter-spacing: 0.04em;
-  color: var(--chalk);
+  line-height: 0;
 }
 .logo-bar {
   display: inline-block;
@@ -1855,7 +1852,146 @@ footer {
 .caf-suggest-item:last-child { border-bottom:none; }
 .caf-suggest-item:hover { background:var(--ink-3); color:var(--lime); }
 
-/* Parallax hero text */
+/* ---- JOIN PAGE ---- */
+.join-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Mono', monospace;
+  font-size: .68rem;
+  color: var(--muted);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.join-step span {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .65rem;
+}
+.join-step.active { color: var(--purple); }
+.join-step.active span { background: var(--purple); color: #fff; border-color: var(--purple); }
+.join-step.done span { background: #22C55E; color: #fff; border-color: #22C55E; }
+.join-step-line { flex: 1; height: 1px; background: var(--ink-3); margin: 0 6px; }
+
+/* Platform radio picks */
+.platform-pick {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .85rem;
+  color: var(--secondary);
+  transition: all .2s;
+}
+.platform-pick input { display: none; }
+.platform-pick:has(input:checked) {
+  border-color: var(--purple);
+  color: var(--purple);
+  background: rgba(138,92,246,.1);
+}
+
+/* ---- ADMIN PANEL ---- */
+.admin-card {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.admin-card-avatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: rgba(138,92,246,.15);
+  border: 2px solid rgba(138,92,246,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  overflow: hidden;
+}
+.admin-card-body { flex: 1; min-width: 0; }
+.admin-card-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: .04em;
+  color: var(--chalk);
+  margin-bottom: 2px;
+}
+.admin-card-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.admin-card-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+.admin-card-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: rgba(138,92,246,.1);
+  color: var(--purple);
+  border: 1px solid rgba(138,92,246,.2);
+  letter-spacing: .04em;
+}
+.admin-card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.admin-btn-approve {
+  background: rgba(34,197,94,.12);
+  border: 1px solid rgba(34,197,94,.35);
+  color: #22C55E;
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  letter-spacing: .06em;
+  transition: all .2s;
+}
+.admin-btn-approve:hover { background: rgba(34,197,94,.25); }
+.admin-btn-reject {
+  background: rgba(239,68,68,.08);
+  border: 1px solid rgba(239,68,68,.25);
+  color: #EF4444;
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  letter-spacing: .06em;
+  transition: all .2s;
+}
+.admin-btn-reject:hover { background: rgba(239,68,68,.18); }
+.admin-btn-remove {
+  background: rgba(239,68,68,.08);
+  border: 1px solid rgba(239,68,68,.25);
+  color: #EF4444;
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  letter-spacing: .06em;
+  transition: all .2s;
+}
+.admin-btn-remove:hover { background: rgba(239,68,68,.2); }
+.admin-status-loading {
+  font-family: 'DM Mono', monospace;
+  font-size: .75rem;
+  color: var(--muted);
+  padding: 24px 0;
+  text-align: center;
+}
 @supports (animation-timeline: scroll()) {
   .hero-headline {
     animation: heroParallax linear;
@@ -1896,29 +2032,100 @@ footer {
 .network-tab-btn.creator.active { color: var(--purple); }
 .network-tab-btn.brand.active { color: var(--lime); }
 
-/* ---- FILTER BAR ---- */
-.filter-bar {
-  margin: 16px 0 24px;
+/* ---- FILTER BUTTON + PANEL ---- */
+.filter-bar { display: none; } /* hide old big bars */
+
+.network-filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 20px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  color: var(--secondary);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.filter-btn:hover { border-color: var(--purple); color: var(--chalk); }
+.filter-btn.has-filters { border-color: var(--purple); color: var(--purple); }
+.filter-btn .filter-badge {
+  display: none;
+  background: var(--purple);
+  color: #fff;
+  border-radius: 50%;
+  width: 16px; height: 16px;
+  font-size: 0.6rem;
+  align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+}
+.filter-btn.has-filters .filter-badge { display: inline-flex; }
+
+.filter-count {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--muted);
+  margin-left: auto;
+}
+.filter-clear-chip {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  background: rgba(138,92,246,0.1);
+  border: 1px solid rgba(138,92,246,0.3);
+  color: var(--purple);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  padding: 5px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-clear-chip.visible { display: inline-flex; }
+.filter-clear-chip:hover { background: rgba(138,92,246,0.2); }
+
+/* Filter slide-down panel */
+.filter-panel {
+  display: none;
   background: var(--ink-2);
   border: 1px solid var(--ink-3);
   border-radius: 10px;
-  padding: 20px;
+  padding: 16px;
+  margin-bottom: 20px;
+  animation: filterSlideDown 0.2s ease;
+}
+.filter-panel.open { display: block; }
+@keyframes filterSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 .filter-row {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 .filter-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  min-width: 140px;
+  gap: 4px;
+  min-width: 130px;
   flex: 1;
 }
 .filter-label {
   font-family: 'DM Mono', monospace;
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   color: var(--muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1927,50 +2134,106 @@ footer {
   background: var(--ink);
   border: 1px solid var(--ink-3);
   border-radius: 5px;
-  padding: 8px 12px;
+  padding: 7px 10px;
   color: var(--chalk);
   font-family: 'DM Sans', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   appearance: none;
   -webkit-appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235A5652' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 28px;
+  background-position: right 8px center;
+  padding-right: 26px;
   cursor: pointer;
   transition: border-color 0.2s;
 }
 .filter-select:focus { outline: none; border-color: var(--purple); }
-.filter-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 14px;
+
+/* ---- SCROLL STRIP (Chtrbox-style) ---- */
+.network-scroll-wrap {
+  position: relative;
+  margin: 0 -5vw; /* bleed to edges */
+  padding: 0 5vw;
 }
-.filter-count {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  color: var(--muted);
+.network-scroll-wrap::before,
+.network-scroll-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 60px;
+  z-index: 2;
+  pointer-events: none;
 }
-.filter-clear {
-  background: none;
-  border: 1px solid var(--ink-3);
-  color: var(--muted);
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  cursor: pointer;
-  transition: all 0.2s;
+.network-scroll-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--ink) 0%, transparent 100%);
 }
-.filter-clear:hover { border-color: var(--purple); color: var(--purple); }
+.network-scroll-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--ink) 0%, transparent 100%);
+}
 
 .network-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
-  margin-top: 8px;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 8px 0 20px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
 }
+.network-grid::-webkit-scrollbar { display: none; }
+.network-grid.dragging { cursor: grabbing; scroll-behavior: auto; }
+.network-grid .network-card {
+  flex: 0 0 260px;
+  scroll-snap-align: start;
+}
+.network-grid .network-empty {
+  flex: 0 0 100%;
+  min-width: 300px;
+}
+
+/* Scroll nav arrows */
+.scroll-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+.scroll-arrow {
+  background: var(--ink-2);
+  border: 1px solid var(--ink-3);
+  color: var(--secondary);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.scroll-arrow:hover { border-color: var(--purple); color: var(--chalk); background: var(--ink-3); }
+.scroll-progress {
+  flex: 1;
+  height: 2px;
+  background: var(--ink-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.scroll-progress-bar {
+  height: 100%;
+  background: var(--purple);
+  border-radius: 2px;
+  width: 20%;
+  transition: width 0.15s ease;
+}
+.brand-scroll-bar .scroll-progress-bar { background: var(--lime); }
 
 /* ---- PREMIUM 3D CARD ---- */
 .network-card {
@@ -2378,8 +2641,8 @@ footer {
 
 <!-- NAV -->
 <nav id="mainNav">
-  <a href="#" class="nav-logo" onclick="showPage('home');return false;">
-    INFL<span class="logo-bar"></span>R
+    <a href="#" class="nav-logo" onclick="showPage('home');return false;" style="display:flex;align-items:center;">
+    <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMzkwIDI3OCAxMDQ1IDMyNSIgc3R5bGU9ImJhY2tncm91bmQ6dHJhbnNwYXJlbnQ7Ij4KCjxwYXRoIGQ9Ik0wIDAgQzIxLjc4IDAgNDMuNTYgMCA2NiAwIEM3MC4yOSA2LjI3IDc0LjU4IDEyLjU0IDc5IDE5IEM4My41OTE4MTIxOCAyNS40OTM1NTkxMiA4My41OTE4MTIxOCAyNS40OTM1NTkxMiA4OC4xODc1IDMxLjk4NDM3NSBDOTEuMTU1MTI5MjMgMzYuMTk5MjEwNTcgOTQuMDE5MjUyNTQgNDAuNDc3MTc0NCA5Ni44NjIzMDQ2OSA0NC43NzY2MTEzMyBDMTA3LjM3MzE1MzM3IDYwLjY1MTk0MzY3IDExOC4yMDI5MzcxNSA3Ni4zMTg1NTE1OCAxMjkgOTIgQzEzMy4yOSA5OC4yNyAxMzcuNTggMTA0LjU0IDE0MiAxMTEgQzE0Mi4zMyA3NC4zNyAxNDIuNjYgMzcuNzQgMTQzIDAgQzE2Mi40NyAwIDE4MS45NCAwIDIwMiAwIEMyMDIgNzAuMjkgMjAyIDE0MC41OCAyMDIgMjEzIEMxODEuNTQgMjEzIDE2MS4wOCAyMTMgMTQwIDIxMyBDMTM3LjM2IDIwOS4wNCAxMzQuNzIgMjA1LjA4IDEzMiAyMDEgQzEyOS41ODkzNDcyOCAxOTcuNDMzMTY1MTMgMTI3LjE3NTAyNDk2IDE5My44Njk1MDYzNCAxMjQuNzUgMTkwLjMxMjUgQzEyNC4xMDQ1MDE5NSAxODkuMzY1NTIyNDYgMTIzLjQ1OTAwMzkxIDE4OC40MTg1NDQ5MiAxMjIuNzkzOTQ1MzEgMTg3LjQ0Mjg3MTA5IEMxMTguMzQ4NzEyMyAxODAuOTM3MTQ0NDEgMTEzLjg0MDM1OTY1IDE3NC40Nzk5NDc3NSAxMDkuMjgwNTE3NTggMTY4LjA1NDE5OTIyIEMxMDQuMTA2MjMwNjUgMTYwLjc1ODA0NDc2IDk5LjA1MTY0OTk0IDE1My4zODEzNDc3MiA5NCAxNDYgQzkyLjIzMDUzODQ2IDE0My40MTU3MjM2NCA5MC40NTk4MDUzNSAxNDAuODMyMzI2OTYgODguNjg3NSAxMzguMjUgQzg4LjI0MzU3OTEgMTM3LjYwMzEzMjMyIDg3Ljc5OTY1ODIgMTM2Ljk1NjI2NDY1IDg3LjM0MjI4NTE2IDEzNi4yODk3OTQ5MiBDODIuOTc5NzE2ODggMTI5Ljk0NjQxNDAxIDc4LjU1ODY0MzIgMTIzLjY0NDE2OTg1IDc0LjEyMTgyNjE3IDExNy4zNTI1MzkwNiBDNjkuNjMzNzE0OTUgMTEwLjk2ODIxODk1IDY1LjMzMzMzMDU3IDEwNC40OTk5OTU4NiA2MSA5OCBDNjAuNjcgMTM1Ljk1IDYwLjM0IDE3My45IDYwIDIxMyBDNDAuMiAyMTMgMjAuNCAyMTMgMCAyMTMgQzAgMTQyLjcxIDAgNzIuNDIgMCAwIFogIiBmaWxsPSIjRkJGQkZCIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MDYsMzc3KSIvPgo8cGF0aCBkPSJNMCAwIEMyOC42NzkwNjI1IC0wLjA5MjgxMjUgMjguNjc5MDYyNSAtMC4wOTI4MTI1IDU3LjkzNzUgLTAuMTg3NSBDNjMuOTQzMTYxNjIgLTAuMjE0ODEyMDEgNjkuOTQ4ODIzMjQgLTAuMjQyMTI0MDIgNzYuMTM2NDc0NjEgLTAuMjcwMjYzNjcgQzgzLjU0OTkyNjc2IC0wLjI4MzgxMzQ4IDgzLjU0OTkyNjc2IC0wLjI4MzgxMzQ4IDg3LjAzNTkwMzkzIC0wLjI4NjMzMTE4IEM4OS40MzY4NDA1NyAtMC4yOTA4OTU2IDkxLjgzNzc3MDk0IC0wLjMwMTM1NzQyIDk0LjIzODY2MjcyIC0wLjMxNjcyNjY4IEMxMjkuNDA5NTQxMTcgLTAuNTMwMzQxOTkgMTI5LjQwOTU0MTE3IC0wLjUzMDM0MTk5IDE0My41IDYuMjUgQzE0NC40ODI4Njk4NyA2LjcwMTI1MjQ0IDE0NC40ODI4Njk4NyA2LjcwMTI1MjQ0IDE0NS40ODU1OTU3IDcuMTYxNjIxMDkgQzE1My4wOTMxMzMyMSAxMC43ODg3NDQyNCAxNTkuMjkyMzc5OCAxNS44MTY3NDQ3OSAxNjUgMjIgQzE2Ni4yMDY1NjI1IDIzLjI2ODQzNzUgMTY2LjIwNjU2MjUgMjMuMjY4NDM3NSAxNjcuNDM3NSAyNC41NjI1IEMxNzkuMzg1MTc3OTggMzkuMTE5MDA2NCAxODAuNDI2NDE2MzYgNTguMDM2NTU4ODEgMTc5IDc2IEMxNzguMTI1NTEwODUgODEuMzA5NDc4MTYgMTc2LjI0MjU0NDI0IDg2LjEyMzE3NTk0IDE3NCA5MSBDMTczLjQ4MDUwNzgxIDkyLjEzODI0MjE5IDE3Mi45NjEwMTU2MyA5My4yNzY0ODQzNyAxNzIuNDI1NzgxMjUgOTQuNDQ5MjE4NzUgQzE2NS41ODI3MzI3MiAxMDguMTgzMTY5MyAxNTQuOTU0MDQzODIgMTE4LjUxMjg5MDA0IDE0MSAxMjUgQzE0MS41ODUxMTg1MyAxMjkuMDcxOTI4NTggMTQyLjg5NTUwNTEgMTMxLjg5MTgwODMgMTQ1LjAyNzM0Mzc1IDEzNS4zOTQ1MzEyNSBDMTQ1LjY0OTE1NTI3IDEzNi40MjM2MDU5NiAxNDYuMjcwOTY2OCAxMzcuNDUyNjgwNjYgMTQ2LjkxMTYyMTA5IDEzOC41MTI5Mzk0NSBDMTQ3LjU4MDE2MTEzIDEzOS42MDE3OTQ0MyAxNDguMjQ4NzAxMTcgMTQwLjY5MDY0OTQxIDE0OC45Mzc1IDE0MS44MTI1IEMxNDkuNjMxNTY0MzMgMTQyLjk1NDM0MTgzIDE1MC4zMjUwODIyOSAxNDQuMDk2NTE1OTQgMTUxLjAxODA2NjQxIDE0NS4yMzkwMTM2NyBDMTU0Ljk2MDU1NTUgMTUxLjcyNTkzMjU3IDE1OC45NTQ5NDg1NyAxNTguMTgwMjM2NiAxNjMuMDAyOTI5NjkgMTY0LjYwMTgwNjY0IEMxNjcuMzAzNzMwNzIgMTcxLjQ0MDA4MDI4IDE3MS40OTM1NjYyMyAxNzguMzQ1OTI2MDQgMTc1LjY4NzUgMTg1LjI1IEMxNzYuMDQ3ODUzMzkgMTg1Ljg0MjM3NDU3IDE3Ni40MDgyMDY3OSAxODYuNDM0NzQ5MTUgMTc2Ljc3OTQ3OTk4IDE4Ny4wNDUwNzQ0NiBDMTc5LjE5ODQ3Njk5IDE5MS4wMjI3ODg5NSAxODEuNjA0MzIzOTQgMTk1LjAwODE3NjQgMTg0IDE5OSBDMTg0LjM0NDAzODcgMTk5LjU3MjI2MzE4IDE4NC42ODgwNzczOSAyMDAuMTQ0NTI2MzcgMTg1LjA0MjU0MTUgMjAwLjczNDEzMDg2IEMxODYuMDM5OTkwMTEgMjAyLjM5NzgyMDczIDE4Ny4wMjk5MDgyMyAyMDQuMDY2MDE4MzMgMTg4LjAxOTUzMTI1IDIwNS43MzQzNzUgQzE4OC41OTQyMTE0MyAyMDYuNzAwODQ5NjEgMTg5LjE2ODg5MTYgMjA3LjY2NzMyNDIyIDE4OS43NjA5ODYzMyAyMDguNjYzMDg1OTQgQzE5MSAyMTEgMTkxIDIxMSAxOTEgMjEzIEMxNjYuNTggMjEzIDE0Mi4xNiAyMTMgMTE3IDIxMyBDMTEzLjA0IDIwNS43NCAxMDkuMDggMTk4LjQ4IDEwNSAxOTEgQzEwMS40NDM1MzkzOCAxODQuOTE2NDU4MzggMTAxLjQ0MzUzOTM4IDE4NC45MTY0NTgzOCA5Ny44NTU0Njg3NSAxNzguODUxNTYyNSBDOTMuMjg1ODM4NzkgMTcxLjEzNTk4OTQ0IDg4Ljg4MTgwMjQ2IDE2My4zMjI4MjQ3MiA4NC40NDQzMzU5NCAxNTUuNTMwNzYxNzIgQzgzLjkzODQ4MjEzIDE1NC42NDMwNzYwMiA4My45Mzg0ODIxMyAxNTQuNjQzMDc2MDIgODMuNDIyNDA5MDYgMTUzLjczNzQ1NzI4IEM4Mi40OTc4NjE2NCAxNTIuMTE0NzE0MTMgODEuNTc0MjE4NzMgMTUwLjQ5MTQ1NTc1IDgwLjY1MDYzNDc3IDE0OC44NjgxNjQwNiBDNzkuNTYxNTg3ODEgMTQ2Ljk3NTgyMjE2IDc4LjQ0MDAxMSAxNDUuMTAxNzg1NjIgNzcuMjg0OTEyMTEgMTQzLjI0OTAyMzQ0IEM3NiAxNDEgNzYgMTQxIDc2IDEzOSBDNzIuMzcgMTM5IDY4Ljc0IDEzOSA2NSAxMzkgQzY1IDE2My40MiA2NSAxODcuODQgNjUgMjEzIEM0My41NSAyMTMgMjIuMSAyMTMgMCAyMTMgQzAgMTQyLjcxIDAgNzIuNDIgMCAwIFogIiBmaWxsPSIjRkNGQ0ZDIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMjMyLDM3NykiLz4KPHBhdGggZD0iTTAgMCBDMjMuNzYgMCA0Ny41MiAwIDcyIDAgQzgwLjExMTg1MzA5IDE5LjcwMDIxNDY0IDgwLjExMTg1MzA5IDE5LjcwMDIxNDY0IDgzIDI3IEM4My4zNTAwOTEyNSAyNy44ODM0MTA2NCA4My43MDAxODI1IDI4Ljc2NjgyMTI5IDg0LjA2MDg4MjU3IDI5LjY3NzAwMTk1IEM4NS4yMTI2MjM2MiAzMi41ODYxNzUzMSA4Ni4zNjIzNDc5NyAzNS40OTYxMzk0MyA4Ny41MTE3MTg3NSAzOC40MDYyNSBDODguMzU5OTgzNzEgNDAuNTUyMTAwMDcgODkuMjA4MjkyMjQgNDIuNjk3OTMyOTEgOTAuMDU2NjQwNjIgNDQuODQzNzUgQzkxLjM4MDM5MTIgNDguMTkyNTM5OTUgOTIuNzAzODY1NzIgNTEuNTQxNDM3OTUgOTQuMDI2NjExMzMgNTQuODkwNjI1IEM5NS4zMTI0OTg4MSA1OC4xNDYxNTYxMyA5Ni41OTk1MTA4NCA2MS40MDEyNDA3NyA5Ny44ODY3MTg3NSA2NC42NTYyNSBDOTguMjg0NjExMDUgNjUuNjY0NDk4MjkgOTguNjgyNTAzMzYgNjYuNjcyNzQ2NTggOTkuMDkyNDUzIDY3LjcxMTU0Nzg1IEM5OS40NTk4NjA5OSA2OC42NDAxMTU5NyA5OS44MjcyNjg5OCA2OS41Njg2ODQwOCAxMDAuMjA1ODEwNTUgNzAuNTI1MzkwNjIgQzEwMC41MjkwNTgwNyA3MS4zNDM1MDIyIDEwMC44NTIzMDU2IDcyLjE2MTYxMzc3IDEwMS4xODUzNDg1MSA3My4wMDQ1MTY2IEMxMDEuOTgwMjA3MjIgNzUuMDIzNzI5NTcgMTAxLjk4MDIwNzIyIDc1LjAyMzcyOTU3IDEwMyA3NyBDMTA2LjMyMTQ0OTc0IDY5LjI5NTkzNDQ2IDEwOS4zODA5NTE2OCA2MS40OTg3OTUzNyAxMTIuMzk4NDM3NSA1My42NzE4NzUgQzExMi45OTkyMTExMiA1Mi4xMTQxODM5NiAxMTIuOTk5MjExMTIgNTIuMTE0MTgzOTYgMTEzLjYxMjEyMTU4IDUwLjUyNTAyNDQxIEMxMTUuMjg2OTgyODcgNDYuMTc4NjQ5MjUgMTE2Ljk1OTkwNjA1IDQxLjgzMTUzOTU3IDExOC42Mjg5MDYyNSAzNy40ODI5MTAxNiBDMTE5Ljg2MTM1NDUgMzQuMjczODExOTQgMTIxLjA5ODM4NTg3IDMxLjA2NjUwODAzIDEyMi4zMzU5Mzc1IDI3Ljg1OTM3NSBDMTIyLjY5OTcyNTA0IDI2LjkwNzc4NTAzIDEyMy4wNjM1MTI1NyAyNS45NTYxOTUwNyAxMjMuNDM4MzIzOTcgMjQuOTc1NzY5MDQgQzEyNi43MDkwNDcxNCAxNi41MTMzODI5OSAxMzAuMzUwOTQzMjggOC4zNDA3MDEwNiAxMzQgMCBDMTU3LjQzIDAgMTgwLjg2IDAgMjA1IDAgQzIwMi4zNiA1LjI4IDE5OS43MiAxMC41NiAxOTcgMTYgQzE5NS45NDU1NDY4NyAxOC4xMjA1MDc4MSAxOTQuODkxMDkzNzUgMjAuMjQxMDE1NjIgMTkzLjgwNDY4NzUgMjIuNDI1NzgxMjUgQzE5My4zMTYxMzI4MSAyMy40MDc0MDIzNCAxOTIuODI3NTc4MTIgMjQuMzg5MDIzNDQgMTkyLjMyNDIxODc1IDI1LjQwMDM5MDYyIEMxOTEuMzQ4NzMxNDMgMjcuMzYwNTY3OTcgMTkwLjM3NDgwMTUzIDI5LjMyMTUyMTA1IDE4OS40MDIzNDM3NSAzMS4yODMyMDMxMiBDMTg3LjA3Mjg0NTggMzUuOTU3NjQ2NjIgMTg0LjY5OTY4ODA2IDQwLjU5MzEzMjExIDE4Mi4xNzk2ODc1IDQ1LjE2Nzk2ODc1IEMxNzguNDUzMTE0OTQgNTEuOTM4Nzc1MTcgMTc0Ljk0Nzg2NzA3IDU4LjgyMDUyNDUgMTcxLjQyNzM5ODY4IDY1LjY5OTkyMDY1IEMxNjkuNDIyOTEzODcgNjkuNjE1NzM0NTQgMTY3LjQxMjY3MTU3IDczLjUyODU4OTY3IDE2NS40MDIzNDM3NSA3Ny40NDE0MDYyNSBDMTY1LjAxMTg1MzQ5IDc4LjIwMTUxNTA1IDE2NC42MjEzNjMyMiA3OC45NjE2MjM4NCAxNjQuMjE5MDM5OTIgNzkuNzQ0NzY2MjQgQzE1OS44NzQ3NTU2MSA4OC4xOTY0NDE0NyAxNTUuNDY5NTQ3OTcgOTYuNjEzOTE4NTggMTUxIDEwNSBDMTUwLjM5NDYyNDAyIDEwNi4xMzcxMTQyNiAxNDkuNzg5MjQ4MDUgMTA3LjI3NDIyODUyIDE0OS4xNjU1MjczNCAxMDguNDQ1ODAwNzggQzE0Ny40NTYwODg3MiAxMTEuNjU1NTI3OCAxNDUuNzQ0MDc1MyAxMTQuODYzODcxMzUgMTQ0LjAzMDM2NDk5IDExOC4wNzEzMTk1OCBDMTQzLjM0OTAwMTg3IDExOS4zNDY3MjM2NSAxNDIuNjY4MDI2MSAxMjAuNjIyMzM0NzUgMTQxLjk4NzQ1NzI4IDEyMS44OTgxNjI4NCBDMTQxLjAzNDkxMjM3IDEyMy42ODI5Njc0MiAxNDAuMDgwMDAxODUgMTI1LjQ2NjUwODg2IDEzOS4xMjUgMTI3LjI1IEMxMzguMjkzNTU0NjkgMTI4LjgwNDYwOTM3IDEzOC4yOTM1NTQ2OSAxMjguODA0NjA5MzcgMTM3LjQ0NTMxMjUgMTMwLjM5MDYyNSBDMTM2IDEzMyAxMzYgMTMzIDEzNCAxMzYgQzEzMy43ODc1OTQ1NiAxMzguNTA0ODU5NDcgMTMzLjY4ODc4Njg0IDE0MC45MDI0MTg0NiAxMzMuNjgxMTUyMzQgMTQzLjQwODkzNTU1IEMxMzMuNjcxMTA2NzIgMTQ0LjE2MDM5ODU2IDEzMy42NjEwNjExIDE0NC45MTE4NjE1NyAxMzMuNjUwNzExMDYgMTQ1LjY4NjA5NjE5IEMxMzMuNjE5ODIzNDMgMTQ4LjE2OTYyOTI3IDEzMy42MDI4Mjg2MSAxNTAuNjUzMDU0MjggMTMzLjU4NTkzNzUgMTUzLjEzNjcxODc1IEMxMzMuNTY3MjMwMzIgMTU0Ljg1ODc5OTU4IDEzMy41NDc2NTcyNSAxNTYuNTgwODcxMiAxMzMuNTI3MjUyMiAxNTguMzAyOTMyNzQgQzEzMy40NzU4NzczNyAxNjIuODM1MzIyODQgMTMzLjQzNjI4MDM0IDE2Ny4zNjc3NDI2OCAxMzMuMzk5MTA4ODkgMTcxLjkwMDI2ODU1IEMxMzMuMzUyMDY4ODUgMTc3LjMzODU3Mjk3IDEzMy4yOTA0NDgxMyAxODIuNzc2NzI5MjMgMTMzLjIzMTI2MjIxIDE4OC4yMTQ5MTI0MSBDMTMzLjE0Mjk4NDcyIDE5Ni40NzY1NDg2NSAxMzMuMDczMjY3MjMgMjA0LjczODE1NTU1IDEzMyAyMTMgQzExMS41NSAyMTMgOTAuMSAyMTMgNjggMjEzIEM2OC4wNDM4MjgxMiAyMDcuNjczNTkzNzUgNjguMDg3NjU2MjUgMjAyLjM0NzE4NzUgNjguMTMyODEyNSAxOTYuODU5Mzc1IEM2OC4xMzgzMTc1MiAxOTMuNDQxMjE1ODggNjguMTQwODI2MzIgMTkwLjAyMzU1ODMgNjguMTMyODEyNSAxODYuNjA1NDY4NzUgQzY4LjEyMDQyODU0IDE4MS4yMDUyOTAyNyA2OC4xMTc4NTAyNSAxNzUuODA2NjI0NjcgNjguMTgxNjQwNjIgMTcwLjQwNjczODI4IEM2OC41MjU1MDQ1MyAxNDAuMjMzNzMwMzUgNjguNTI1NTA0NTMgMTQwLjIzMzczMDM1IDU1LjI0MDcyMjY2IDExMy42NTg2OTE0MSBDNTMuNjc1NDgyNzYgMTExLjU2NjE2MDkzIDUyLjkzMzYyMzk2IDEwOS40NDAxNTM1NCA1MiAxMDcgQzUwLjg1MzgyMjI1IDEwNC42MTIxMjk2OCA0OS42OTA3NTg0MSAxMDIuMjQwMzQyMDMgNDguNSA5OS44NzUgQzQ4LjE1MjUxNzA5IDk5LjE4MTI0MjY4IDQ3LjgwNTAzNDE4IDk4LjQ4NzQ4NTM1IDQ3LjQ0NzAyMTQ4IDk3Ljc3MjcwNTA4IEM0NC43MjY1MjIzMSA5Mi4zNzA2OTk1NCA0MS45MDMyMzk4OSA4Ny4wMjY5Njc0NyAzOS4wNjI1IDgxLjY4NzUgQzM1LjI1NTg4MzkyIDc0LjUyMTExODc5IDMxLjY5MjExMDE3IDY3LjI2OTg2MTY0IDI4LjI1NjM0NzY2IDU5LjkxOTE4OTQ1IEMyNS44OTIxODE0NyA1NC44NjQwOTgxNSAyMy40NTUxMjExNSA0OS44NTUzNTA1MSAyMC45Mzc1IDQ0Ljg3NSBDMTcuODUwMDMwMiAzOC43NjE4MDk4IDE0LjkwNDQ0ODg0IDMyLjU5MjYyOTQgMTIuMDE1MTM2NzIgMjYuMzgzNTQ0OTIgQzkuMzA1OTcxNDggMjAuNTg1NTU2MzQgNi40NTc4NzA1MyAxNC44NjQwMTkxIDMuNTI1MzkwNjIgOS4xNzU3ODEyNSBDMS45NDczMjAzNCA2LjA3NzQ5MjU0IDAuODUwMTQ1NTggMy40MDA1ODIzMyAwIDAgWiAiIGZpbGw9IiNGQ0ZCRkMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwMTgsMzc3KSIvPgo8cGF0aCBkPSJNMCAwIEM0Ni41MyAwIDkzLjA2IDAgMTQxIDAgQzE0MSAxNi44MyAxNDEgMzMuNjYgMTQxIDUxIEMxMTUuNTkgNTEgOTAuMTggNTEgNjQgNTEgQzY0IDYzLjU0IDY0IDc2LjA4IDY0IDg5IEM4Ny40MyA4OSAxMTAuODYgODkgMTM1IDg5IEMxMzUgMTA1LjUgMTM1IDEyMiAxMzUgMTM5IEMxMTEuNTcgMTM5IDg4LjE0IDEzOSA2NCAxMzkgQzY0IDE2My40MiA2NCAxODcuODQgNjQgMjEzIEM0Mi44OCAyMTMgMjEuNzYgMjEzIDAgMjEzIEMwIDE0Mi43MSAwIDcyLjQyIDAgMCBaICIgZmlsbD0iI0ZDRkNGQyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzM5LDM3NykiLz4KPHBhdGggZD0iTTAgMCBDMjEuNzggMCA0My41NiAwIDY2IDAgQzY2IDUyLjE0IDY2IDEwNC4yOCA2NiAxNTggQzkwLjc1IDE1OCAxMTUuNSAxNTggMTQxIDE1OCBDMTQxIDE3Ni4xNSAxNDEgMTk0LjMgMTQxIDIxMyBDOTQuNDcgMjEzIDQ3Ljk0IDIxMyAwIDIxMyBDMCAxNDIuNzEgMCA3Mi40MiAwIDAgWiAiIGZpbGw9IiNGQkZCRkIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDkwMywzNzcpIi8+CjxwYXRoIGQ9Ik0wIDAgQzIxLjQ1IDAgNDIuOSAwIDY1IDAgQzY1IDcwLjI5IDY1IDE0MC41OCA2NSAyMTMgQzQzLjU1IDIxMyAyMi4xIDIxMyAwIDIxMyBDMCAxNDIuNzEgMCA3Mi40MiAwIDAgWiAiIGZpbGw9IiNGQ0ZCRkMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwNSwzNzcpIi8+CjxwYXRoIGQ9Ik0wIDAgQzAuOTc3NTE3MjQgLTAuMDA0Mjg1MTMgMS45NTUwMzQ0OCAtMC4wMDg1NzAyNSAyLjk2MjE3MzQ2IC0wLjAxMjk4NTIzIEM1LjAyNTYzNzA3IC0wLjAxODcxNzc5IDcuMDg5MTIwODkgLTAuMDE5MjM2NzIgOS4xNTI1ODc4OSAtMC4wMTQ4OTI1OCBDMTIuMzAxOTQ3MTkgLTAuMDExNzMzMjUgMTUuNDUwMzY2MTUgLTAuMDM1MjAzMzMgMTguNTk5NjA5MzggLTAuMDYwNTQ2ODggQzIwLjYwODA3MTc0IC0wLjA2MjgyMDEgMjIuNjE2NTM2NjEgLTAuMDYzNTIzMjUgMjQuNjI1IC0wLjA2MjUgQzI1LjU2MjY2NzA4IC0wLjA3MTcwOTc1IDI2LjUwMDMzNDE3IC0wLjA4MDkxOTQ5IDI3LjQ2NjQxNTQxIC0wLjA5MDQwODMzIEMzNC4zODg4MTY3MSAtMC4wNDE2NTA5NyAzOC40MzA0OTU0NCAxLjExMDE2NDUyIDQzLjcxMjQwMjM0IDUuODM1OTM3NSBDNDYuOTM3NzA2NzUgMTAuMDQwNTk3MTEgNDYuNTk2OTU4MzIgMTQuNjM2NTA5MSA0Ni41NDI5Njg3NSAxOS43MzgyODEyNSBDNDYuNTQ3NzUyMzggMjAuNzM2NTc5NTkgNDYuNTUyNTM2MDEgMjEuNzM0ODc3OTMgNDYuNTU3NDY0NiAyMi43NjM0Mjc3MyBDNDYuNTYwODU3NjQgMjQuODY4MDE3MzkgNDYuNTUxNjk3MDkgMjYuOTcyNjYwMTggNDYuNTMwNzYxNzIgMjkuMDc3MTQ4NDQgQzQ2LjUwMzk4ODQ1IDMyLjI5MDkxMzczIDQ2LjUzMDUzMDY1IDM1LjUwMTE4NjU2IDQ2LjU2MjUgMzguNzE0ODQzNzUgQzQ2LjU1OTE5NTggNDAuNzY0MzMwNTkgNDYuNTUyNzg5MzUgNDIuODEzODE1MjcgNDYuNTQyOTY4NzUgNDQuODYzMjgxMjUgQzQ2LjU1ODE1MDQ4IDQ2LjI5Nzg4Njk2IDQ2LjU1ODE1MDQ4IDQ2LjI5Nzg4Njk2IDQ2LjU3MzYzODkyIDQ3Ljc2MTQ3NDYxIEM0Ni40OTc4OTc2OSA1Mi4wOTIwMzM1NyA0Ni4zNTM3NTgyMSA1NS4zMjEyNDk3NSA0My42NDk5MDIzNCA1OC44MjgxMjUgQzM5LjY4MTAyMDE0IDYyLjM2OTY5NjcyIDM2LjI3ODc3ODU3IDYzLjU0MjQ0MzE0IDMxLjAwMDI0NDE0IDYzLjU5MTMwODU5IEMzMC4wNTg5OTE4NSA2My42MDQwNjgzIDI5LjExNzczOTU2IDYzLjYxNjgyOCAyOC4xNDc5NjQ0OCA2My42Mjk5NzQzNyBDMjcuMTQyNjUxODIgNjMuNjMyMjAwMDEgMjYuMTM3MzM5MTcgNjMuNjM0NDI1NjYgMjUuMTAxNTYyNSA2My42MzY3MTg3NSBDMjQuMDU3NDU3MTIgNjMuNjQzMzc1NTUgMjMuMDEzMzUxNzUgNjMuNjUwMDMyMzUgMjEuOTM3NjA2ODEgNjMuNjU2ODkwODcgQzE5LjczMjkxNzg3IDYzLjY2NzAwMDU4IDE3LjUyODE5ODQzIDYzLjY3MTcwODQxIDE1LjMyMzQ4NjMzIDYzLjY3MTM4NjcyIEMxMS45NTY2ODAyNSA2My42NzU3NjE0IDguNTkxMTgzODMgNjMuNzEyMTA0MiA1LjIyNDYwOTM4IDYzLjc1IEMzLjA3OTQzMTU1IDYzLjc1NTg2ODIzIDAuOTM0MjQ3NTIgNjMuNzU5ODM3NTggLTEuMjEwOTM3NSA2My43NjE3MTg3NSBDLTIuMjE0MjI1OTIgNjMuNzc2MDg5NzggLTMuMjE3NTE0MzQgNjMuNzkwNDYwODIgLTQuMjUxMjA1NDQgNjMuODA1MjY3MzMgQy0xMC4wMDE0MDI0IDYzLjc2NzgwMTk3IC0xMy43MzEyNTcyNiA2My40MTEzMDcyOCAtMTguMTIxMDkzNzUgNTkuMzAwNzgxMjUgQy0yMS42NzYwNzY0NyA1NC4yMzQ1NDI0NyAtMjEuNjAzMDg2NzggNDkuMzA1ODg0NjMgLTIxLjYyNSA0My4zMzU5Mzc1IEMtMjEuNjM0OTg1MiA0Mi4zODQ0MDI5MiAtMjEuNjQ0OTcwNCA0MS40MzI4NjgzNSAtMjEuNjU1MjU4MTggNDAuNDUyNDk5MzkgQy0yMS42NzA0MDAxOCAzOC40NDYzMjI5NCAtMjEuNjc3NDg1MTkgMzYuNDQwMDcxNDIgLTIxLjY3NzAwMTk1IDM0LjQzMzgzNzg5IEMtMjEuNjgzNTY2NzggMzEuMzc1ODQzODggLTIxLjczODA5Nzk4IDI4LjMyMTA5MjU5IC0yMS43OTQ5MjE4OCAyNS4yNjM2NzE4OCBDLTIxLjgwMzcyNDU2IDIzLjMwODYwNDc5IC0yMS44MDk2NzgzNiAyMS4zNTM1MjIzNyAtMjEuODEyNSAxOS4zOTg0Mzc1IEMtMjEuODM0MDU2NTUgMTguNDkwOTQyNTQgLTIxLjg1NTYxMzEgMTcuNTgzNDQ3NTcgLTIxLjg3NzgyMjg4IDE2LjY0ODQ1Mjc2IEMtMjEuODE2ODM5NTMgMTAuOTU5NTY4MzggLTIwLjgwNDQyNzIxIDcuNjk5MzAwNDQgLTE2LjcyNTIxOTczIDMuNjM2MDE2ODUgQy0xMS43MjkzMTI1MiAtMC41MjI0NTUyNiAtNi4yMDgyODIzNSAtMC4wMDYwMjE0MiAwIDAgWiAiIGZpbGw9IiNDMEY3MjIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQyMy4xMjEwOTM3NSwyOTAuNjk5MjE4NzUpIi8+CjxwYXRoIGQ9Ik0wIDAgQzguNjYyNSAtMC4xNTQ2ODc1IDguNjYyNSAtMC4xNTQ2ODc1IDE3LjUgLTAuMzEyNSBDMTkuMzA2NjIxMDkgLTAuMzU4MDIwMDIgMjEuMTEzMjQyMTkgLTAuNDAzNTQwMDQgMjIuOTc0NjA5MzggLTAuNDUwNDM5NDUgQzM3LjU4MTUzMzQxIC0wLjY2NTMyMTg4IDM3LjU4MTUzMzQxIC0wLjY2NTMyMTg4IDQ0IDUgQzQ5LjMxNzQ4MzE5IDEwLjcyNjUyMDM2IDQ5LjQ2ODk4NTQ3IDE1LjgxNTI1NzgzIDQ5LjQwNjI1IDIzLjQwNjI1IEM0OC44MDcwODYyMyAyOC43MDY1NDQ4NyA0Ni44ODUzMDg0MSAzMi4zNjU2MDE5MiA0MyAzNiBDMzcuNTkwMzQ2NjUgMzkuNjYzMTQyMzIgMzMuOTA3NjMyNjYgNDAuNTY5MDgxMTkgMjcuNDQxNDA2MjUgNDAuMzkwNjI1IEMyNi4zOTA0Mzc2MiA0MC4zODQ1ODI1MiAyNi4zOTA0Mzc2MiA0MC4zODQ1ODI1MiAyNS4zMTgyMzczIDQwLjM3ODQxNzk3IEMyMi43MzI3MjAyNiA0MC4zNTc2OTAxNCAyMC4xNDc1ODAyNyA0MC4zMDE4NDYxMyAxNy41NjI1IDQwLjI1IEMxMS43NjY4NzUgNDAuMTY3NSA1Ljk3MTI1IDQwLjA4NSAwIDQwIEMwIDI2LjggMCAxMy42IDAgMCBaICIgZmlsbD0iIzA1MDQwNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTI5Nyw0MjcpIi8+Cgo8L3N2Zz4K" alt="INFLYR" style="height:38px;display:block;">
   </a>
   <ul class="nav-links">
     <li><a href="#" onclick="showPage('brands');return false;">For Brands</a></li>
@@ -2646,7 +2909,7 @@ footer {
       <div class="number-label">Performance-Focused</div>
     </div>
   </div>
-  <p style="color:var(--muted);font-family:'DM Mono',monospace;font-size:0.7rem;margin-top:24px;text-align:center">INFLYR is early-stage. These reflect our operating commitments — not inflated vanity metrics.</p>
+
 </section>
 
 <div class="divider"></div>
@@ -2663,148 +2926,137 @@ footer {
     <button class="network-tab-btn brand" onclick="switchNetworkTab('brand')">🛍️ Brands</button>
   </div>
 
-  <!-- CREATOR FILTERS -->
-  <div id="creator-filters" class="filter-bar reveal">
-    <div class="filter-row">
-      <div class="filter-group">
-        <label class="filter-label">Niche</label>
-        <select class="filter-select" id="f-niche" onchange="applyFilters()">
-          <option value="">All Niches</option>
-          <option>Skincare & Beauty</option>
-          <option>Fashion & Lifestyle</option>
-          <option>Fitness & Health</option>
-          <option>Food & Cooking</option>
-          <option>Comedy & Entertainment</option>
-          <option>Travel & Vlogs</option>
-          <option>Tech & Gadgets</option>
-          <option>Finance & Business</option>
-          <option>Parenting & Family</option>
-          <option>Gaming</option>
-          <option>Education</option>
-          <option>Motivation</option>
-          <option>Dance & Music</option>
-          <option>Spiritual</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Creator Size</label>
-        <select class="filter-select" id="f-size" onchange="applyFilters()">
-          <option value="">All Sizes</option>
-          <option value="nano">Nano (0–1K)</option>
-          <option value="micro-s">Micro-S (1K–5K)</option>
-          <option value="micro">Micro (5K–10K)</option>
-          <option value="micro-m">Micro-M (10K–50K)</option>
-          <option value="micro-l">Micro-L (50K–100K)</option>
-          <option value="macro">Macro (100K–500K)</option>
-          <option value="mega">Mega (500K–1M)</option>
-          <option value="celeb">Celebrity (1M+)</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Language</label>
-        <select class="filter-select" id="f-lang" onchange="applyFilters()">
-          <option value="">All Languages</option>
-          <option>Hindi</option>
-          <option>English</option>
-          <option>Hinglish</option>
-          <option>Tamil</option>
-          <option>Telugu</option>
-          <option>Kannada</option>
-          <option>Malayalam</option>
-          <option>Bengali</option>
-          <option>Marathi</option>
-          <option>Gujarati</option>
-          <option>Punjabi</option>
-          <option>Odia</option>
-          <option>Bhojpuri</option>
-          <option>Rajasthani</option>
-          <option>Haryanvi</option>
-          <option>Assamese</option>
-          <option>Maithili</option>
-          <option>Urdu</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Platform</label>
-        <select class="filter-select" id="f-platform" onchange="applyFilters()">
-          <option value="">All Platforms</option>
-          <option>Instagram</option>
-          <option>YouTube</option>
-          <option>Instagram + YouTube</option>
-          <option>Reels</option>
-          <option>LinkedIn</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Location</label>
-        <select class="filter-select" id="f-location" onchange="applyFilters()">
-          <option value="">All India</option>
-          <optgroup label="Metro Cities">
-            <option>Mumbai</option><option>Delhi</option><option>Bengaluru</option>
-            <option>Chennai</option><option>Hyderabad</option><option>Kolkata</option>
-            <option>Pune</option><option>Ahmedabad</option>
-          </optgroup>
-          <optgroup label="Tier 2 Cities">
-            <option>Lucknow</option><option>Jaipur</option><option>Surat</option>
-            <option>Kanpur</option><option>Nagpur</option><option>Indore</option>
-            <option>Bhopal</option><option>Patna</option><option>Ludhiana</option>
-            <option>Agra</option><option>Varanasi</option><option>Nashik</option>
-            <option>Vadodara</option><option>Rajkot</option><option>Meerut</option>
-            <option>Coimbatore</option><option>Mysuru</option><option>Kochi</option>
-            <option>Guwahati</option><option>Chandigarh</option><option>Amritsar</option>
-            <option>Visakhapatnam</option><option>Bhubaneswar</option><option>Raipur</option>
-            <option>Dehradun</option><option>Ranchi</option><option>Jodhpur</option>
-          </optgroup>
-          <optgroup label="States">
-            <option>Uttar Pradesh</option><option>Maharashtra</option><option>Karnataka</option>
-            <option>Tamil Nadu</option><option>Rajasthan</option><option>Gujarat</option>
-            <option>West Bengal</option><option>Telangana</option><option>Andhra Pradesh</option>
-            <option>Madhya Pradesh</option><option>Bihar</option><option>Punjab</option>
-            <option>Haryana</option><option>Kerala</option><option>Odisha</option>
-            <option>Assam</option><option>Uttarakhand</option><option>Himachal Pradesh</option>
-            <option>Jharkhand</option><option>Chhattisgarh</option><option>Goa</option>
-            <option>Jammu & Kashmir</option><option>Northeast India</option>
-          </optgroup>
-        </select>
-      </div>
-    </div>
-    <div class="filter-meta">
+  <!-- CREATOR FILTER BUTTON ROW -->
+  <div id="creator-filter-area" class="reveal">
+    <div class="network-filter-row">
+      <button class="filter-btn" id="creator-filter-btn" onclick="toggleFilterPanel('creator')">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 2h11M3 6.5h7M5 11h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        FILTER
+        <span class="filter-badge" id="creator-badge">0</span>
+      </button>
+      <button class="filter-clear-chip" id="creator-clear-chip" onclick="clearFilters()">✕ Clear</button>
       <span id="filter-count" class="filter-count"></span>
-      <button class="filter-clear" id="filter-clear-btn" onclick="clearFilters()" style="display:none">✕ Clear filters</button>
+    </div>
+    <!-- Slide-down panel -->
+    <div id="creator-filter-panel" class="filter-panel">
+      <div class="filter-row">
+        <div class="filter-group">
+          <label class="filter-label">Niche</label>
+          <select class="filter-select" id="f-niche" onchange="applyFilters()">
+            <option value="">All Niches</option>
+            <option>Skincare & Beauty</option><option>Fashion & Lifestyle</option>
+            <option>Fitness & Health</option><option>Food & Cooking</option>
+            <option>Comedy & Entertainment</option><option>Travel & Vlogs</option>
+            <option>Tech & Gadgets</option><option>Finance & Business</option>
+            <option>Parenting & Family</option><option>Gaming</option>
+            <option>Education</option><option>Motivation</option>
+            <option>Dance & Music</option><option>Spiritual</option><option>Other</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Creator Size</label>
+          <select class="filter-select" id="f-size" onchange="applyFilters()">
+            <option value="">All Sizes</option>
+            <option value="nano">Nano (0–1K)</option><option value="micro-s">Micro-S (1K–5K)</option>
+            <option value="micro">Micro (5K–10K)</option><option value="micro-m">Micro-M (10K–50K)</option>
+            <option value="micro-l">Micro-L (50K–100K)</option><option value="macro">Macro (100K–500K)</option>
+            <option value="mega">Mega (500K–1M)</option><option value="celeb">Celebrity (1M+)</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Language</label>
+          <select class="filter-select" id="f-lang" onchange="applyFilters()">
+            <option value="">All Languages</option>
+            <option>Hindi</option><option>English</option><option>Hinglish</option>
+            <option>Tamil</option><option>Telugu</option><option>Kannada</option>
+            <option>Malayalam</option><option>Bengali</option><option>Marathi</option>
+            <option>Gujarati</option><option>Punjabi</option><option>Odia</option>
+            <option>Bhojpuri</option><option>Rajasthani</option><option>Haryanvi</option>
+            <option>Assamese</option><option>Maithili</option><option>Urdu</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Platform</label>
+          <select class="filter-select" id="f-platform" onchange="applyFilters()">
+            <option value="">All Platforms</option>
+            <option>Instagram</option><option>YouTube</option>
+            <option>Instagram + YouTube</option><option>Reels</option><option>LinkedIn</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Location</label>
+          <select class="filter-select" id="f-location" onchange="applyFilters()">
+            <option value="">All India</option>
+            <optgroup label="Metro Cities">
+              <option>Mumbai</option><option>Delhi</option><option>Bengaluru</option>
+              <option>Chennai</option><option>Hyderabad</option><option>Kolkata</option>
+              <option>Pune</option><option>Ahmedabad</option>
+            </optgroup>
+            <optgroup label="Tier 2 Cities">
+              <option>Lucknow</option><option>Jaipur</option><option>Surat</option>
+              <option>Kanpur</option><option>Nagpur</option><option>Indore</option>
+              <option>Bhopal</option><option>Patna</option><option>Varanasi</option>
+              <option>Nashik</option><option>Coimbatore</option><option>Kochi</option>
+              <option>Chandigarh</option><option>Dehradun</option>
+            </optgroup>
+            <optgroup label="States">
+              <option>Uttar Pradesh</option><option>Maharashtra</option><option>Karnataka</option>
+              <option>Tamil Nadu</option><option>Rajasthan</option><option>Gujarat</option>
+              <option>West Bengal</option><option>Telangana</option><option>Bihar</option>
+              <option>Punjab</option><option>Haryana</option><option>Kerala</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- BRAND FILTERS -->
-  <div id="brand-filters" class="filter-bar reveal" style="display:none">
-    <div class="filter-row">
-      <div class="filter-group">
-        <label class="filter-label">Industry</label>
-        <select class="filter-select" id="fb-industry" onchange="applyBrandFilters()">
-          <option value="">All Industries</option>
-          <option>Skincare / Beauty</option><option>Food & Beverage</option>
-          <option>Fitness & Supplements</option><option>Fashion & Apparel</option>
-          <option>Electronics / Gadgets</option><option>Home & Lifestyle</option>
-          <option>Finance / EdTech</option><option>Healthcare</option><option>Other</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label class="filter-label">Campaign Type</label>
-        <select class="filter-select" id="fb-type" onchange="applyBrandFilters()">
-          <option value="">All Types</option>
-          <option>UGC</option><option>Influencer Campaign</option>
-          <option>Affiliate</option><option>Regional</option><option>Full Stack</option>
-        </select>
-      </div>
-    </div>
-    <div class="filter-meta">
+  <!-- BRAND FILTER BUTTON ROW -->
+  <div id="brand-filter-area" class="reveal" style="display:none">
+    <div class="network-filter-row">
+      <button class="filter-btn" id="brand-filter-btn" onclick="toggleFilterPanel('brand')">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 2h11M3 6.5h7M5 11h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        FILTER
+        <span class="filter-badge" id="brand-badge">0</span>
+      </button>
+      <button class="filter-clear-chip" id="brand-clear-chip" onclick="clearBrandFilters()">✕ Clear</button>
       <span id="brand-filter-count" class="filter-count"></span>
-      <button class="filter-clear" id="brand-filter-clear-btn" onclick="clearBrandFilters()" style="display:none">✕ Clear filters</button>
+    </div>
+    <div id="brand-filter-panel" class="filter-panel">
+      <div class="filter-row">
+        <div class="filter-group">
+          <label class="filter-label">Industry</label>
+          <select class="filter-select" id="fb-industry" onchange="applyBrandFilters()">
+            <option value="">All Industries</option>
+            <option>Skincare / Beauty</option><option>Food & Beverage</option>
+            <option>Fitness & Supplements</option><option>Fashion & Apparel</option>
+            <option>Electronics / Gadgets</option><option>Home & Lifestyle</option>
+            <option>Finance / EdTech</option><option>Healthcare</option><option>Other</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label class="filter-label">Campaign Type</label>
+          <select class="filter-select" id="fb-type" onchange="applyBrandFilters()">
+            <option value="">All Types</option>
+            <option>UGC</option><option>Influencer Campaign</option>
+            <option>Affiliate</option><option>Regional</option><option>Full Stack</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div id="network-creator-grid" class="network-grid reveal"></div>
-  <div id="network-brand-grid" class="network-grid reveal" style="display:none"></div>
+  <!-- SCROLL STRIP: CREATOR -->
+  <div id="creator-scroll-wrap" class="network-scroll-wrap reveal">
+    <div id="network-creator-grid" class="network-grid"></div>
+  </div>
+
+
+  <!-- SCROLL STRIP: BRAND -->
+  <div id="brand-scroll-wrap" class="network-scroll-wrap reveal" style="display:none">
+    <div id="network-brand-grid" class="network-grid"></div>
+  </div>
+
 
   <div id="network-join-btn" style="text-align:center;margin-top:36px" class="reveal">
     <a href="#" onclick="showPage('creators');setTimeout(()=>{document.getElementById('creator-form')?.scrollIntoView({behavior:'smooth'})},150);return false;" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;padding:13px 28px;border-radius:6px;text-decoration:none;font-size:.9rem;transition:background .2s" onmouseover="this.style.background='#7040e0'" onmouseout="this.style.background='var(--purple)'">🎬 Apply as Creator →</a>
@@ -3294,27 +3546,46 @@ footer {
         <div id="caf-lang-error" style="display:none;color:var(--error);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:6px">Please select at least one language</div>
       </div>
 
+      <!-- PINCODE + LOCATION -->
       <div class="form-group">
-        <label class="form-label">Content Niche *</label>
-        <select name="niche" class="form-input" required>
-          <option value="" disabled selected>Select niche</option>
-          <option>Fashion & Style</option>
-          <option>Beauty & Makeup</option>
-          <option>Skincare</option>
-          <option>Food & Cooking</option>
-          <option>Travel & Lifestyle</option>
-          <option>Tech & Gaming</option>
-          <option>Fitness & Health</option>
-          <option>Finance & Business</option>
-          <option>Comedy & Entertainment</option>
-          <option>Education</option>
-          <option>Parenting & Family</option>
-          <option>Dance & Music</option>
-          <option>Motivation & Mindset</option>
-          <option>Spiritual</option>
-          <option>Other</option>
-        </select>
+        <label class="form-label">Pincode * <span style="color:var(--muted);font-size:.7rem">(auto-fills location)</span></label>
+        <div style="display:flex;gap:8px">
+          <input type="text" id="caf-pincode" name="pincode" class="form-input" placeholder="e.g. 226001" maxlength="6" pattern="[0-9]{6}" required style="flex:1" oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)fetchPincodeLocation(this.value)">
+          <button type="button" onclick="fetchPincodeLocation(document.getElementById('caf-pincode').value)" style="background:var(--ink-3);border:1px solid var(--ink-3);color:var(--chalk);padding:0 14px;border-radius:4px;cursor:pointer;font-family:'DM Mono',monospace;font-size:.72rem;white-space:nowrap">Fetch</button>
+        </div>
+        <div id="caf-pincode-status" style="font-family:'DM Mono',monospace;font-size:.72rem;margin-top:6px;color:var(--muted)"></div>
+        <input type="hidden" name="pincode_city" id="caf-pincode-city">
+        <input type="hidden" name="pincode_district" id="caf-pincode-district">
+        <input type="hidden" name="pincode_state" id="caf-pincode-state">
+        <input type="hidden" name="pincode_post_office" id="caf-pincode-po">
       </div>
+
+      <!-- NICHE MULTI-SELECT PILLS -->
+      <div class="form-group">
+        <label class="form-label">Content Niche * <span style="color:var(--muted);font-size:.7rem">(select all that apply)</span></label>
+        <div class="caf-pill-row" id="caf-niche-pills" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+          <button type="button" class="caf-pill" data-niche="Fashion & Style" onclick="cafToggleNiche(this)">Fashion & Style</button>
+          <button type="button" class="caf-pill" data-niche="Beauty & Makeup" onclick="cafToggleNiche(this)">Beauty & Makeup</button>
+          <button type="button" class="caf-pill" data-niche="Skincare" onclick="cafToggleNiche(this)">Skincare</button>
+          <button type="button" class="caf-pill" data-niche="Food & Cooking" onclick="cafToggleNiche(this)">Food & Cooking</button>
+          <button type="button" class="caf-pill" data-niche="Travel & Lifestyle" onclick="cafToggleNiche(this)">Travel & Lifestyle</button>
+          <button type="button" class="caf-pill" data-niche="Tech & Gaming" onclick="cafToggleNiche(this)">Tech & Gaming</button>
+          <button type="button" class="caf-pill" data-niche="Fitness & Health" onclick="cafToggleNiche(this)">Fitness & Health</button>
+          <button type="button" class="caf-pill" data-niche="Finance & Business" onclick="cafToggleNiche(this)">Finance & Business</button>
+          <button type="button" class="caf-pill" data-niche="Comedy & Entertainment" onclick="cafToggleNiche(this)">Comedy & Entertainment</button>
+          <button type="button" class="caf-pill" data-niche="Education" onclick="cafToggleNiche(this)">Education</button>
+          <button type="button" class="caf-pill" data-niche="Parenting & Family" onclick="cafToggleNiche(this)">Parenting & Family</button>
+          <button type="button" class="caf-pill" data-niche="Dance & Music" onclick="cafToggleNiche(this)">Dance & Music</button>
+          <button type="button" class="caf-pill" data-niche="Motivation & Mindset" onclick="cafToggleNiche(this)">Motivation & Mindset</button>
+          <button type="button" class="caf-pill" data-niche="Spiritual" onclick="cafToggleNiche(this)">Spiritual</button>
+          <button type="button" class="caf-pill" data-niche="Home & Decor" onclick="cafToggleNiche(this)">Home & Decor</button>
+          <button type="button" class="caf-pill" data-niche="Vlogs" onclick="cafToggleNiche(this)">Vlogs</button>
+          <button type="button" class="caf-pill" data-niche="Other" onclick="cafToggleNiche(this)">Other</button>
+        </div>
+        <input type="hidden" name="niche" id="caf-niche-val">
+        <div id="caf-niche-error" style="display:none;color:var(--error);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:6px">Please select at least one niche</div>
+      </div>
+
       <div class="form-group">
         <label class="form-label">Past Brand Collaborations (optional)</label>
         <input type="text" name="past_collabs" class="form-input" placeholder="e.g. Mamaearth, Boat, Sugar Cosmetics">
@@ -3719,11 +3990,225 @@ footer {
 </div>
 </div><!-- end legal page -->
 
+<!-- ==================== CREATOR JOIN PAGE (?join=creator) ==================== -->
+<div id="page-join" class="page">
+<section style="padding-top:100px;min-height:100svh;background:var(--ink)">
+  <div style="max-width:520px;margin:0 auto">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+      <span style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--purple);letter-spacing:.12em;text-transform:uppercase;background:rgba(138,92,246,.1);border:1px solid rgba(138,92,246,.25);padding:4px 10px;border-radius:20px">Creator Profile</span>
+    </div>
+    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,8vw,4.5rem);letter-spacing:.04em;line-height:1;margin-bottom:12px">BUILD YOUR<br><span style="color:var(--purple)">INFLYR PROFILE.</span></h1>
+    <p style="font-family:'DM Sans',sans-serif;font-size:.95rem;color:var(--secondary);line-height:1.6;margin-bottom:36px">Fill in your details below. After we review your profile (usually within 24 hrs), it goes live on the INFLYR Network — visible to D2C brands looking for creators like you.</p>
+
+    <!-- STEP INDICATOR -->
+    <div id="join-steps" style="display:flex;gap:0;margin-bottom:32px">
+      <div class="join-step active" data-step="1"><span>1</span> Basics</div>
+      <div class="join-step-line"></div>
+      <div class="join-step" data-step="2"><span>2</span> Socials</div>
+      <div class="join-step-line"></div>
+      <div class="join-step" data-step="3"><span>3</span> Niche</div>
+    </div>
+
+    <form id="joinProfileForm" onsubmit="submitJoinProfile(event)">
+
+      <!-- STEP 1: BASICS -->
+      <div id="join-step-1" class="join-step-body">
+        <div class="form-group">
+          <label class="form-label">Profile Photo</label>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:4px">
+            <div onclick="document.getElementById('jp-photo-file').click()" style="width:80px;height:80px;border-radius:50%;border:2px dashed rgba(138,92,246,.4);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;background:rgba(138,92,246,.06);font-size:2rem;transition:border-color .2s" onmouseover="this.style.borderColor='var(--purple)'" onmouseout="this.style.borderColor='rgba(138,92,246,.4)'" id="jp-photo-circle">
+              <img id="jp-photo-preview" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%" src="" alt="">
+              <span id="jp-photo-icon">📸</span>
+            </div>
+            <div>
+              <button type="button" onclick="document.getElementById('jp-photo-file').click()" style="background:none;border:1px solid rgba(138,92,246,.4);color:var(--purple);padding:8px 16px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;margin-bottom:4px;letter-spacing:.04em">Upload Photo</button>
+              <p style="font-size:.72rem;color:var(--muted);margin:0">Clear face photo recommended · Max 5MB</p>
+            </div>
+          </div>
+          <input type="file" id="jp-photo-file" accept="image/*" style="display:none" onchange="jpHandlePhoto(this)">
+          <input type="hidden" id="jp-photo-data" name="photo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Full Name *</label>
+          <input type="text" name="name" class="form-input" placeholder="Priya Singh" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email *</label>
+          <input type="email" name="email" class="form-input" placeholder="priya@email.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">WhatsApp Number *</label>
+          <input type="tel" name="whatsapp" class="form-input" placeholder="+91 98765 43210" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">City / State *</label>
+          <input type="text" name="location" class="form-input" placeholder="e.g. Lucknow, Uttar Pradesh" required>
+        </div>
+        <button type="button" class="btn-purple" style="width:100%;justify-content:center" onclick="joinNextStep(2)">Continue →</button>
+      </div>
+
+      <!-- STEP 2: SOCIALS -->
+      <div id="join-step-2" class="join-step-body" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Primary Platform *</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+            <label class="platform-pick"><input type="radio" name="platform" value="Instagram" required> <span>📸 Instagram</span></label>
+            <label class="platform-pick"><input type="radio" name="platform" value="YouTube"> <span>▶ YouTube</span></label>
+            <label class="platform-pick"><input type="radio" name="platform" value="Instagram + YouTube"> <span>◎+▶ Both</span></label>
+            <label class="platform-pick"><input type="radio" name="platform" value="LinkedIn"> <span>💼 LinkedIn</span></label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Instagram Handle</label>
+          <div style="display:flex;align-items:center;gap:0;background:var(--ink);border:1px solid var(--ink-3);border-radius:6px;overflow:hidden">
+            <span style="padding:10px 12px;color:var(--muted);font-family:'DM Mono',monospace;font-size:.8rem;background:var(--ink-2);border-right:1px solid var(--ink-3)">@</span>
+            <input type="text" name="instagram" class="form-input" style="border:none;border-radius:0;background:transparent" placeholder="yourhandle">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">YouTube Channel URL</label>
+          <input type="text" name="youtube" class="form-input" placeholder="youtube.com/@yourchannel">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total Followers / Subscribers *</label>
+          <input type="text" name="followers" id="jp-followers" class="form-input" placeholder="e.g. 12000 or 12K" required oninput="jpFollowerDisplay(this.value)">
+          <div id="jp-follower-display" style="margin-top:6px;font-family:'DM Mono',monospace;font-size:.72rem;color:var(--purple)"></div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Avg. Engagement Rate</label>
+          <select name="engagement" class="form-input">
+            <option value="">Select range</option>
+            <option>Below 2%</option><option>2%–4%</option><option>4%–7%</option><option>7%+</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button type="button" class="btn-ghost" style="flex:1;justify-content:center" onclick="joinNextStep(1)">← Back</button>
+          <button type="button" class="btn-purple" style="flex:2;justify-content:center" onclick="joinNextStep(3)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: NICHE -->
+      <div id="join-step-3" class="join-step-body" style="display:none">
+        <div class="form-group">
+          <label class="form-label">Content Niche *</label>
+          <select name="niche" class="form-input" required>
+            <option value="">Select your niche</option>
+            <option>Skincare & Beauty</option><option>Fashion & Lifestyle</option>
+            <option>Fitness & Health</option><option>Food & Cooking</option>
+            <option>Comedy & Entertainment</option><option>Travel & Vlogs</option>
+            <option>Tech & Gadgets</option><option>Finance & Business</option>
+            <option>Parenting & Family</option><option>Gaming</option>
+            <option>Education</option><option>Motivation</option>
+            <option>Dance & Music</option><option>Spiritual</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Content Language(s) *</label>
+          <div class="caf-lang-pills" id="jp-lang-pills">
+            <button type="button" class="caf-pill" data-val="Hindi" onclick="jpToggleLang(this)">Hindi</button>
+            <button type="button" class="caf-pill" data-val="English" onclick="jpToggleLang(this)">English</button>
+            <button type="button" class="caf-pill" data-val="Hinglish" onclick="jpToggleLang(this)">Hinglish</button>
+            <button type="button" class="caf-pill" data-val="Tamil" onclick="jpToggleLang(this)">Tamil</button>
+            <button type="button" class="caf-pill" data-val="Telugu" onclick="jpToggleLang(this)">Telugu</button>
+            <button type="button" class="caf-pill" data-val="Kannada" onclick="jpToggleLang(this)">Kannada</button>
+            <button type="button" class="caf-pill" data-val="Malayalam" onclick="jpToggleLang(this)">Malayalam</button>
+            <button type="button" class="caf-pill" data-val="Bengali" onclick="jpToggleLang(this)">Bengali</button>
+            <button type="button" class="caf-pill" data-val="Marathi" onclick="jpToggleLang(this)">Marathi</button>
+            <button type="button" class="caf-pill" data-val="Gujarati" onclick="jpToggleLang(this)">Gujarati</button>
+            <button type="button" class="caf-pill" data-val="Punjabi" onclick="jpToggleLang(this)">Punjabi</button>
+            <button type="button" class="caf-pill" data-val="Bhojpuri" onclick="jpToggleLang(this)">Bhojpuri</button>
+            <button type="button" class="caf-pill" data-val="Haryanvi" onclick="jpToggleLang(this)">Haryanvi</button>
+            <button type="button" class="caf-pill" data-val="Rajasthani" onclick="jpToggleLang(this)">Rajasthani</button>
+            <button type="button" class="caf-pill" data-val="Odia" onclick="jpToggleLang(this)">Odia</button>
+          </div>
+          <input type="hidden" id="jp-language-val" name="language">
+          <div id="jp-lang-error" style="display:none;color:var(--error);font-size:.75rem;margin-top:6px">Please select at least one language.</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">About You / Past Work</label>
+          <textarea name="bio" class="form-input" rows="3" style="resize:vertical;min-height:70px" placeholder="Tell brands what makes your content unique. Past collaborations, content style, anything relevant..."></textarea>
+        </div>
+        <div style="background:rgba(138,92,246,.06);border:1px solid rgba(138,92,246,.2);border-radius:8px;padding:14px;margin-bottom:20px">
+          <p style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--purple);margin:0;line-height:1.6">✓ Your profile will be reviewed within 24 hrs<br>✓ After approval, it goes live on the INFLYR Network<br>✓ D2C brands will see your profile and match campaigns</p>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button type="button" class="btn-ghost" style="flex:1;justify-content:center" onclick="joinNextStep(2)">← Back</button>
+          <button type="submit" id="jp-submit-btn" class="btn-purple" style="flex:2;justify-content:center">Submit Profile →</button>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- SUCCESS STATE -->
+    <div id="join-success" style="display:none;text-align:center;padding:40px 0">
+      <div style="font-size:3.5rem;margin-bottom:16px">🎉</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--lime);letter-spacing:.04em;margin-bottom:12px">PROFILE SUBMITTED!</h2>
+      <p style="font-family:'DM Sans',sans-serif;color:var(--secondary);line-height:1.6;margin-bottom:24px">We'll review your profile and WhatsApp you within 24 hours. Once approved, your profile goes live on the INFLYR Creator Network.</p>
+      <a href="https://wa.me/916307041225?text=Hi%20INFLYR!%20I%20just%20submitted%20my%20creator%20profile." target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;padding:12px 24px;border-radius:6px;text-decoration:none;font-size:.9rem">💬 Say Hi on WhatsApp</a>
+    </div>
+  </div>
+</section>
+</div><!-- end join page -->
+
+<!-- ==================== ADMIN PAGE (?admin=PASSWORD) ==================== -->
+<div id="page-admin" class="page">
+<section style="padding-top:88px;min-height:100svh;background:var(--ink)">
+  <div style="max-width:900px;margin:0 auto">
+    <!-- AUTH GATE -->
+    <div id="admin-auth" style="max-width:320px">
+      <div class="section-label">Admin</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.04em;margin-bottom:24px">ADMIN PANEL</h2>
+      <div class="form-group">
+        <label class="form-label">Admin Password</label>
+        <input type="password" id="admin-pw-input" class="form-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')adminLogin()">
+      </div>
+      <button onclick="adminLogin()" class="btn-primary" style="width:100%;justify-content:center">Enter →</button>
+      <div id="admin-auth-err" style="display:none;color:var(--error);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:8px">Wrong password.</div>
+    </div>
+
+    <!-- DASHBOARD (hidden until auth) -->
+    <div id="admin-dashboard" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:32px">
+        <div>
+          <div class="section-label">Admin</div>
+          <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.04em">CREATOR APPROVALS</h2>
+        </div>
+        <button onclick="adminLogout()" style="background:none;border:1px solid var(--ink-3);color:var(--muted);padding:8px 16px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.7rem;cursor:pointer;letter-spacing:.06em">LOGOUT</button>
+      </div>
+
+      <!-- TABS: PENDING / LIVE -->
+      <div style="display:flex;gap:2px;background:var(--ink-2);border:1px solid var(--ink-3);border-radius:6px;padding:4px;width:fit-content;margin-bottom:28px">
+        <button class="network-tab-btn active" id="admin-tab-pending" onclick="switchAdminTab('pending')" style="font-size:.72rem">⏳ Pending</button>
+        <button class="network-tab-btn" id="admin-tab-live" onclick="switchAdminTab('live')" style="font-size:.72rem">✅ Live Creators</button>
+      </div>
+
+      <!-- PENDING LIST -->
+      <div id="admin-pending-list">
+        <div id="admin-pending-empty" style="text-align:center;padding:48px;color:var(--muted);font-family:'DM Mono',monospace;font-size:.8rem;border:1px dashed var(--ink-3);border-radius:12px;display:none">
+          <div style="font-size:2rem;margin-bottom:8px">✅</div>No pending applications. All clear!
+        </div>
+        <div id="admin-pending-grid" style="display:grid;gap:16px"></div>
+      </div>
+
+      <!-- LIVE CREATORS LIST -->
+      <div id="admin-live-list" style="display:none">
+        <div id="admin-live-empty" style="text-align:center;padding:48px;color:var(--muted);font-family:'DM Mono',monospace;font-size:.8rem;border:1px dashed var(--ink-3);border-radius:12px;display:none">
+          <div style="font-size:2rem;margin-bottom:8px">🎬</div>No live creators yet. Approve some from Pending.
+        </div>
+        <div id="admin-live-grid" style="display:grid;gap:16px"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- end admin page -->
+
 <!-- FOOTER (shared) -->
 <footer id="mainFooter">
   <div class="footer-top">
     <div class="footer-brand">
-      <a href="#" class="nav-logo" onclick="showPage('home');return false;" style="font-size:1.5rem">INFL<span class="logo-bar"></span>R</a>
+            <a href="#" class="nav-logo" onclick="showPage('home');return false;" style="display:inline-flex;align-items:center;">
+        <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMzkwIDI3OCAxMDQ1IDMyNSIgc3R5bGU9ImJhY2tncm91bmQ6dHJhbnNwYXJlbnQ7Ij4KCjxwYXRoIGQ9Ik0wIDAgQzIxLjc4IDAgNDMuNTYgMCA2NiAwIEM3MC4yOSA2LjI3IDc0LjU4IDEyLjU0IDc5IDE5IEM4My41OTE4MTIxOCAyNS40OTM1NTkxMiA4My41OTE4MTIxOCAyNS40OTM1NTkxMiA4OC4xODc1IDMxLjk4NDM3NSBDOTEuMTU1MTI5MjMgMzYuMTk5MjEwNTcgOTQuMDE5MjUyNTQgNDAuNDc3MTc0NCA5Ni44NjIzMDQ2OSA0NC43NzY2MTEzMyBDMTA3LjM3MzE1MzM3IDYwLjY1MTk0MzY3IDExOC4yMDI5MzcxNSA3Ni4zMTg1NTE1OCAxMjkgOTIgQzEzMy4yOSA5OC4yNyAxMzcuNTggMTA0LjU0IDE0MiAxMTEgQzE0Mi4zMyA3NC4zNyAxNDIuNjYgMzcuNzQgMTQzIDAgQzE2Mi40NyAwIDE4MS45NCAwIDIwMiAwIEMyMDIgNzAuMjkgMjAyIDE0MC41OCAyMDIgMjEzIEMxODEuNTQgMjEzIDE2MS4wOCAyMTMgMTQwIDIxMyBDMTM3LjM2IDIwOS4wNCAxMzQuNzIgMjA1LjA4IDEzMiAyMDEgQzEyOS41ODkzNDcyOCAxOTcuNDMzMTY1MTMgMTI3LjE3NTAyNDk2IDE5My44Njk1MDYzNCAxMjQuNzUgMTkwLjMxMjUgQzEyNC4xMDQ1MDE5NSAxODkuMzY1NTIyNDYgMTIzLjQ1OTAwMzkxIDE4OC40MTg1NDQ5MiAxMjIuNzkzOTQ1MzEgMTg3LjQ0Mjg3MTA5IEMxMTguMzQ4NzEyMyAxODAuOTM3MTQ0NDEgMTEzLjg0MDM1OTY1IDE3NC40Nzk5NDc3NSAxMDkuMjgwNTE3NTggMTY4LjA1NDE5OTIyIEMxMDQuMTA2MjMwNjUgMTYwLjc1ODA0NDc2IDk5LjA1MTY0OTk0IDE1My4zODEzNDc3MiA5NCAxNDYgQzkyLjIzMDUzODQ2IDE0My40MTU3MjM2NCA5MC40NTk4MDUzNSAxNDAuODMyMzI2OTYgODguNjg3NSAxMzguMjUgQzg4LjI0MzU3OTEgMTM3LjYwMzEzMjMyIDg3Ljc5OTY1ODIgMTM2Ljk1NjI2NDY1IDg3LjM0MjI4NTE2IDEzNi4yODk3OTQ5MiBDODIuOTc5NzE2ODggMTI5Ljk0NjQxNDAxIDc4LjU1ODY0MzIgMTIzLjY0NDE2OTg1IDc0LjEyMTgyNjE3IDExNy4zNTI1MzkwNiBDNjkuNjMzNzE0OTUgMTEwLjk2ODIxODk1IDY1LjMzMzMzMDU3IDEwNC40OTk5OTU4NiA2MSA5OCBDNjAuNjcgMTM1Ljk1IDYwLjM0IDE3My45IDYwIDIxMyBDNDAuMiAyMTMgMjAuNCAyMTMgMCAyMTMgQzAgMTQyLjcxIDAgNzIuNDIgMCAwIFogIiBmaWxsPSIjRkJGQkZCIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSg1MDYsMzc3KSIvPgo8cGF0aCBkPSJNMCAwIEMyOC42NzkwNjI1IC0wLjA5MjgxMjUgMjguNjc5MDYyNSAtMC4wOTI4MTI1IDU3LjkzNzUgLTAuMTg3NSBDNjMuOTQzMTYxNjIgLTAuMjE0ODEyMDEgNjkuOTQ4ODIzMjQgLTAuMjQyMTI0MDIgNzYuMTM2NDc0NjEgLTAuMjcwMjYzNjcgQzgzLjU0OTkyNjc2IC0wLjI4MzgxMzQ4IDgzLjU0OTkyNjc2IC0wLjI4MzgxMzQ4IDg3LjAzNTkwMzkzIC0wLjI4NjMzMTE4IEM4OS40MzY4NDA1NyAtMC4yOTA4OTU2IDkxLjgzNzc3MDk0IC0wLjMwMTM1NzQyIDk0LjIzODY2MjcyIC0wLjMxNjcyNjY4IEMxMjkuNDA5NTQxMTcgLTAuNTMwMzQxOTkgMTI5LjQwOTU0MTE3IC0wLjUzMDM0MTk5IDE0My41IDYuMjUgQzE0NC40ODI4Njk4NyA2LjcwMTI1MjQ0IDE0NC40ODI4Njk4NyA2LjcwMTI1MjQ0IDE0NS40ODU1OTU3IDcuMTYxNjIxMDkgQzE1My4wOTMxMzMyMSAxMC43ODg3NDQyNCAxNTkuMjkyMzc5OCAxNS44MTY3NDQ3OSAxNjUgMjIgQzE2Ni4yMDY1NjI1IDIzLjI2ODQzNzUgMTY2LjIwNjU2MjUgMjMuMjY4NDM3NSAxNjcuNDM3NSAyNC41NjI1IEMxNzkuMzg1MTc3OTggMzkuMTE5MDA2NCAxODAuNDI2NDE2MzYgNTguMDM2NTU4ODEgMTc5IDc2IEMxNzguMTI1NTEwODUgODEuMzA5NDc4MTYgMTc2LjI0MjU0NDI0IDg2LjEyMzE3NTk0IDE3NCA5MSBDMTczLjQ4MDUwNzgxIDkyLjEzODI0MjE5IDE3Mi45NjEwMTU2MyA5My4yNzY0ODQzNyAxNzIuNDI1NzgxMjUgOTQuNDQ5MjE4NzUgQzE2NS41ODI3MzI3MiAxMDguMTgzMTY5MyAxNTQuOTU0MDQzODIgMTE4LjUxMjg5MDA0IDE0MSAxMjUgQzE0MS41ODUxMTg1MyAxMjkuMDcxOTI4NTggMTQyLjg5NTUwNTEgMTMxLjg5MTgwODMgMTQ1LjAyNzM0Mzc1IDEzNS4zOTQ1MzEyNSBDMTQ1LjY0OTE1NTI3IDEzNi40MjM2MDU5NiAxNDYuMjcwOTY2OCAxMzcuNDUyNjgwNjYgMTQ2LjkxMTYyMTA5IDEzOC41MTI5Mzk0NSBDMTQ3LjU4MDE2MTEzIDEzOS42MDE3OTQ0MyAxNDguMjQ4NzAxMTcgMTQwLjY5MDY0OTQxIDE0OC45Mzc1IDE0MS44MTI1IEMxNDkuNjMxNTY0MzMgMTQyLjk1NDM0MTgzIDE1MC4zMjUwODIyOSAxNDQuMDk2NTE1OTQgMTUxLjAxODA2NjQxIDE0NS4yMzkwMTM2NyBDMTU0Ljk2MDU1NTUgMTUxLjcyNTkzMjU3IDE1OC45NTQ5NDg1NyAxNTguMTgwMjM2NiAxNjMuMDAyOTI5NjkgMTY0LjYwMTgwNjY0IEMxNjcuMzAzNzMwNzIgMTcxLjQ0MDA4MDI4IDE3MS40OTM1NjYyMyAxNzguMzQ1OTI2MDQgMTc1LjY4NzUgMTg1LjI1IEMxNzYuMDQ3ODUzMzkgMTg1Ljg0MjM3NDU3IDE3Ni40MDgyMDY3OSAxODYuNDM0NzQ5MTUgMTc2Ljc3OTQ3OTk4IDE4Ny4wNDUwNzQ0NiBDMTc5LjE5ODQ3Njk5IDE5MS4wMjI3ODg5NSAxODEuNjA0MzIzOTQgMTk1LjAwODE3NjQgMTg0IDE5OSBDMTg0LjM0NDAzODcgMTk5LjU3MjI2MzE4IDE4NC42ODgwNzczOSAyMDAuMTQ0NTI2MzcgMTg1LjA0MjU0MTUgMjAwLjczNDEzMDg2IEMxODYuMDM5OTkwMTEgMjAyLjM5NzgyMDczIDE4Ny4wMjk5MDgyMyAyMDQuMDY2MDE4MzMgMTg4LjAxOTUzMTI1IDIwNS43MzQzNzUgQzE4OC41OTQyMTE0MyAyMDYuNzAwODQ5NjEgMTg5LjE2ODg5MTYgMjA3LjY2NzMyNDIyIDE4OS43NjA5ODYzMyAyMDguNjYzMDg1OTQgQzE5MSAyMTEgMTkxIDIxMSAxOTEgMjEzIEMxNjYuNTggMjEzIDE0Mi4xNiAyMTMgMTE3IDIxMyBDMTEzLjA0IDIwNS43NCAxMDkuMDggMTk4LjQ4IDEwNSAxOTEgQzEwMS40NDM1MzkzOCAxODQuOTE2NDU4MzggMTAxLjQ0MzUzOTM4IDE4NC45MTY0NTgzOCA5Ny44NTU0Njg3NSAxNzguODUxNTYyNSBDOTMuMjg1ODM4NzkgMTcxLjEzNTk4OTQ0IDg4Ljg4MTgwMjQ2IDE2My4zMjI4MjQ3MiA4NC40NDQzMzU5NCAxNTUuNTMwNzYxNzIgQzgzLjkzODQ4MjEzIDE1NC42NDMwNzYwMiA4My45Mzg0ODIxMyAxNTQuNjQzMDc2MDIgODMuNDIyNDA5MDYgMTUzLjczNzQ1NzI4IEM4Mi40OTc4NjE2NCAxNTIuMTE0NzE0MTMgODEuNTc0MjE4NzMgMTUwLjQ5MTQ1NTc1IDgwLjY1MDYzNDc3IDE0OC44NjgxNjQwNiBDNzkuNTYxNTg3ODEgMTQ2Ljk3NTgyMjE2IDc4LjQ0MDAxMSAxNDUuMTAxNzg1NjIgNzcuMjg0OTEyMTEgMTQzLjI0OTAyMzQ0IEM3NiAxNDEgNzYgMTQxIDc2IDEzOSBDNzIuMzcgMTM5IDY4Ljc0IDEzOSA2NSAxMzkgQzY1IDE2My40MiA2NSAxODcuODQgNjUgMjEzIEM0My41NSAyMTMgMjIuMSAyMTMgMCAyMTMgQzAgMTQyLjcxIDAgNzIuNDIgMCAwIFogIiBmaWxsPSIjRkNGQ0ZDIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMjMyLDM3NykiLz4KPHBhdGggZD0iTTAgMCBDMjMuNzYgMCA0Ny41MiAwIDcyIDAgQzgwLjExMTg1MzA5IDE5LjcwMDIxNDY0IDgwLjExMTg1MzA5IDE5LjcwMDIxNDY0IDgzIDI3IEM4My4zNTAwOTEyNSAyNy44ODM0MTA2NCA4My43MDAxODI1IDI4Ljc2NjgyMTI5IDg0LjA2MDg4MjU3IDI5LjY3NzAwMTk1IEM4NS4yMTI2MjM2MiAzMi41ODYxNzUzMSA4Ni4zNjIzNDc5NyAzNS40OTYxMzk0MyA4Ny41MTE3MTg3NSAzOC40MDYyNSBDODguMzU5OTgzNzEgNDAuNTUyMTAwMDcgODkuMjA4MjkyMjQgNDIuNjk3OTMyOTEgOTAuMDU2NjQwNjIgNDQuODQzNzUgQzkxLjM4MDM5MTIgNDguMTkyNTM5OTUgOTIuNzAzODY1NzIgNTEuNTQxNDM3OTUgOTQuMDI2NjExMzMgNTQuODkwNjI1IEM5NS4zMTI0OTg4MSA1OC4xNDYxNTYxMyA5Ni41OTk1MTA4NCA2MS40MDEyNDA3NyA5Ny44ODY3MTg3NSA2NC42NTYyNSBDOTguMjg0NjExMDUgNjUuNjY0NDk4MjkgOTguNjgyNTAzMzYgNjYuNjcyNzQ2NTggOTkuMDkyNDUzIDY3LjcxMTU0Nzg1IEM5OS40NTk4NjA5OSA2OC42NDAxMTU5NyA5OS44MjcyNjg5OCA2OS41Njg2ODQwOCAxMDAuMjA1ODEwNTUgNzAuNTI1MzkwNjIgQzEwMC41MjkwNTgwNyA3MS4zNDM1MDIyIDEwMC44NTIzMDU2IDcyLjE2MTYxMzc3IDEwMS4xODUzNDg1MSA3My4wMDQ1MTY2IEMxMDEuOTgwMjA3MjIgNzUuMDIzNzI5NTcgMTAxLjk4MDIwNzIyIDc1LjAyMzcyOTU3IDEwMyA3NyBDMTA2LjMyMTQ0OTc0IDY5LjI5NTkzNDQ2IDEwOS4zODA5NTE2OCA2MS40OTg3OTUzNyAxMTIuMzk4NDM3NSA1My42NzE4NzUgQzExMi45OTkyMTExMiA1Mi4xMTQxODM5NiAxMTIuOTk5MjExMTIgNTIuMTE0MTgzOTYgMTEzLjYxMjEyMTU4IDUwLjUyNTAyNDQxIEMxMTUuMjg2OTgyODcgNDYuMTc4NjQ5MjUgMTE2Ljk1OTkwNjA1IDQxLjgzMTUzOTU3IDExOC42Mjg5MDYyNSAzNy40ODI5MTAxNiBDMTE5Ljg2MTM1NDUgMzQuMjczODExOTQgMTIxLjA5ODM4NTg3IDMxLjA2NjUwODAzIDEyMi4zMzU5Mzc1IDI3Ljg1OTM3NSBDMTIyLjY5OTcyNTA0IDI2LjkwNzc4NTAzIDEyMy4wNjM1MTI1NyAyNS45NTYxOTUwNyAxMjMuNDM4MzIzOTcgMjQuOTc1NzY5MDQgQzEyNi43MDkwNDcxNCAxNi41MTMzODI5OSAxMzAuMzUwOTQzMjggOC4zNDA3MDEwNiAxMzQgMCBDMTU3LjQzIDAgMTgwLjg2IDAgMjA1IDAgQzIwMi4zNiA1LjI4IDE5OS43MiAxMC41NiAxOTcgMTYgQzE5NS45NDU1NDY4NyAxOC4xMjA1MDc4MSAxOTQuODkxMDkzNzUgMjAuMjQxMDE1NjIgMTkzLjgwNDY4NzUgMjIuNDI1NzgxMjUgQzE5My4zMTYxMzI4MSAyMy40MDc0MDIzNCAxOTIuODI3NTc4MTIgMjQuMzg5MDIzNDQgMTkyLjMyNDIxODc1IDI1LjQwMDM5MDYyIEMxOTEuMzQ4NzMxNDMgMjcuMzYwNTY3OTcgMTkwLjM3NDgwMTUzIDI5LjMyMTUyMTA1IDE4OS40MDIzNDM3NSAzMS4yODMyMDMxMiBDMTg3LjA3Mjg0NTggMzUuOTU3NjQ2NjIgMTg0LjY5OTY4ODA2IDQwLjU5MzEzMjExIDE4Mi4xNzk2ODc1IDQ1LjE2Nzk2ODc1IEMxNzguNDUzMTE0OTQgNTEuOTM4Nzc1MTcgMTc0Ljk0Nzg2NzA3IDU4LjgyMDUyNDUgMTcxLjQyNzM5ODY4IDY1LjY5OTkyMDY1IEMxNjkuNDIyOTEzODcgNjkuNjE1NzM0NTQgMTY3LjQxMjY3MTU3IDczLjUyODU4OTY3IDE2NS40MDIzNDM3NSA3Ny40NDE0MDYyNSBDMTY1LjAxMTg1MzQ5IDc4LjIwMTUxNTA1IDE2NC42MjEzNjMyMiA3OC45NjE2MjM4NCAxNjQuMjE5MDM5OTIgNzkuNzQ0NzY2MjQgQzE1OS44NzQ3NTU2MSA4OC4xOTY0NDE0NyAxNTUuNDY5NTQ3OTcgOTYuNjEzOTE4NTggMTUxIDEwNSBDMTUwLjM5NDYyNDAyIDEwNi4xMzcxMTQyNiAxNDkuNzg5MjQ4MDUgMTA3LjI3NDIyODUyIDE0OS4xNjU1MjczNCAxMDguNDQ1ODAwNzggQzE0Ny40NTYwODg3MiAxMTEuNjU1NTI3OCAxNDUuNzQ0MDc1MyAxMTQuODYzODcxMzUgMTQ0LjAzMDM2NDk5IDExOC4wNzEzMTk1OCBDMTQzLjM0OTAwMTg3IDExOS4zNDY3MjM2NSAxNDIuNjY4MDI2MSAxMjAuNjIyMzM0NzUgMTQxLjk4NzQ1NzI4IDEyMS44OTgxNjI4NCBDMTQxLjAzNDkxMjM3IDEyMy42ODI5Njc0MiAxNDAuMDgwMDAxODUgMTI1LjQ2NjUwODg2IDEzOS4xMjUgMTI3LjI1IEMxMzguMjkzNTU0NjkgMTI4LjgwNDYwOTM3IDEzOC4yOTM1NTQ2OSAxMjguODA0NjA5MzcgMTM3LjQ0NTMxMjUgMTMwLjM5MDYyNSBDMTM2IDEzMyAxMzYgMTMzIDEzNCAxMzYgQzEzMy43ODc1OTQ1NiAxMzguNTA0ODU5NDcgMTMzLjY4ODc4Njg0IDE0MC45MDI0MTg0NiAxMzMuNjgxMTUyMzQgMTQzLjQwODkzNTU1IEMxMzMuNjcxMTA2NzIgMTQ0LjE2MDM5ODU2IDEzMy42NjEwNjExIDE0NC45MTE4NjE1NyAxMzMuNjUwNzExMDYgMTQ1LjY4NjA5NjE5IEMxMzMuNjE5ODIzNDMgMTQ4LjE2OTYyOTI3IDEzMy42MDI4Mjg2MSAxNTAuNjUzMDU0MjggMTMzLjU4NTkzNzUgMTUzLjEzNjcxODc1IEMxMzMuNTY3MjMwMzIgMTU0Ljg1ODc5OTU4IDEzMy41NDc2NTcyNSAxNTYuNTgwODcxMiAxMzMuNTI3MjUyMiAxNTguMzAyOTMyNzQgQzEzMy40NzU4NzczNyAxNjIuODM1MzIyODQgMTMzLjQzNjI4MDM0IDE2Ny4zNjc3NDI2OCAxMzMuMzk5MTA4ODkgMTcxLjkwMDI2ODU1IEMxMzMuMzUyMDY4ODUgMTc3LjMzODU3Mjk3IDEzMy4yOTA0NDgxMyAxODIuNzc2NzI5MjMgMTMzLjIzMTI2MjIxIDE4OC4yMTQ5MTI0MSBDMTMzLjE0Mjk4NDcyIDE5Ni40NzY1NDg2NSAxMzMuMDczMjY3MjMgMjA0LjczODE1NTU1IDEzMyAyMTMgQzExMS41NSAyMTMgOTAuMSAyMTMgNjggMjEzIEM2OC4wNDM4MjgxMiAyMDcuNjczNTkzNzUgNjguMDg3NjU2MjUgMjAyLjM0NzE4NzUgNjguMTMyODEyNSAxOTYuODU5Mzc1IEM2OC4xMzgzMTc1MiAxOTMuNDQxMjE1ODggNjguMTQwODI2MzIgMTkwLjAyMzU1ODMgNjguMTMyODEyNSAxODYuNjA1NDY4NzUgQzY4LjEyMDQyODU0IDE4MS4yMDUyOTAyNyA2OC4xMTc4NTAyNSAxNzUuODA2NjI0NjcgNjguMTgxNjQwNjIgMTcwLjQwNjczODI4IEM2OC41MjU1MDQ1MyAxNDAuMjMzNzMwMzUgNjguNTI1NTA0NTMgMTQwLjIzMzczMDM1IDU1LjI0MDcyMjY2IDExMy42NTg2OTE0MSBDNTMuNjc1NDgyNzYgMTExLjU2NjE2MDkzIDUyLjkzMzYyMzk2IDEwOS40NDAxNTM1NCA1MiAxMDcgQzUwLjg1MzgyMjI1IDEwNC42MTIxMjk2OCA0OS42OTA3NTg0MSAxMDIuMjQwMzQyMDMgNDguNSA5OS44NzUgQzQ4LjE1MjUxNzA5IDk5LjE4MTI0MjY4IDQ3LjgwNTAzNDE4IDk4LjQ4NzQ4NTM1IDQ3LjQ0NzAyMTQ4IDk3Ljc3MjcwNTA4IEM0NC43MjY1MjIzMSA5Mi4zNzA2OTk1NCA0MS45MDMyMzk4OSA4Ny4wMjY5Njc0NyAzOS4wNjI1IDgxLjY4NzUgQzM1LjI1NTg4MzkyIDc0LjUyMTExODc5IDMxLjY5MjExMDE3IDY3LjI2OTg2MTY0IDI4LjI1NjM0NzY2IDU5LjkxOTE4OTQ1IEMyNS44OTIxODE0NyA1NC44NjQwOTgxNSAyMy40NTUxMjExNSA0OS44NTUzNTA1MSAyMC45Mzc1IDQ0Ljg3NSBDMTcuODUwMDMwMiAzOC43NjE4MDk4IDE0LjkwNDQ0ODg0IDMyLjU5MjYyOTQgMTIuMDE1MTM2NzIgMjYuMzgzNTQ0OTIgQzkuMzA1OTcxNDggMjAuNTg1NTU2MzQgNi40NTc4NzA1MyAxNC44NjQwMTkxIDMuNTI1MzkwNjIgOS4xNzU3ODEyNSBDMS45NDczMjAzNCA2LjA3NzQ5MjU0IDAuODUwMTQ1NTggMy40MDA1ODIzMyAwIDAgWiAiIGZpbGw9IiNGQ0ZCRkMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEwMTgsMzc3KSIvPgo8cGF0aCBkPSJNMCAwIEM0Ni41MyAwIDkzLjA2IDAgMTQxIDAgQzE0MSAxNi44MyAxNDEgMzMuNjYgMTQxIDUxIEMxMTUuNTkgNTEgOTAuMTggNTEgNjQgNTEgQzY0IDYzLjU0IDY0IDc2LjA4IDY0IDg5IEM4Ny40MyA4OSAxMTAuODYgODkgMTM1IDg5IEMxMzUgMTA1LjUgMTM1IDEyMiAxMzUgMTM5IEMxMTEuNTcgMTM5IDg4LjE0IDEzOSA2NCAxMzkgQzY0IDE2My40MiA2NCAxODcuODQgNjQgMjEzIEM0Mi44OCAyMTMgMjEuNzYgMjEzIDAgMjEzIEMwIDE0Mi43MSAwIDcyLjQyIDAgMCBaICIgZmlsbD0iI0ZDRkNGQyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNzM5LDM3NykiLz4KPHBhdGggZD0iTTAgMCBDMjEuNzggMCA0My41NiAwIDY2IDAgQzY2IDUyLjE0IDY2IDEwNC4yOCA2NiAxNTggQzkwLjc1IDE1OCAxMTUuNSAxNTggMTQxIDE1OCBDMTQxIDE3Ni4xNSAxNDEgMTk0LjMgMTQxIDIxMyBDOTQuNDcgMjEzIDQ3Ljk0IDIxMyAwIDIxMyBDMCAxNDIuNzEgMCA3Mi40MiAwIDAgWiAiIGZpbGw9IiNGQkZCRkIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDkwMywzNzcpIi8+CjxwYXRoIGQ9Ik0wIDAgQzIxLjQ1IDAgNDIuOSAwIDY1IDAgQzY1IDcwLjI5IDY1IDE0MC41OCA2NSAyMTMgQzQzLjU1IDIxMyAyMi4xIDIxMyAwIDIxMyBDMCAxNDIuNzEgMCA3Mi40MiAwIDAgWiAiIGZpbGw9IiNGQ0ZCRkMiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQwNSwzNzcpIi8+CjxwYXRoIGQ9Ik0wIDAgQzAuOTc3NTE3MjQgLTAuMDA0Mjg1MTMgMS45NTUwMzQ0OCAtMC4wMDg1NzAyNSAyLjk2MjE3MzQ2IC0wLjAxMjk4NTIzIEM1LjAyNTYzNzA3IC0wLjAxODcxNzc5IDcuMDg5MTIwODkgLTAuMDE5MjM2NzIgOS4xNTI1ODc4OSAtMC4wMTQ4OTI1OCBDMTIuMzAxOTQ3MTkgLTAuMDExNzMzMjUgMTUuNDUwMzY2MTUgLTAuMDM1MjAzMzMgMTguNTk5NjA5MzggLTAuMDYwNTQ2ODggQzIwLjYwODA3MTc0IC0wLjA2MjgyMDEgMjIuNjE2NTM2NjEgLTAuMDYzNTIzMjUgMjQuNjI1IC0wLjA2MjUgQzI1LjU2MjY2NzA4IC0wLjA3MTcwOTc1IDI2LjUwMDMzNDE3IC0wLjA4MDkxOTQ5IDI3LjQ2NjQxNTQxIC0wLjA5MDQwODMzIEMzNC4zODg4MTY3MSAtMC4wNDE2NTA5NyAzOC40MzA0OTU0NCAxLjExMDE2NDUyIDQzLjcxMjQwMjM0IDUuODM1OTM3NSBDNDYuOTM3NzA2NzUgMTAuMDQwNTk3MTEgNDYuNTk2OTU4MzIgMTQuNjM2NTA5MSA0Ni41NDI5Njg3NSAxOS43MzgyODEyNSBDNDYuNTQ3NzUyMzggMjAuNzM2NTc5NTkgNDYuNTUyNTM2MDEgMjEuNzM0ODc3OTMgNDYuNTU3NDY0NiAyMi43NjM0Mjc3MyBDNDYuNTYwODU3NjQgMjQuODY4MDE3MzkgNDYuNTUxNjk3MDkgMjYuOTcyNjYwMTggNDYuNTMwNzYxNzIgMjkuMDc3MTQ4NDQgQzQ2LjUwMzk4ODQ1IDMyLjI5MDkxMzczIDQ2LjUzMDUzMDY1IDM1LjUwMTE4NjU2IDQ2LjU2MjUgMzguNzE0ODQzNzUgQzQ2LjU1OTE5NTggNDAuNzY0MzMwNTkgNDYuNTUyNzg5MzUgNDIuODEzODE1MjcgNDYuNTQyOTY4NzUgNDQuODYzMjgxMjUgQzQ2LjU1ODE1MDQ4IDQ2LjI5Nzg4Njk2IDQ2LjU1ODE1MDQ4IDQ2LjI5Nzg4Njk2IDQ2LjU3MzYzODkyIDQ3Ljc2MTQ3NDYxIEM0Ni40OTc4OTc2OSA1Mi4wOTIwMzM1NyA0Ni4zNTM3NTgyMSA1NS4zMjEyNDk3NSA0My42NDk5MDIzNCA1OC44MjgxMjUgQzM5LjY4MTAyMDE0IDYyLjM2OTY5NjcyIDM2LjI3ODc3ODU3IDYzLjU0MjQ0MzE0IDMxLjAwMDI0NDE0IDYzLjU5MTMwODU5IEMzMC4wNTg5OTE4NSA2My42MDQwNjgzIDI5LjExNzczOTU2IDYzLjYxNjgyOCAyOC4xNDc5NjQ0OCA2My42Mjk5NzQzNyBDMjcuMTQyNjUxODIgNjMuNjMyMjAwMDEgMjYuMTM3MzM5MTcgNjMuNjM0NDI1NjYgMjUuMTAxNTYyNSA2My42MzY3MTg3NSBDMjQuMDU3NDU3MTIgNjMuNjQzMzc1NTUgMjMuMDEzMzUxNzUgNjMuNjUwMDMyMzUgMjEuOTM3NjA2ODEgNjMuNjU2ODkwODcgQzE5LjczMjkxNzg3IDYzLjY2NzAwMDU4IDE3LjUyODE5ODQzIDYzLjY3MTcwODQxIDE1LjMyMzQ4NjMzIDYzLjY3MTM4NjcyIEMxMS45NTY2ODAyNSA2My42NzU3NjE0IDguNTkxMTgzODMgNjMuNzEyMTA0MiA1LjIyNDYwOTM4IDYzLjc1IEMzLjA3OTQzMTU1IDYzLjc1NTg2ODIzIDAuOTM0MjQ3NTIgNjMuNzU5ODM3NTggLTEuMjEwOTM3NSA2My43NjE3MTg3NSBDLTIuMjE0MjI1OTIgNjMuNzc2MDg5NzggLTMuMjE3NTE0MzQgNjMuNzkwNDYwODIgLTQuMjUxMjA1NDQgNjMuODA1MjY3MzMgQy0xMC4wMDE0MDI0IDYzLjc2NzgwMTk3IC0xMy43MzEyNTcyNiA2My40MTEzMDcyOCAtMTguMTIxMDkzNzUgNTkuMzAwNzgxMjUgQy0yMS42NzYwNzY0NyA1NC4yMzQ1NDI0NyAtMjEuNjAzMDg2NzggNDkuMzA1ODg0NjMgLTIxLjYyNSA0My4zMzU5Mzc1IEMtMjEuNjM0OTg1MiA0Mi4zODQ0MDI5MiAtMjEuNjQ0OTcwNCA0MS40MzI4NjgzNSAtMjEuNjU1MjU4MTggNDAuNDUyNDk5MzkgQy0yMS42NzA0MDAxOCAzOC40NDYzMjI5NCAtMjEuNjc3NDg1MTkgMzYuNDQwMDcxNDIgLTIxLjY3NzAwMTk1IDM0LjQzMzgzNzg5IEMtMjEuNjgzNTY2NzggMzEuMzc1ODQzODggLTIxLjczODA5Nzk4IDI4LjMyMTA5MjU5IC0yMS43OTQ5MjE4OCAyNS4yNjM2NzE4OCBDLTIxLjgwMzcyNDU2IDIzLjMwODYwNDc5IC0yMS44MDk2NzgzNiAyMS4zNTM1MjIzNyAtMjEuODEyNSAxOS4zOTg0Mzc1IEMtMjEuODM0MDU2NTUgMTguNDkwOTQyNTQgLTIxLjg1NTYxMzEgMTcuNTgzNDQ3NTcgLTIxLjg3NzgyMjg4IDE2LjY0ODQ1Mjc2IEMtMjEuODE2ODM5NTMgMTAuOTU5NTY4MzggLTIwLjgwNDQyNzIxIDcuNjk5MzAwNDQgLTE2LjcyNTIxOTczIDMuNjM2MDE2ODUgQy0xMS43MjkzMTI1MiAtMC41MjI0NTUyNiAtNi4yMDgyODIzNSAtMC4wMDYwMjE0MiAwIDAgWiAiIGZpbGw9IiNDMEY3MjIiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQyMy4xMjEwOTM3NSwyOTAuNjk5MjE4NzUpIi8+CjxwYXRoIGQ9Ik0wIDAgQzguNjYyNSAtMC4xNTQ2ODc1IDguNjYyNSAtMC4xNTQ2ODc1IDE3LjUgLTAuMzEyNSBDMTkuMzA2NjIxMDkgLTAuMzU4MDIwMDIgMjEuMTEzMjQyMTkgLTAuNDAzNTQwMDQgMjIuOTc0NjA5MzggLTAuNDUwNDM5NDUgQzM3LjU4MTUzMzQxIC0wLjY2NTMyMTg4IDM3LjU4MTUzMzQxIC0wLjY2NTMyMTg4IDQ0IDUgQzQ5LjMxNzQ4MzE5IDEwLjcyNjUyMDM2IDQ5LjQ2ODk4NTQ3IDE1LjgxNTI1NzgzIDQ5LjQwNjI1IDIzLjQwNjI1IEM0OC44MDcwODYyMyAyOC43MDY1NDQ4NyA0Ni44ODUzMDg0MSAzMi4zNjU2MDE5MiA0MyAzNiBDMzcuNTkwMzQ2NjUgMzkuNjYzMTQyMzIgMzMuOTA3NjMyNjYgNDAuNTY5MDgxMTkgMjcuNDQxNDA2MjUgNDAuMzkwNjI1IEMyNi4zOTA0Mzc2MiA0MC4zODQ1ODI1MiAyNi4zOTA0Mzc2MiA0MC4zODQ1ODI1MiAyNS4zMTgyMzczIDQwLjM3ODQxNzk3IEMyMi43MzI3MjAyNiA0MC4zNTc2OTAxNCAyMC4xNDc1ODAyNyA0MC4zMDE4NDYxMyAxNy41NjI1IDQwLjI1IEMxMS43NjY4NzUgNDAuMTY3NSA1Ljk3MTI1IDQwLjA4NSAwIDQwIEMwIDI2LjggMCAxMy42IDAgMCBaICIgZmlsbD0iIzA1MDQwNCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTI5Nyw0MjcpIi8+Cgo8L3N2Zz4K" alt="INFLYR" style="height:44px;display:block;">
+      </a>
       <p>India's performance creator marketing system. D2C brands get creators who drive sales. Creators get real pay and proper briefs. Built by @shvpndy.</p>
       <div class="contact-chips" style="margin-top:20px">
         <a href="mailto:brands@inflyr.in" class="contact-chip">📦 brands@inflyr.in</a>
@@ -3838,7 +4323,322 @@ function toggleMenu() {
   m.classList.toggle('open');
 }
 
-// ===== PAGE ROUTING (with URL support) =====
+// ===== JOIN PAGE =====
+let _jpCurrentStep = 1;
+
+function joinNextStep(n) {
+  // Validate current step before moving forward
+  if (n > _jpCurrentStep) {
+    const curr = document.getElementById('join-step-' + _jpCurrentStep);
+    const requiredFields = curr.querySelectorAll('[required]');
+    for (const f of requiredFields) {
+      if (!f.value.trim()) {
+        f.focus();
+        f.style.borderColor = 'var(--error)';
+        setTimeout(() => f.style.borderColor = '', 1800);
+        return;
+      }
+    }
+    // Check radio for step 2
+    if (_jpCurrentStep === 2) {
+      const radios = curr.querySelectorAll('input[type=radio]');
+      const anyChecked = [...radios].some(r => r.checked);
+      if (!anyChecked) {
+        const firstLabel = curr.querySelector('.platform-pick');
+        if (firstLabel) firstLabel.style.border = '1px solid var(--error)';
+        setTimeout(() => curr.querySelectorAll('.platform-pick').forEach(l => l.style.border = ''), 1800);
+        return;
+      }
+    }
+  }
+  // Mark done
+  document.querySelectorAll('.join-step').forEach(s => {
+    const sn = parseInt(s.dataset.step);
+    s.classList.remove('active','done');
+    if (sn < n) s.classList.add('done');
+    else if (sn === n) s.classList.add('active');
+  });
+  document.querySelectorAll('.join-step-body').forEach(b => b.style.display = 'none');
+  document.getElementById('join-step-' + n).style.display = '';
+  _jpCurrentStep = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function jpToggleLang(btn) {
+  btn.classList.toggle('selected');
+  const sel = [...document.querySelectorAll('#jp-lang-pills .caf-pill.selected')].map(b => b.dataset.val);
+  document.getElementById('jp-language-val').value = sel.join(', ');
+  document.getElementById('jp-lang-error').style.display = 'none';
+}
+
+function jpFollowerDisplay(val) {
+  const el = document.getElementById('jp-follower-display');
+  if (!el) return;
+  const n = parseInt(String(val).replace(/[^0-9]/g,''));
+  if (!val || isNaN(n)) { el.textContent = ''; return; }
+  const disp = n >= 10000000 ? (n/10000000).toFixed(1).replace('.0','')+'Cr' : n >= 100000 ? (n/100000).toFixed(1).replace('.0','')+'L' : n >= 1000 ? (n/1000).toFixed(1).replace('.0','')+'K' : n;
+  const tier = n < 1000 ? 'Nano' : n < 5000 ? 'Micro-S' : n < 10000 ? 'Micro' : n < 50000 ? 'Micro-M' : n < 100000 ? 'Micro-L' : n < 500000 ? 'Macro' : n < 1000000 ? 'Mega' : 'Celebrity';
+  el.textContent = disp + ' followers · ' + tier + ' creator';
+}
+
+function jpHandlePhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { alert('Photo too large. Use under 5MB.'); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const MAX = 600; let w = img.width, h = img.height;
+      if (w > MAX || h > MAX) { if (w > h) { h = Math.round(h*MAX/w); w = MAX; } else { w = Math.round(w*MAX/h); h = MAX; } }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+      const prev = document.getElementById('jp-photo-preview');
+      const icon = document.getElementById('jp-photo-icon');
+      if (prev) { prev.src = dataUrl; prev.style.display = 'block'; }
+      if (icon) icon.style.display = 'none';
+      document.getElementById('jp-photo-data').value = dataUrl;
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function submitJoinProfile(e) {
+  e.preventDefault();
+  const lang = document.getElementById('jp-language-val').value;
+  if (!lang) { document.getElementById('jp-lang-error').style.display = 'block'; return; }
+
+  const btn = document.getElementById('jp-submit-btn');
+  btn.textContent = 'Submitting...'; btn.disabled = true;
+
+  const fd = new FormData(e.target);
+  const profile = {
+    status: 'pending',
+    submittedAt: new Date().toISOString(),
+    name:       fd.get('name') || '',
+    email:      fd.get('email') || '',
+    whatsapp:   fd.get('whatsapp') || '',
+    location:   fd.get('location') || '',
+    platform:   fd.get('platform') || '',
+    instagram:  fd.get('instagram') || '',
+    youtube:    fd.get('youtube') || '',
+    followers:  fd.get('followers') || '',
+    engagement: fd.get('engagement') || '',
+    niche:      fd.get('niche') || '',
+    language:   lang,
+    bio:        fd.get('bio') || '',
+    photo:      fd.get('photo') || ''
+  };
+
+  // Save to Google Sheets as pending
+  try {
+    fetch(SCRIPT_URL + '?action=addPending', {
+      method: 'POST', mode: 'no-cors',
+      body: JSON.stringify(profile)
+    });
+    // Email backup
+    fetch('https://formsubmit.co/ajax/inflyrhq@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: '🎬 New Creator Profile — INFLYR (Pending Approval)',
+        _captcha: 'false', _template: 'table',
+        ...profile, photo: '[see sheet]'
+      })
+    }).catch(()=>{});
+  } catch(err) {}
+
+  // Show success
+  document.getElementById('joinProfileForm').style.display = 'none';
+  document.getElementById('join-steps').style.display = 'none';
+  document.getElementById('join-success').style.display = 'block';
+
+  // WhatsApp notification to you
+  setTimeout(() => {
+    const msg = encodeURIComponent(`🎬 New Creator Profile Submitted!\n\nName: ${profile.name}\nPlatform: ${profile.platform}\nHandle: @${profile.instagram}\nFollowers: ${profile.followers}\nNiche: ${profile.niche}\nLanguage: ${profile.language}\nLocation: ${profile.location}\n\nReview & approve at: inflyr.in/?admin=inflyr2024`);
+    // Silently notify — open in background if possible
+    const a = document.createElement('a');
+    a.href = 'https://wa.me/916307041225?text=' + msg;
+    a.target = '_blank'; a.rel = 'noopener';
+    // Don't force open — just show button to creator
+  }, 500);
+}
+
+// ===== ADMIN PANEL =====
+const ADMIN_PASSWORD = 'inflyr2024'; // Change this to your actual password
+let _adminAuth = false;
+let _adminData = { pending: [], creators: [] };
+let _adminTab = 'pending';
+
+function adminLogin() {
+  const pw = document.getElementById('admin-pw-input').value;
+  if (pw === ADMIN_PASSWORD) {
+    _adminAuth = true;
+    document.getElementById('admin-auth').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    loadAdminData();
+  } else {
+    document.getElementById('admin-auth-err').style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  _adminAuth = false;
+  document.getElementById('admin-auth').style.display = '';
+  document.getElementById('admin-dashboard').style.display = 'none';
+  document.getElementById('admin-pw-input').value = '';
+}
+
+async function loadAdminData() {
+  document.getElementById('admin-pending-grid').innerHTML = '<div class="admin-status-loading">Loading...</div>';
+  const data = await gsFetch('action=read');
+  if (data) {
+    _adminData = { pending: data.pending||[], creators: data.creators||[] };
+  }
+  renderAdminPending();
+  renderAdminLive();
+}
+
+function switchAdminTab(tab) {
+  _adminTab = tab;
+  document.getElementById('admin-tab-pending').classList.toggle('active', tab === 'pending');
+  document.getElementById('admin-tab-live').classList.toggle('active', tab === 'live');
+  document.getElementById('admin-pending-list').style.display = tab === 'pending' ? '' : 'none';
+  document.getElementById('admin-live-list').style.display   = tab === 'live'    ? '' : 'none';
+}
+
+function renderAdminPending() {
+  const grid = document.getElementById('admin-pending-grid');
+  const empty = document.getElementById('admin-pending-empty');
+  const list = _adminData.pending;
+  if (!list.length) { grid.innerHTML = ''; empty.style.display = ''; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = list.map((c, i) => adminCreatorCard(c, i, 'pending')).join('');
+}
+
+function renderAdminLive() {
+  const grid = document.getElementById('admin-live-grid');
+  const empty = document.getElementById('admin-live-empty');
+  const list = _adminData.creators;
+  if (!list.length) { grid.innerHTML = ''; empty.style.display = ''; return; }
+  empty.style.display = 'none';
+  grid.innerHTML = list.map((c, i) => adminCreatorCard(c, i, 'live')).join('');
+}
+
+function adminCreatorCard(c, i, type) {
+  const avatarHtml = c.photo
+    ? `<img src="${escHtml(c.photo)}" class="admin-card-avatar" style="width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid rgba(138,92,246,.3)">`
+    : `<div class="admin-card-avatar">🎬</div>`;
+  const since = c.submittedAt ? new Date(c.submittedAt).toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : '';
+  const actions = type === 'pending'
+    ? `<button class="admin-btn-approve" onclick="adminApprove(${i})">✓ Approve</button>
+       <button class="admin-btn-reject" onclick="adminReject(${i})">✕ Reject</button>`
+    : `<button class="admin-btn-remove" onclick="adminRemove(${i})">✕ Remove from Network</button>`;
+  return `
+  <div class="admin-card" id="admin-card-${type}-${i}">
+    ${avatarHtml}
+    <div class="admin-card-body">
+      <div class="admin-card-name">${escHtml(c.name)}</div>
+      <div class="admin-card-meta">${c.instagram ? '@'+escHtml(c.instagram)+' · ' : ''}${escHtml(c.platform||'')} · ${escHtml(c.followers||'')} · ${escHtml(c.location||'')}${since ? ' · Applied '+since : ''}</div>
+      <div class="admin-card-tags">
+        ${c.niche    ? `<span class="admin-card-tag">${escHtml(c.niche)}</span>` : ''}
+        ${c.language ? `<span class="admin-card-tag">${escHtml(c.language)}</span>` : ''}
+        ${c.engagement ? `<span class="admin-card-tag">${escHtml(c.engagement)} ER</span>` : ''}
+      </div>
+      ${c.bio ? `<div style="font-size:.75rem;color:var(--secondary);font-family:'DM Sans',sans-serif;line-height:1.5;margin-bottom:12px;max-width:480px">${escHtml(c.bio).slice(0,180)}${c.bio.length>180?'...':''}</div>` : ''}
+      <div class="admin-card-actions">
+        ${actions}
+        ${c.whatsapp ? `<a href="https://wa.me/${c.whatsapp.replace(/[^0-9]/g,'')}" target="_blank" style="display:inline-flex;align-items:center;gap:4px;background:rgba(37,211,102,.08);border:1px solid rgba(37,211,102,.25);color:#25D366;font-family:'DM Mono',monospace;font-size:.65rem;padding:6px 12px;border-radius:5px;text-decoration:none;letter-spacing:.04em">💬 WhatsApp</a>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+
+async function adminApprove(i) {
+  const creator = _adminData.pending[i];
+  if (!creator) return;
+  const btn = document.querySelector(`#admin-card-pending-${i} .admin-btn-approve`);
+  if (btn) { btn.textContent = 'Approving...'; btn.disabled = true; }
+
+  // Build the creator object for the network (uses same format as existing cards)
+  const approved = {
+    name:      creator.name,
+    handle:    creator.instagram || '',
+    followers: creator.followers,
+    platform:  creator.platform,
+    niche:     creator.niche,
+    language:  creator.language,
+    city:      (creator.location||'').split(',')[0].trim(),
+    state:     (creator.location||'').split(',')[1]?.trim()||'',
+    photo:     creator.photo || '',
+    bio:       creator.bio || '',
+    engagement: creator.engagement || '',
+    approvedAt: new Date().toISOString()
+  };
+
+  try {
+    await fetch(SCRIPT_URL + '?action=approveCreator', {
+      method: 'POST', mode: 'no-cors',
+      body: JSON.stringify({ index: i, creator: approved })
+    });
+    // Notify creator via WhatsApp message nudge
+    if (creator.whatsapp) {
+      const msg = encodeURIComponent(`Hi ${creator.name}! 🎉 Your INFLYR Creator Profile has been approved and is now live on our network. Brands can now discover you at inflyr.in — we'll WhatsApp you when a matching campaign comes in. Welcome to INFLYR! 🚀`);
+      window.open('https://wa.me/' + creator.whatsapp.replace(/[^0-9]/g,'') + '?text=' + msg, '_blank');
+    }
+  } catch(err) {}
+
+  showAdminToast('✓ ' + creator.name + ' approved & live!');
+  // Optimistic update
+  _adminData.creators.unshift(approved);
+  _adminData.pending.splice(i, 1);
+  renderAdminPending();
+  renderAdminLive();
+  // Also refresh main network
+  _cache.creators = _adminData.creators;
+  renderNetworkShowcase();
+}
+
+async function adminReject(i) {
+  const creator = _adminData.pending[i];
+  if (!creator) return;
+  if (!confirm('Reject ' + creator.name + '? This will remove their application.')) return;
+
+  try {
+    await fetch(SCRIPT_URL + '?action=rejectCreator', {
+      method: 'POST', mode: 'no-cors',
+      body: JSON.stringify({ index: i })
+    });
+  } catch(err) {}
+
+  showAdminToast('Rejected & removed.');
+  _adminData.pending.splice(i, 1);
+  renderAdminPending();
+}
+
+async function adminRemove(i) {
+  const creator = _adminData.creators[i];
+  if (!creator) return;
+  if (!confirm('Remove ' + creator.name + ' from the live network?')) return;
+
+  try {
+    await fetch(SCRIPT_URL + '?action=removeCreator', {
+      method: 'POST', mode: 'no-cors',
+      body: JSON.stringify({ index: i })
+    });
+  } catch(err) {}
+
+  showAdminToast('Removed from network.');
+  _adminData.creators.splice(i, 1);
+  _cache.creators = _adminData.creators;
+  renderAdminLive();
+  renderNetworkShowcase();
+}
+
+// ===== UPDATED URL ROUTING (adds join + admin) =====
 const PAGE_TITLES = {
   home:     'INFLYR — India\'s Performance-First UGC & Influencer Marketing Agency',
   brands:   'For Brands — UGC & Influencer Campaigns | INFLYR',
@@ -3847,6 +4647,8 @@ const PAGE_TITLES = {
   about:    'About INFLYR — India\'s Performance Marketing Agency | IMA',
   faq:      'FAQs — Influencer Marketing India | INFLYR',
   legal:    'Terms & Privacy | INFLYR',
+  join:     'Build Your Creator Profile | INFLYR',
+  admin:    'Admin Panel | INFLYR',
 };
 const PAGE_DESCS = {
   home:     'INFLYR (IMA) is India\'s performance influencer marketing agency. UGC, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands.',
@@ -3855,7 +4657,9 @@ const PAGE_DESCS = {
   services: 'INFLYR services: UGC Content System from ₹20k/month, Influencer Campaigns from ₹30k, Affiliate Creator Networks, Regional Language Campaigns.',
   about:    'INFLYR, founded by Shivam Pandey, is India\'s performance-first creator marketing agency and UGC platform for D2C brands.',
   faq:      'Frequently asked questions about INFLYR — influencer marketing costs, how to join as a creator, UGC campaigns, and more.',
-  legal:    'Terms of Service and Privacy Policy for INFLYR — inflyr.in'
+  legal:    'Terms of Service and Privacy Policy for INFLYR — inflyr.in',
+  join:     'Create your INFLYR creator profile and get matched with D2C brands.',
+  admin:    'Admin Panel — INFLYR',
 };
 
 function showPage(name, pushState = true) {
@@ -3870,8 +4674,11 @@ function showPage(name, pushState = true) {
   document.querySelectorAll('#mobileBottomNav a').forEach(a => {
     a.classList.toggle('active', a.dataset.page === name);
   });
-  // Update URL + title
-  const path = name === 'home' ? '/' : '/' + name;
+  // Update URL + title — join/admin use query params, not path
+  let path;
+  if (name === 'join')  path = '/?join=creator';
+  else if (name === 'admin') path = '/?admin=';
+  else path = name === 'home' ? '/' : '/' + name;
   if (pushState) {
     try { history.pushState({ page: name }, '', path); } catch(e) {}
   }
@@ -3879,7 +4686,7 @@ function showPage(name, pushState = true) {
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc && PAGE_DESCS[name]) metaDesc.setAttribute('content', PAGE_DESCS[name]);
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute('href', 'https://inflyr.in' + path);
+  if (canonical) canonical.setAttribute('href', 'https://inflyr.in' + (name === 'home' ? '/' : '/' + (name === 'join' ? '?join=creator' : name)));
 }
 
 // Handle browser back/forward
@@ -3888,14 +4695,27 @@ window.addEventListener('popstate', e => {
   showPage(page, false);
 });
 
-// On load — read URL or sessionStorage (for GitHub Pages 404 redirect)
+// On load — read URL params first, then path
 function getPageFromPath() {
-  // Check if redirected from 404.html via sessionStorage
   const fromRedirect = sessionStorage.getItem('inflyr_redirect_page');
   if (fromRedirect) {
     sessionStorage.removeItem('inflyr_redirect_page');
     history.replaceState(null, '', '/' + fromRedirect);
     return fromRedirect;
+  }
+  // Check query params
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('join')) return 'join';
+  if (params.has('admin')) {
+    // Pre-fill admin password if provided in URL, then auto-login
+    const pw = params.get('admin');
+    if (pw && pw === ADMIN_PASSWORD) {
+      setTimeout(() => {
+        document.getElementById('admin-pw-input').value = pw;
+        adminLogin();
+      }, 200);
+    }
+    return 'admin';
   }
   const path = window.location.pathname.replace(/^\//, '').replace(/\/$/, '');
   const valid = ['home','brands','creators','services','about','faq','legal'];
@@ -3907,7 +4727,7 @@ function initFromURL() {
   const page = getPageFromPath();
   showPage(page, false);
   try {
-    history.replaceState({ page: page }, '', window.location.pathname);
+    history.replaceState({ page: page }, '', window.location.search || window.location.pathname);
   } catch(e) { /* preview/iframe environment — safe to ignore */ }
 }
 
@@ -4275,7 +5095,8 @@ function renderCreatorGrid(list) {
   } else {
     el.innerHTML = list.map(creatorCard).join('');
   }
-  document.getElementById('filter-count').textContent = list.length + ' creator' + (list.length !== 1 ? 's' : '') + ' found';
+  const fc = document.getElementById('filter-count');
+  if (fc) fc.textContent = list.length + ' creator' + (list.length !== 1 ? 's' : '') + ' found';
 }
 
 function renderBrandGrid(list) {
@@ -4286,7 +5107,8 @@ function renderBrandGrid(list) {
   } else {
     el.innerHTML = list.map(brandCard).join('');
   }
-  document.getElementById('brand-filter-count').textContent = list.length + ' brand' + (list.length !== 1 ? 's' : '') + ' found';
+  const bfc = document.getElementById('brand-filter-count');
+  if (bfc) bfc.textContent = list.length + ' brand' + (list.length !== 1 ? 's' : '') + ' found';
 }
 
 // ---- FILTER LOGIC ----
@@ -4358,8 +5180,8 @@ function applyFilters() {
   const platform = document.getElementById('f-platform').value.toLowerCase();
   const location = document.getElementById('f-location').value.toLowerCase();
 
-  const hasFilter = niche || size || lang || platform || location;
-  document.getElementById('filter-clear-btn').style.display = hasFilter ? '' : 'none';
+  const activeCount = [niche, size, lang, platform, location].filter(Boolean).length;
+  updateCreatorFilterUI(activeCount);
 
   let list = getCreators().filter(c => {
     if (niche && !smartMatch(niche.toLowerCase(), c.niche||'', NICHE_SYNONYMS)) return false;
@@ -4379,17 +5201,11 @@ function applyFilters() {
   renderCreatorGrid(list);
 }
 
-function clearFilters() {
-  ['f-niche','f-size','f-lang','f-platform','f-location'].forEach(id => { document.getElementById(id).value = ''; });
-  document.getElementById('filter-clear-btn').style.display = 'none';
-  renderCreatorGrid(getCreators());
-}
-
 function applyBrandFilters() {
   const industry = document.getElementById('fb-industry').value;
   const type     = document.getElementById('fb-type').value.toLowerCase();
-  const hasFilter = industry || type;
-  document.getElementById('brand-filter-clear-btn').style.display = hasFilter ? '' : 'none';
+  const activeCount = [industry, type].filter(Boolean).length;
+  updateBrandFilterUI(activeCount);
   let list = getBrands().filter(b => {
     if (industry && !smartMatch(industry.toLowerCase(), b.industry||'', INDUSTRY_SYNONYMS)) return false;
     if (type && !(b.type||'').toLowerCase().includes(type)) return false;
@@ -4398,21 +5214,93 @@ function applyBrandFilters() {
   renderBrandGrid(list);
 }
 
+function clearFilters() {
+  ['f-niche','f-size','f-lang','f-platform','f-location'].forEach(id => { document.getElementById(id).value = ''; });
+  updateCreatorFilterUI(0);
+  renderCreatorGrid(getCreators());
+}
+
 function clearBrandFilters() {
   ['fb-industry','fb-type'].forEach(id => { document.getElementById(id).value = ''; });
-  document.getElementById('brand-filter-clear-btn').style.display = 'none';
+  updateBrandFilterUI(0);
   renderBrandGrid(getBrands());
+}
+
+// ---- FILTER PANEL TOGGLE ----
+function toggleFilterPanel(type) {
+  const panel = document.getElementById(type + '-filter-panel');
+  const btn   = document.getElementById(type + '-filter-btn');
+  panel.classList.toggle('open');
+  btn.style.borderColor = panel.classList.contains('open') ? 'var(--purple)' : '';
+  btn.style.color = panel.classList.contains('open') ? 'var(--purple)' : '';
+}
+
+function updateCreatorFilterUI(activeCount) {
+  const btn  = document.getElementById('creator-filter-btn');
+  const chip = document.getElementById('creator-clear-chip');
+  const badge = document.getElementById('creator-badge');
+  badge.textContent = activeCount;
+  btn.classList.toggle('has-filters', activeCount > 0);
+  chip.classList.toggle('visible', activeCount > 0);
+}
+
+function updateBrandFilterUI(activeCount) {
+  const btn  = document.getElementById('brand-filter-btn');
+  const chip = document.getElementById('brand-clear-chip');
+  const badge = document.getElementById('brand-badge');
+  badge.textContent = activeCount;
+  btn.classList.toggle('has-filters', activeCount > 0);
+  chip.classList.toggle('visible', activeCount > 0);
+}
+
+// ---- SCROLL STRIP HELPERS ----
+function scrollGrid(id, dir) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollBy({ left: dir * 300, behavior: 'smooth' });
+}
+
+function initScrollProgress(gridId, barId) {
+  const el = document.getElementById(gridId);
+  const bar = document.getElementById(barId);
+  if (!el || !bar) return;
+  el.addEventListener('scroll', () => {
+    const max = el.scrollWidth - el.clientWidth;
+    const pct = max > 0 ? (el.scrollLeft / max) * 80 + 20 : 20;
+    bar.style.width = pct + '%';
+  });
+}
+
+function initDragScroll(gridId) {
+  const el = document.getElementById(gridId);
+  if (!el) return;
+  let isDown = false, startX, scrollL;
+  el.addEventListener('mousedown', e => {
+    isDown = true; el.classList.add('dragging');
+    startX = e.pageX - el.offsetLeft; scrollL = el.scrollLeft;
+  });
+  el.addEventListener('mouseleave', () => { isDown = false; el.classList.remove('dragging'); });
+  el.addEventListener('mouseup',    () => { isDown = false; el.classList.remove('dragging'); });
+  el.addEventListener('mousemove',  e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - el.offsetLeft;
+    el.scrollLeft = scrollL - (x - startX) * 1.4;
+  });
 }
 
 function switchNetworkTab(tab) {
   document.querySelectorAll('.network-tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector('.network-tab-btn.' + tab).classList.add('active');
-  document.getElementById('network-creator-grid').style.display = tab === 'creator' ? 'grid' : 'none';
-  document.getElementById('network-brand-grid').style.display   = tab === 'brand'   ? 'grid' : 'none';
-  document.getElementById('creator-filters').style.display      = tab === 'creator' ? '' : 'none';
-  document.getElementById('brand-filters').style.display        = tab === 'brand'   ? '' : 'none';
-  const joinBtn = document.getElementById('network-join-btn');
-  if (joinBtn) joinBtn.style.display = tab === 'creator' ? '' : 'none';
+  const activeBtn = document.querySelector('.network-tab-btn.' + tab);
+  if (activeBtn) activeBtn.classList.add('active');
+  const elShow = (id, show) => { const e = document.getElementById(id); if (e) e.style.display = show; };
+  elShow('network-creator-grid',  tab === 'creator' ? 'flex' : 'none');
+  elShow('network-brand-grid',    tab === 'brand'   ? 'flex' : 'none');
+  elShow('creator-filter-area',   tab === 'creator' ? '' : 'none');
+  elShow('brand-filter-area',     tab === 'brand'   ? '' : 'none');
+  elShow('creator-scroll-wrap',   tab === 'creator' ? '' : 'none');
+  elShow('brand-scroll-wrap',     tab === 'brand'   ? '' : 'none');
+  elShow('network-join-btn',      tab === 'creator' ? '' : 'none');
 }
 
 function showAdminToast(msg) {
@@ -4589,6 +5477,8 @@ async function submitCreatorForm(e) {
   const form = e.target;
   const lang = document.getElementById('caf-language-val') ? document.getElementById('caf-language-val').value : '';
   if (!lang) { const err = document.getElementById('caf-lang-error'); if (err) err.style.display = 'block'; return; }
+  const nicheVal = document.getElementById('caf-niche-val') ? document.getElementById('caf-niche-val').value : '';
+  if (!nicheVal) { const nerr = document.getElementById('caf-niche-error'); if (nerr) nerr.style.display = 'block'; return; }
 
   const btn = document.getElementById('caf-submit-btn');
   const origText = btn.textContent;
@@ -4600,16 +5490,18 @@ async function submitCreatorForm(e) {
     name:       fd.get('name') || '',
     email:      fd.get('email') || '',
     whatsapp:   fd.get('whatsapp') || '',
-    city:       fd.get('city') || '',
-    district:   fd.get('district') || '',
-    state:      fd.get('state') || '',
+    pincode:    fd.get('pincode') || '',
+    city:       fd.get('pincode_city') || fd.get('city') || '',
+    district:   fd.get('pincode_district') || fd.get('district') || '',
+    state:      fd.get('pincode_state') || fd.get('state') || '',
+    post_office: fd.get('pincode_post_office') || '',
     platform:   fd.get('platform') || '',
     instagram:  fd.get('instagram') || '',
     youtube:    fd.get('youtube') || '',
     followers:  fd.get('followers_display') || fd.get('followers') || '',
     engagement: fd.get('engagement_rate') || '',
     language:   lang,
-    niche:      fd.get('niche') || '',
+    niche:      nicheVal,
     notes:      fd.get('past_collabs') || '',
     motivation: fd.get('motivation') || ''
   };
@@ -4636,6 +5528,8 @@ async function submitCreatorForm(e) {
   form.reset();
   // Reset pills and photo
   document.querySelectorAll('.caf-pill.selected').forEach(p => p.classList.remove('selected'));
+  const nicheHid = document.getElementById('caf-niche-val');
+  if (nicheHid) nicheHid.value = '';
   const phPrev = document.getElementById('caf-photo-preview');
   const phIcon = document.getElementById('caf-photo-icon');
   if (phPrev) { phPrev.src = ''; phPrev.style.display = 'none'; }
@@ -4646,6 +5540,66 @@ async function submitCreatorForm(e) {
   btn.textContent = 'Sent ✓'; 
   setTimeout(() => { window.open('https://wa.me/916307041225?text=' + waMsg, '_blank'); }, 1200);
   setTimeout(() => { btn.textContent = origText; btn.disabled = false; }, 4000);
+}
+
+function cafToggleNiche(btn) {
+  btn.classList.toggle('selected');
+  const sel = [...document.querySelectorAll('#caf-niche-pills .caf-pill.selected')].map(b => b.dataset.niche);
+  const hid = document.getElementById('caf-niche-val');
+  if (hid) hid.value = sel.join(', ');
+  const err = document.getElementById('caf-niche-error');
+  if (err) err.style.display = sel.length > 0 ? 'none' : 'block';
+}
+
+async function fetchPincodeLocation(pin) {
+  if (!pin || pin.length !== 6) return;
+  const status = document.getElementById('caf-pincode-status');
+  if (status) status.innerHTML = '<span style="color:var(--muted)">Fetching location…</span>';
+
+  const sources = [
+    () => fetch('https://api.postalpincode.in/pincode/' + pin).then(r => r.json()).then(d => {
+      if (d && d[0] && d[0].Status === 'Success' && d[0].PostOffice?.length) {
+        const po = d[0].PostOffice[0];
+        return { city: po.Block || po.Name, district: po.District, state: po.State, offices: d[0].PostOffice.map(p=>p.Name).join(', ') };
+      }
+      throw new Error('not found');
+    }),
+    () => fetch('https://corsproxy.io/?' + encodeURIComponent('https://api.postalpincode.in/pincode/' + pin)).then(r => r.json()).then(d => {
+      if (d && d[0] && d[0].Status === 'Success' && d[0].PostOffice?.length) {
+        const po = d[0].PostOffice[0];
+        return { city: po.Block || po.Name, district: po.District, state: po.State, offices: d[0].PostOffice.map(p=>p.Name).join(', ') };
+      }
+      throw new Error('not found');
+    }),
+    () => fetch('https://api.zippopotam.us/in/' + pin).then(r => { if(!r.ok) throw new Error('not found'); return r.json(); }).then(d => {
+      if (d && d.places && d.places.length) {
+        const p = d.places[0];
+        return { city: p['place name'], district: p['place name'], state: p['state'], offices: p['place name'] };
+      }
+      throw new Error('not found');
+    })
+  ];
+
+  for (const src of sources) {
+    try {
+      const loc = await src();
+      document.getElementById('caf-pincode-city').value = loc.city || '';
+      document.getElementById('caf-pincode-district').value = loc.district || '';
+      document.getElementById('caf-pincode-state').value = loc.state || '';
+      document.getElementById('caf-pincode-po').value = loc.offices || '';
+      if (status) status.innerHTML = '<span style="color:var(--success)">✓ ' + [loc.city, loc.district, loc.state].filter(Boolean).join(', ') + '</span>';
+      // Also fill visible location autocomplete fields
+      const stEl = document.getElementById('caf-state');
+      if (stEl) stEl.value = loc.state || '';
+      const distEl = document.getElementById('caf-district');
+      if (distEl) distEl.value = loc.district || '';
+      const cityEl = document.getElementById('caf-city');
+      if (cityEl) cityEl.value = loc.city || '';
+      return;
+    } catch {}
+  }
+
+  if (status) status.innerHTML = '<span style="color:#F59E0B">⚠ Could not auto-fill. Your pincode will still be saved.</span>';
 }
 
 // ===== 3D CARD TILT =====
@@ -4670,7 +5624,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initFromURL();
   initCounters();
   setTimeout(initReveal, 500);
-  initCloud(); // loads from JSONBin and renders showcase
+  initCloud();
+  initDragScroll('network-creator-grid');
+  initDragScroll('network-brand-grid');
 });
 
 </script>

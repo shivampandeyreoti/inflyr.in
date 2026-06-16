@@ -3,508 +3,599 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Join as Creator — INFLYR</title>
-<meta name="description" content="Apply to join INFLYR's creator network. Fill your profile and get matched with D2C brands.">
+<title>Join INFLYR Creator Network — Get Paid Brand Collabs</title>
+<meta name="description" content="Apply to join INFLYR's creator network. Get matched with D2C brands, receive proper briefs, and get paid in 7 days. All niches, all Indian languages.">
+<link rel="canonical" href="https://inflyr.in/join">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0C0C0C;--ink-2:#141414;--ink-3:#1E1E1E;--lime:#C8F135;--lime-h:#A8CC20;--purple:#8A5CF6;--chalk:#F5F2EC;--sec:#9A9590;--muted:#5A5652;--success:#22C55E;--error:#EF4444}
+:root {
+  --ink: #0C0C0C; --ink-2: #141414; --ink-3: #1E1E1E;
+  --lime: #C8F135; --lime-hover: #A8CC20; --purple: #8A5CF6;
+  --chalk: #F5F2EC; --secondary: #9A9590; --muted: #5A5652;
+  --success: #22C55E; --error: #EF4444;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--ink);color:var(--chalk);font-family:'DM Sans',sans-serif;min-height:100vh}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:var(--ink-3);border-radius:2px}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--chalk);font-family:'DM Sans',sans-serif;min-height:100svh}
+.bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em}
+.mono{font-family:'DM Mono',monospace}
+.lime{color:var(--lime)}
+a{color:inherit}
 
-nav{position:sticky;top:0;z-index:100;padding:0 5vw;height:60px;display:flex;align-items:center;justify-content:space-between;background:rgba(12,12,12,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--ink-3)}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.04em;color:var(--chalk);text-decoration:none}
-.logo-bar{display:inline-block;width:3px;height:1em;background:var(--lime);border-radius:3px;margin:0 1px;vertical-align:middle;position:relative;top:-1px}
-.back-link{color:var(--muted);font-family:'DM Mono',monospace;font-size:.72rem;text-decoration:none;transition:color .2s}.back-link:hover{color:var(--lime)}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(12,12,12,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.07)}
+.nav-logo img{height:36px;display:block}
+.nav-back{color:var(--secondary);text-decoration:none;font-size:.875rem;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:6px;transition:color .2s}
+.nav-back:hover{color:var(--chalk)}
 
-.hero{padding:60px 5vw 0;max-width:680px;margin:0 auto;text-align:center}
-.hero-badge{display:inline-block;background:rgba(138,92,246,.1);border:1px solid rgba(138,92,246,.25);color:var(--purple);font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:20px}
-.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,4rem);letter-spacing:.03em;line-height:1.05;margin-bottom:16px}
-.hero h1 span{color:var(--lime)}
-.hero p{color:var(--sec);font-size:1rem;line-height:1.7;margin-bottom:0}
+/* PAGE */
+.page-wrap{max-width:680px;margin:0 auto;padding:100px 5vw 80px}
+.page-label{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--lime);letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.page-label::before{content:'';width:20px;height:1px;background:var(--lime)}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,8vw,5rem);letter-spacing:.04em;line-height:1;margin-bottom:16px}
+.page-sub{color:var(--secondary);font-size:1rem;line-height:1.7;margin-bottom:48px;max-width:520px}
 
-.perks{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin:28px 0 0;padding:0 5vw}
-.perk{display:flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:.72rem;color:var(--sec);background:var(--ink-2);border:1px solid var(--ink-3);padding:8px 14px;border-radius:20px}
-.perk span{color:var(--lime)}
+/* BENEFITS STRIP */
+.benefits-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-bottom:48px;border:1px solid var(--ink-3)}
+.benefit-mini{background:var(--ink-2);padding:20px;text-align:center}
+.benefit-mini-icon{font-size:1.5rem;margin-bottom:8px}
+.benefit-mini-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.04em;margin-bottom:4px}
+.benefit-mini-desc{color:var(--muted);font-size:.72rem;font-family:'DM Mono',monospace;line-height:1.5}
 
-.page{max-width:640px;margin:0 auto;padding:40px 5vw 80px}
-
-/* FORM CARD */
-.form-card{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:10px;padding:32px;margin-bottom:20px}
-.form-card-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.04em;margin-bottom:4px}
-.form-card-sub{color:var(--sec);font-size:.82rem;margin-bottom:24px}
-.form-group{margin-bottom:18px}
-.form-label{display:block;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:7px}
-.form-label .req{color:var(--lime)}
-.form-input{width:100%;background:var(--ink);border:1px solid var(--ink-3);border-radius:5px;padding:12px 14px;color:var(--chalk);font-family:'DM Sans',sans-serif;font-size:.9rem;transition:border-color .2s;min-height:44px;appearance:none;-webkit-appearance:none}
-.form-input:focus{outline:none;border-color:var(--purple)}
+/* FORM */
+.form-card{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:12px;padding:36px}
+.form-title{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:.04em;margin-bottom:4px}
+.form-sub{color:var(--muted);font-size:.8rem;font-family:'DM Mono',monospace;margin-bottom:28px;line-height:1.5}
+.form-group{margin-bottom:20px}
+.form-label{display:block;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.06em;color:var(--secondary);text-transform:uppercase;margin-bottom:8px}
+.form-input{width:100%;background:var(--ink);border:1px solid var(--ink-3);color:var(--chalk);padding:12px 16px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.9375rem;transition:border-color .2s;outline:none}
+.form-input:focus{border-color:var(--purple)}
 .form-input::placeholder{color:var(--muted)}
-.form-input.error{border-color:var(--error)}
-select.form-input{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A5652' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-textarea.form-input{min-height:100px;resize:vertical;line-height:1.6}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:520px){.form-grid{grid-template-columns:1fr}}
-.field-error{display:none;color:var(--error);font-family:'DM Mono',monospace;font-size:.7rem;margin-top:5px}
+.form-input option{background:var(--ink-2)}
+
+/* PILLS */
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.pill{background:var(--ink);border:1px solid var(--ink-3);color:var(--secondary);padding:7px 14px;border-radius:9999px;font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.pill.selected{background:rgba(138,92,246,.15);border-color:var(--purple);color:var(--purple)}
+.pill:hover:not(.selected){border-color:var(--chalk);color:var(--chalk)}
+.pill-lime{background:var(--ink);border:1px solid var(--ink-3);color:var(--secondary);padding:7px 14px;border-radius:9999px;font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.pill-lime.selected{background:rgba(200,241,53,.12);border-color:var(--lime);color:var(--lime)}
+.pill-lime:hover:not(.selected){border-color:var(--chalk);color:var(--chalk)}
 
 /* PHOTO UPLOAD */
-.photo-upload-wrap{display:flex;align-items:center;gap:20px}
-.photo-circle{width:80px;height:80px;border-radius:50%;background:var(--ink-3);border:2px dashed var(--ink-3);display:flex;align-items:center;justify-content:center;font-size:2rem;overflow:hidden;flex-shrink:0;cursor:pointer;transition:border-color .2s}
+.photo-circle{width:72px;height:72px;border-radius:50%;border:2px dashed var(--ink-3);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;background:var(--ink);font-size:1.8rem;transition:border-color .2s}
 .photo-circle:hover{border-color:var(--purple)}
-.photo-circle img{width:100%;height:100%;object-fit:cover;display:none}
-.photo-upload-info{flex:1}
-.photo-upload-info p{font-size:.82rem;color:var(--sec);line-height:1.5;margin-bottom:8px}
 
 /* SUBMIT */
-.submit-btn{width:100%;padding:16px;background:var(--purple);color:#fff;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;margin-top:8px}
-.submit-btn:hover{background:#7040e0;transform:translateY(-1px)}
-.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.btn-submit{width:100%;background:var(--purple);color:var(--chalk);border:none;padding:15px;border-radius:6px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:1rem;cursor:pointer;transition:all .2s;margin-top:8px}
+.btn-submit:hover{background:#7c4fe0;transform:translateY(-1px)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
 
-/* SUCCESS STATE */
+/* FOLLOWER DISPLAY */
+.follower-tag{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--lime);margin-top:6px;min-height:16px}
+
+/* PINCODE STATUS */
+.pincode-status{font-family:'DM Mono',monospace;font-size:.72rem;margin-top:6px;color:var(--muted)}
+
+/* TOAST */
+.toast{position:fixed;bottom:32px;right:32px;background:var(--ink-2);border:1px solid var(--lime);padding:20px 28px;border-radius:10px;z-index:9999;transform:translateY(120%);opacity:0;transition:all .4s cubic-bezier(.23,1,.32,1)}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-title{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.04em;color:var(--lime);margin-bottom:4px}
+
+/* SUCCESS */
 .success-screen{display:none;text-align:center;padding:60px 20px}
-.success-icon{font-size:4rem;margin-bottom:20px}
-.success-title{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.04em;margin-bottom:10px}
-.success-sub{color:var(--sec);font-size:.95rem;line-height:1.7;margin-bottom:28px}
+.success-icon{font-size:4rem;margin-bottom:16px}
+.success-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.04em;color:var(--lime);margin-bottom:12px}
+.success-sub{color:var(--secondary);line-height:1.7}
 
-.lang-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 4px;
+@media(max-width:600px){
+  .benefits-strip{grid-template-columns:1fr}
+  .form-card{padding:24px}
+  nav{padding:0 20px}
+  .page-wrap{padding:88px 20px 60px}
 }
-.lang-pill {
-  background: var(--ink);
-  border: 1px solid var(--ink-3);
-  color: var(--muted);
-  padding: 7px 14px;
-  border-radius: 20px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: .82rem;
-  cursor: pointer;
-  transition: all .2s;
-  user-select: none;
-}
-.lang-pill:hover { border-color: var(--purple); color: var(--chalk); }
-.lang-pill.selected {
-  background: rgba(138,92,246,.15);
-  border-color: var(--purple);
-  color: var(--purple);
-  font-weight: 600;
-}
-.suggest-dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0; right: 0;
-  background: var(--ink-2);
-  border: 1px solid var(--ink-3);
-  border-radius: 6px;
-  z-index: 100;
-  max-height: 200px;
-  overflow-y: auto;
-  box-shadow: 0 8px 24px rgba(0,0,0,.4);
-}
-.suggest-item {
-  padding: 10px 14px;
-  font-size: .875rem;
-  cursor: pointer;
-  transition: background .15s;
-  border-bottom: 1px solid var(--ink-3);
-}
-.suggest-item:last-child { border-bottom: none; }
-.suggest-item:hover { background: var(--ink-3); color: var(--lime); }
-
-/* LOADING */
-.loading-overlay{display:none;position:fixed;inset:0;background:rgba(12,12,12,.75);backdrop-filter:blur(4px);z-index:8000;align-items:center;justify-content:center;flex-direction:column;gap:12px}
-.loading-overlay.show{display:flex}
-.spinner{width:32px;height:32px;border:2px solid var(--ink-3);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--sec)}
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">INFL<span class="logo-bar"></span>R</a>
-  <a href="index.html" class="back-link">← Back to Site</a>
+  <a href="https://inflyr.in" class="nav-logo">
+    <svg width="80" height="24" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <text x="0" y="48" font-family="'Bebas Neue',sans-serif" font-size="56" fill="#F5F2EC" letter-spacing="4">INFLYR</text>
+    </svg>
+  </a>
+  <a href="https://inflyr.in" class="nav-back">← inflyr.in</a>
 </nav>
 
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner"></div>
-  <div class="loading-text">Submitting your profile...</div>
-</div>
+<div class="page-wrap">
+  <div class="page-label">Creator Network</div>
+  <h1>JOIN <span class="lime">INFLYR</span> —<br>GET REAL PAID.</h1>
+  <p class="page-sub">Apply in 2 minutes. No portfolio needed. We'll WhatsApp you when a brand campaign matches your niche, language, and audience size.</p>
 
-<div class="hero">
-  <div class="hero-badge">🔒 Invite Only — Creator Profile Setup</div>
-  <h1>SET UP YOUR<br><span>INFLYR PROFILE</span></h1>
-  <p>You've been invited to create your creator profile on INFLYR. Fill this once — we'll match you with D2C brands and notify you when there's a collab opportunity.</p>
-</div>
+  <div class="benefits-strip">
+    <div class="benefit-mini">
+      <div class="benefit-mini-icon">💰</div>
+      <div class="benefit-mini-title">Fixed Pay</div>
+      <div class="benefit-mini-desc">₹500–₹2L+ per post. Set before you start.</div>
+    </div>
+    <div class="benefit-mini">
+      <div class="benefit-mini-icon">📋</div>
+      <div class="benefit-mini-title">Proper Briefs</div>
+      <div class="benefit-mini-desc">Hook, dos & don'ts, references. No guessing.</div>
+    </div>
+    <div class="benefit-mini">
+      <div class="benefit-mini-icon">⚡</div>
+      <div class="benefit-mini-title">7-Day Payment</div>
+      <div class="benefit-mini-desc">Content approved → payment in 7 days. Always.</div>
+    </div>
+  </div>
 
-<div class="perks">
-  <div class="perk"><span>✓</span> Invite only</div>
-  <div class="perk"><span>✓</span> Get brand deals</div>
-  <div class="perk"><span>✓</span> Payment in 7 days</div>
-  <div class="perk"><span>✓</span> No middleman fees</div>
-</div>
+  <div class="form-card" id="form-wrapper">
+    <div class="form-title">CREATOR APPLICATION</div>
+    <p class="form-sub">Fill your details once. We'll handle the rest — no spam, no pressure.</p>
+    <form id="joinCreatorForm" onsubmit="submitJoinForm(event)">
 
-<div class="page">
-
-  <!-- FORM -->
-  <div id="joinForm">
-    <!-- PROFILE SECTION -->
-    <div class="form-card">
-      <div class="form-card-title">Your Profile</div>
-      <div class="form-card-sub">This info will appear on the INFLYR website after approval.</div>
-
-      <!-- PHOTO UPLOAD -->
+      <!-- PHOTO -->
       <div class="form-group">
         <label class="form-label">Profile Photo</label>
-        <div class="photo-upload-wrap">
-          <div class="photo-circle" onclick="document.getElementById('photoFile').click()">
-            <img id="photoPreview" alt="Preview">
-            <span id="photoIcon">📸</span>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div class="photo-circle" onclick="document.getElementById('join-photo-file').click()" id="join-photo-circle">
+            <img id="join-photo-preview" style="width:100%;height:100%;object-fit:cover;display:none;border-radius:50%" src="" alt="">
+            <span id="join-photo-icon">📸</span>
           </div>
-          <div class="photo-upload-info">
-            <p>Upload a clear photo of yourself. Square images work best. Max 5MB.</p>
-            <button type="button" onclick="document.getElementById('photoFile').click()" style="background:none;border:1px solid var(--ink-3);color:var(--sec);padding:7px 14px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.7rem;cursor:pointer">Choose Photo</button>
+          <div>
+            <button type="button" onclick="document.getElementById('join-photo-file').click()" style="background:none;border:1px solid var(--ink-3);color:var(--secondary);padding:7px 16px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;margin-bottom:6px">Upload Photo</button>
+            <p style="font-size:.75rem;color:var(--muted);margin:0">Clear face photo. Max 5MB.</p>
           </div>
         </div>
-        <input type="file" id="photoFile" accept="image/*" style="display:none" onchange="handlePhoto(this)">
-        <input type="hidden" id="photoData">
+        <input type="file" id="join-photo-file" accept="image/*" style="display:none" onchange="handleJoinPhoto(this)">
+        <input type="hidden" id="join-photo-data" name="photo">
       </div>
 
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label">Full Name <span class="req">*</span></label>
-          <input type="text" id="f-name" class="form-input" placeholder="Riya Sharma">
-          <div class="field-error" id="err-name">Name is required</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Email <span class="req">*</span></label>
-          <input type="email" id="f-email" class="form-input" placeholder="riya@gmail.com">
-          <div class="field-error" id="err-email">Valid email is required</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Instagram / YouTube Handle</label>
-          <input type="text" id="f-handle" class="form-input" placeholder="riyasharma (without @)">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Follower Count</label>
-          <input type="number" id="f-followers" class="form-input" placeholder="Enter exact number e.g. 38000" min="0" oninput="updateFollowerDisplay(this.value)">
-          <div id="follower-display" style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--purple);margin-top:5px;min-height:18px"></div>
-        </div>
+      <div class="form-group">
+        <label class="form-label">Full Name *</label>
+        <input type="text" name="name" class="form-input" placeholder="Priya Singh" required>
       </div>
-    </div>
+      <div class="form-group">
+        <label class="form-label">Email *</label>
+        <input type="email" name="email" class="form-input" placeholder="priya@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">WhatsApp Number *</label>
+        <input type="tel" name="whatsapp" class="form-input" placeholder="+91 98765 43210" required>
+      </div>
 
-    <!-- CONTENT SECTION -->
-    <div class="form-card">
-      <div class="form-card-title">Your Content</div>
-      <div class="form-card-sub">Help brands understand what you create.</div>
-
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label">Primary Platform <span class="req">*</span></label>
-          <select id="f-platform" class="form-input">
-            <option value="">Select platform</option>
-            <option>Instagram</option>
-            <option>YouTube</option>
-            <option>Instagram + YouTube</option>
-            <option>Reels Only</option>
-            <option>LinkedIn</option>
-          </select>
-          <div class="field-error" id="err-platform">Please select a platform</div>
+      <!-- PINCODE + LOCATION -->
+      <div class="form-group">
+        <label class="form-label">Pincode * <span style="color:var(--muted);font-size:.7rem;text-transform:none">(auto-fills city, district & state)</span></label>
+        <div style="display:flex;gap:8px">
+          <input type="text" id="join-pincode" name="pincode" class="form-input" placeholder="e.g. 226001" maxlength="6" pattern="[0-9]{6}" required style="flex:1" oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)joinFetchPincode(this.value)">
+          <button type="button" onclick="joinFetchPincode(document.getElementById('join-pincode').value)" style="background:var(--ink-3);border:1px solid var(--ink-3);color:var(--chalk);padding:0 14px;border-radius:4px;cursor:pointer;font-family:'DM Mono',monospace;font-size:.72rem;white-space:nowrap">Fetch →</button>
         </div>
-        <div class="form-group span2">
-          <label class="form-label">Content Language <span class="req">*</span> <span style="font-size:.65rem;color:var(--muted);text-transform:none;letter-spacing:0">Select all that apply</span></label>
-          <div class="lang-pills" id="lang-pills">
-            <button type="button" class="lang-pill" data-val="Hindi" onclick="toggleLang(this)">Hindi</button>
-            <button type="button" class="lang-pill" data-val="English" onclick="toggleLang(this)">English</button>
-            <button type="button" class="lang-pill" data-val="Hinglish" onclick="toggleLang(this)">Hinglish</button>
-            <button type="button" class="lang-pill" data-val="Tamil" onclick="toggleLang(this)">Tamil</button>
-            <button type="button" class="lang-pill" data-val="Telugu" onclick="toggleLang(this)">Telugu</button>
-            <button type="button" class="lang-pill" data-val="Kannada" onclick="toggleLang(this)">Kannada</button>
-            <button type="button" class="lang-pill" data-val="Malayalam" onclick="toggleLang(this)">Malayalam</button>
-            <button type="button" class="lang-pill" data-val="Bengali" onclick="toggleLang(this)">Bengali</button>
-            <button type="button" class="lang-pill" data-val="Marathi" onclick="toggleLang(this)">Marathi</button>
-            <button type="button" class="lang-pill" data-val="Gujarati" onclick="toggleLang(this)">Gujarati</button>
-            <button type="button" class="lang-pill" data-val="Punjabi" onclick="toggleLang(this)">Punjabi</button>
-            <button type="button" class="lang-pill" data-val="Odia" onclick="toggleLang(this)">Odia</button>
-            <button type="button" class="lang-pill" data-val="Bhojpuri" onclick="toggleLang(this)">Bhojpuri</button>
-            <button type="button" class="lang-pill" data-val="Rajasthani" onclick="toggleLang(this)">Rajasthani</button>
-            <button type="button" class="lang-pill" data-val="Haryanvi" onclick="toggleLang(this)">Haryanvi</button>
-            <button type="button" class="lang-pill" data-val="Assamese" onclick="toggleLang(this)">Assamese</button>
-            <button type="button" class="lang-pill" data-val="Urdu" onclick="toggleLang(this)">Urdu</button>
-            <button type="button" class="lang-pill" data-val="Maithili" onclick="toggleLang(this)">Maithili</button>
-            <button type="button" class="lang-pill" data-val="Other" onclick="toggleLang(this)">Other</button>
-          </div>
-          <input type="hidden" id="f-language">
-          <div class="field-error" id="err-language">Please select at least one language</div>
+        <div id="join-pincode-status" class="pincode-status"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="form-group" style="margin-bottom:0">
+          <label class="form-label">City / Town</label>
+          <input type="text" id="join-city" name="city" class="form-input" placeholder="e.g. Lucknow">
         </div>
-        <div class="form-group">
-          <label class="form-label">Content Niche <span class="req">*</span></label>
-          <select id="f-niche" class="form-input">
-            <option value="">Select niche</option>
-            <option>Skincare & Beauty</option><option>Fashion & Lifestyle</option>
-            <option>Fitness & Health</option><option>Food & Cooking</option>
-            <option>Comedy & Entertainment</option><option>Travel & Vlogs</option>
-            <option>Tech & Gadgets</option><option>Finance & Business</option>
-            <option>Parenting & Family</option><option>Gaming</option>
-            <option>Education</option><option>Other</option>
-          </select>
-          <div class="field-error" id="err-niche">Please select your niche</div>
-        </div>
-        <div class="form-group">
-          <label class="form-label">City</label>
-          <div style="position:relative">
-            <input type="text" id="f-city" class="form-input" placeholder="e.g. Mumbai" autocomplete="off" oninput="showSuggestions('city',this.value)" onfocus="showSuggestions('city',this.value)" onblur="setTimeout(()=>hideSuggestions('city'),200)">
-            <div id="city-dropdown" class="suggest-dropdown" style="display:none"></div>
-          </div>
-        </div>
-        <div class="form-group">
+        <div class="form-group" style="margin-bottom:0">
           <label class="form-label">District</label>
-          <div style="position:relative">
-            <input type="text" id="f-district" class="form-input" placeholder="e.g. South Delhi" autocomplete="off" oninput="showSuggestions('district',this.value)" onfocus="showSuggestions('district',this.value)" onblur="setTimeout(()=>hideSuggestions('district'),200)">
-            <div id="district-dropdown" class="suggest-dropdown" style="display:none"></div>
-          </div>
+          <input type="text" id="join-district" name="district" class="form-input" placeholder="e.g. Lucknow">
         </div>
-        <div class="form-group">
-          <label class="form-label">State <span class="req">*</span></label>
-          <div style="position:relative">
-            <input type="text" id="f-state" class="form-input" placeholder="e.g. Maharashtra" autocomplete="off" oninput="showSuggestions('state',this.value)" onfocus="showSuggestions('state',this.value)" onblur="setTimeout(()=>hideSuggestions('state'),200)">
-            <div id="state-dropdown" class="suggest-dropdown" style="display:none"></div>
-          </div>
-          <div class="field-error" id="err-state">Please enter your state</div>
+      </div>
+      <div class="form-group" style="margin-top:12px">
+        <label class="form-label">State</label>
+        <select id="join-state" name="state" class="form-input">
+          <option value="">Select state</option>
+          <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+          <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
+          <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
+          <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+          <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+          <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+          <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+          <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+          <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+          <option>West Bengal</option><option>Delhi</option><option>Jammu and Kashmir</option>
+          <option>Ladakh</option><option>Chandigarh</option><option>Puducherry</option>
+          <option>Andaman and Nicobar Islands</option><option>Dadra and Nagar Haveli</option>
+          <option>Daman and Diu</option><option>Lakshadweep</option>
+        </select>
+      </div>
+      <input type="hidden" name="post_office" id="join-po">
+
+      <!-- PLATFORM -->
+      <div class="form-group">
+        <label class="form-label">Primary Platform *</label>
+        <select name="platform" class="form-input" required>
+          <option value="" disabled selected>Select platform</option>
+          <option>Instagram</option>
+          <option>YouTube</option>
+          <option>Both Instagram & YouTube</option>
+          <option>LinkedIn</option>
+          <option>X (Twitter)</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Instagram Handle *</label>
+        <input type="text" name="instagram" class="form-input" placeholder="@yourhandle" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">YouTube Channel <span style="color:var(--muted);text-transform:none">(optional)</span></label>
+        <input type="text" name="youtube" class="form-input" placeholder="Channel name or URL">
+      </div>
+
+      <!-- FOLLOWERS -->
+      <div class="form-group">
+        <label class="form-label">Total Followers / Subscribers *</label>
+        <input type="number" name="followers" id="join-followers" class="form-input" placeholder="e.g. 12500" min="0" required oninput="joinFollowerDisplay(this.value)">
+        <div class="follower-tag" id="join-follower-tag"></div>
+        <input type="hidden" name="followers_display" id="join-followers-display">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Average Engagement Rate</label>
+        <select name="engagement_rate" class="form-input">
+          <option value="" disabled selected>Select range</option>
+          <option>Below 2%</option>
+          <option>2% – 4%</option>
+          <option>4% – 7%</option>
+          <option>7%+</option>
+        </select>
+      </div>
+
+      <!-- LANGUAGE PILLS -->
+      <div class="form-group">
+        <label class="form-label">Content Language(s) * <span style="color:var(--muted);text-transform:none;font-size:.7rem">(select all you create in)</span></label>
+        <div class="pill-row">
+          <button type="button" class="pill-lime" data-val="Hindi" onclick="joinToggleLang(this)">Hindi</button>
+          <button type="button" class="pill-lime" data-val="English" onclick="joinToggleLang(this)">English</button>
+          <button type="button" class="pill-lime" data-val="Hinglish" onclick="joinToggleLang(this)">Hinglish</button>
+          <button type="button" class="pill-lime" data-val="Bhojpuri" onclick="joinToggleLang(this)">Bhojpuri</button>
+          <button type="button" class="pill-lime" data-val="Tamil" onclick="joinToggleLang(this)">Tamil</button>
+          <button type="button" class="pill-lime" data-val="Telugu" onclick="joinToggleLang(this)">Telugu</button>
+          <button type="button" class="pill-lime" data-val="Marathi" onclick="joinToggleLang(this)">Marathi</button>
+          <button type="button" class="pill-lime" data-val="Bengali" onclick="joinToggleLang(this)">Bengali</button>
+          <button type="button" class="pill-lime" data-val="Kannada" onclick="joinToggleLang(this)">Kannada</button>
+          <button type="button" class="pill-lime" data-val="Gujarati" onclick="joinToggleLang(this)">Gujarati</button>
+          <button type="button" class="pill-lime" data-val="Punjabi" onclick="joinToggleLang(this)">Punjabi</button>
+          <button type="button" class="pill-lime" data-val="Malayalam" onclick="joinToggleLang(this)">Malayalam</button>
+          <button type="button" class="pill-lime" data-val="Odia" onclick="joinToggleLang(this)">Odia</button>
+          <button type="button" class="pill-lime" data-val="Rajasthani" onclick="joinToggleLang(this)">Rajasthani</button>
+          <button type="button" class="pill-lime" data-val="Haryanvi" onclick="joinToggleLang(this)">Haryanvi</button>
+          <button type="button" class="pill-lime" data-val="Assamese" onclick="joinToggleLang(this)">Assamese</button>
+          <button type="button" class="pill-lime" data-val="Maithili" onclick="joinToggleLang(this)">Maithili</button>
+          <button type="button" class="pill-lime" data-val="Urdu" onclick="joinToggleLang(this)">Urdu</button>
+          <button type="button" class="pill-lime" data-val="Other" onclick="joinToggleLang(this)">Other</button>
         </div>
+        <input type="hidden" name="language" id="join-lang-val">
+        <div id="join-lang-error" style="display:none;color:var(--error);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:6px">Please select at least one language</div>
+      </div>
+
+      <!-- NICHE PILLS -->
+      <div class="form-group">
+        <label class="form-label">Content Niche(s) * <span style="color:var(--muted);text-transform:none;font-size:.7rem">(select all that apply)</span></label>
+        <div class="pill-row" id="join-niche-pills">
+          <button type="button" class="pill" data-niche="Fashion & Style" onclick="joinToggleNiche(this)">Fashion & Style</button>
+          <button type="button" class="pill" data-niche="Beauty & Makeup" onclick="joinToggleNiche(this)">Beauty & Makeup</button>
+          <button type="button" class="pill" data-niche="Skincare" onclick="joinToggleNiche(this)">Skincare</button>
+          <button type="button" class="pill" data-niche="Food & Cooking" onclick="joinToggleNiche(this)">Food & Cooking</button>
+          <button type="button" class="pill" data-niche="Travel & Lifestyle" onclick="joinToggleNiche(this)">Travel & Lifestyle</button>
+          <button type="button" class="pill" data-niche="Tech & Gaming" onclick="joinToggleNiche(this)">Tech & Gaming</button>
+          <button type="button" class="pill" data-niche="Fitness & Health" onclick="joinToggleNiche(this)">Fitness & Health</button>
+          <button type="button" class="pill" data-niche="Finance & Business" onclick="joinToggleNiche(this)">Finance & Business</button>
+          <button type="button" class="pill" data-niche="Comedy & Entertainment" onclick="joinToggleNiche(this)">Comedy & Entertainment</button>
+          <button type="button" class="pill" data-niche="Education" onclick="joinToggleNiche(this)">Education</button>
+          <button type="button" class="pill" data-niche="Parenting & Family" onclick="joinToggleNiche(this)">Parenting & Family</button>
+          <button type="button" class="pill" data-niche="Dance & Music" onclick="joinToggleNiche(this)">Dance & Music</button>
+          <button type="button" class="pill" data-niche="Motivation & Mindset" onclick="joinToggleNiche(this)">Motivation & Mindset</button>
+          <button type="button" class="pill" data-niche="Home & Decor" onclick="joinToggleNiche(this)">Home & Decor</button>
+          <button type="button" class="pill" data-niche="Vlogs" onclick="joinToggleNiche(this)">Vlogs</button>
+          <button type="button" class="pill" data-niche="Spiritual" onclick="joinToggleNiche(this)">Spiritual</button>
+          <button type="button" class="pill" data-niche="Other" onclick="joinToggleNiche(this)">Other</button>
+        </div>
+        <input type="hidden" name="niche" id="join-niche-val">
+        <div id="join-niche-error" style="display:none;color:var(--error);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:6px">Please select at least one niche</div>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Short Bio <span class="req">*</span></label>
-        <textarea id="f-bio" class="form-input" placeholder="Tell us about yourself and your content in 2-3 lines. What makes you different?"></textarea>
-        <div class="field-error" id="err-bio">Please write a short bio</div>
-      </div>
-    </div>
-
-    <!-- BRAND PREFS -->
-    <div class="form-card">
-      <div class="form-card-title">Brand Preferences</div>
-      <div class="form-card-sub">Optional — helps us match you faster.</div>
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label">Preferred Brand Category</label>
-          <select id="f-brand-cat" class="form-input">
-            <option value="">Any category</option>
-            <option>D2C Skincare / Beauty</option><option>Food & Beverage</option>
-            <option>Fitness & Supplements</option><option>Fashion & Apparel</option>
-            <option>Electronics / Gadgets</option><option>Home & Lifestyle</option>
-            <option>Finance / EdTech</option><option>Open to All</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Content Rate (per reel / video)</label>
-          <select id="f-rate" class="form-input">
-            <option value="">Prefer not to say</option>
-            <option>Under ₹5,000</option><option>₹5K–₹15K</option>
-            <option>₹15K–₹50K</option><option>₹50K+</option>
-          </select>
-        </div>
+        <label class="form-label">Past Brand Collaborations <span style="color:var(--muted);text-transform:none">(optional)</span></label>
+        <input type="text" name="past_collabs" class="form-input" placeholder="e.g. Mamaearth, Boat, Sugar Cosmetics">
       </div>
       <div class="form-group">
-        <label class="form-label">Anything else? (optional)</label>
-        <textarea id="f-extra" class="form-input" style="min-height:70px" placeholder="Brands you've worked with, awards, achievements..."></textarea>
+        <label class="form-label">Why do you want to join INFLYR?</label>
+        <textarea name="motivation" class="form-input" rows="3" style="resize:vertical;min-height:80px" placeholder="Tell us a bit about yourself and your goals..."></textarea>
       </div>
-    </div>
 
-    <button class="submit-btn" id="submitBtn" onclick="submitForm()">Submit My Application →</button>
-    <p style="text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:.7rem;margin-top:14px">We review applications within 48 hours. You'll hear from us via email.</p>
+      <button type="submit" class="btn-submit" id="join-submit-btn">Apply to Join INFLYR →</button>
+      <p style="text-align:center;color:var(--muted);font-size:.72rem;font-family:'DM Mono',monospace;margin-top:12px">No spam. No cold calls. Only WhatsApp when a campaign matches you.</p>
+    </form>
   </div>
 
-  <!-- SUCCESS -->
-  <div class="success-screen" id="successScreen">
+  <!-- SUCCESS STATE -->
+  <div class="success-screen" id="join-success">
     <div class="success-icon">🎉</div>
-    <div class="success-title">APPLICATION SENT!</div>
-    <div class="success-sub">Your profile has been submitted successfully.<br>INFLYR team will review and approve it within <strong>24–48 hours</strong>.<br><br>Once approved, your profile will go live on <strong>inflyr.in</strong> automatically — brands will start discovering you!</div>
-    <a href="index.html" style="display:inline-block;background:var(--lime);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:700;padding:14px 32px;border-radius:6px;text-decoration:none;font-size:.95rem">← Back to INFLYR</a>
+    <div class="success-title">Application Received!</div>
+    <p class="success-sub">We've got your details. We'll WhatsApp you when a relevant campaign comes in.<br><br>
+    In the meantime — keep creating. We'll handle finding the brands.</p>
+    <a href="https://wa.me/916307041225?text=Hi%20INFLYR%2C%20I%20just%20applied%20as%20a%20creator%21" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:var(--chalk);padding:14px 28px;border-radius:6px;text-decoration:none;font-weight:600;margin-top:24px">
+      💬 Say Hi on WhatsApp
+    </a>
   </div>
+</div>
 
+<!-- TOAST -->
+<div class="toast" id="join-toast">
+  <div class="toast-title">Application Sent!</div>
+  <div>We'll WhatsApp you when a campaign matches.</div>
 </div>
 
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAb6FxyhTdrmQ09hR1Z2jVUXvRDw9vNpGVb6IIqVUxutn32VkuzDc2VcHRGzEJyrz4/exec';
 
-const CREATOR_EMOJIS = ['🎬','📸','🎙️','✍️','🎵','🎮','💄','🏋️','🌿','🤳','💻'];
-const rand = arr => arr[Math.floor(Math.random()*arr.length)];
-
-// ---- Language Pills ----
-function toggleLang(btn) {
+function joinToggleLang(btn) {
   btn.classList.toggle('selected');
-  const selected = [...document.querySelectorAll('.lang-pill.selected')].map(b => b.dataset.val);
-  document.getElementById('f-language').value = selected.join(', ');
-  const errEl = document.getElementById('err-language');
-  if (selected.length > 0) {
-    errEl.style.display = 'none';
-    document.getElementById('f-language').classList.remove('error');
-  }
+  const sel = [...document.querySelectorAll('.pill-lime.selected')].map(b=>b.dataset.val);
+  document.getElementById('join-lang-val').value = sel.join(', ');
+  document.getElementById('join-lang-error').style.display = sel.length ? 'none' : 'block';
 }
 
-// ---- Follower display ----
-function updateFollowerDisplay(val) {
-  const el = document.getElementById('follower-display');
+function joinToggleNiche(btn) {
+  btn.classList.toggle('selected');
+  const sel = [...document.querySelectorAll('#join-niche-pills .pill.selected')].map(b=>b.dataset.niche);
+  document.getElementById('join-niche-val').value = sel.join(', ');
+  document.getElementById('join-niche-error').style.display = sel.length ? 'none' : 'block';
+}
+
+function joinFollowerDisplay(val) {
   const n = parseInt(val);
-  if (!val || isNaN(n)) { el.textContent = ''; return; }
-  let display = '';
-  if (n >= 10000000)      display = (n/10000000).toFixed(1).replace('.0','') + ' Cr';
-  else if (n >= 100000)   display = (n/100000).toFixed(1).replace('.0','') + ' Lakh';
-  else if (n >= 1000)     display = (n/1000).toFixed(1).replace('.0','') + 'K';
-  else                    display = n.toString();
-  
-  let tier = '';
-  if (n < 1000)           tier = 'Nano';
-  else if (n < 5000)      tier = 'Micro-S';
-  else if (n < 10000)     tier = 'Micro';
-  else if (n < 50000)     tier = 'Micro-M';
-  else if (n < 100000)    tier = 'Micro-L';
-  else if (n < 500000)    tier = 'Macro';
-  else if (n < 1000000)   tier = 'Mega';
-  else                    tier = 'Celebrity';
-  
-  el.textContent = display + ' followers · ' + tier + ' creator';
+  const tag = document.getElementById('join-follower-tag');
+  const hid = document.getElementById('join-followers-display');
+  if (!val || isNaN(n)) { if(tag) tag.textContent=''; if(hid) hid.value=''; return; }
+  let disp = n>=10000000?(n/10000000).toFixed(1).replace('.0','')+' Cr':n>=100000?(n/100000).toFixed(1).replace('.0','')+' Lakh':n>=1000?(n/1000).toFixed(1).replace('.0','')+'K':n.toString();
+  let tier = n<1000?'Nano':n<5000?'Micro-S':n<10000?'Micro':n<50000?'Micro-M':n<100000?'Micro-L':n<500000?'Macro':n<1000000?'Mega':'Celebrity';
+  if(tag) tag.textContent = disp+' followers · '+tier+' creator';
+  if(hid) hid.value = disp+' ('+tier+')';
 }
 
-// ---- Location Autocomplete ----
-const CITIES = ['Mumbai','Delhi','Bengaluru','Chennai','Hyderabad','Kolkata','Pune','Ahmedabad','Surat','Jaipur','Lucknow','Kanpur','Nagpur','Indore','Bhopal','Patna','Ludhiana','Agra','Varanasi','Nashik','Vadodara','Rajkot','Meerut','Coimbatore','Mysuru','Kochi','Guwahati','Chandigarh','Amritsar','Visakhapatnam','Bhubaneswar','Raipur','Dehradun','Ranchi','Jodhpur','Madurai','Noida','Gurgaon','Faridabad','Ghaziabad','Thane','Navi Mumbai','Aurangabad','Solapur','Jabalpur','Vijayawada','Tiruchirappalli','Vellore','Mangaluru','Hubli','Dharwad','Belagavi','Shimla','Jammu','Srinagar','Gangtok','Imphal','Shillong','Aizawl','Kohima','Itanagar','Agartala','Dispur','Panaji','Silvassa','Daman','Port Blair'];
+// ── OFFLINE PINCODE MAP (major Indian pincodes, no API needed) ──
+const PIN_MAP = {
+  // Uttar Pradesh
+  '226001':'Lucknow|Lucknow|Uttar Pradesh','226002':'Lucknow|Lucknow|Uttar Pradesh','226003':'Lucknow|Lucknow|Uttar Pradesh','226010':'Lucknow|Lucknow|Uttar Pradesh','226020':'Lucknow|Lucknow|Uttar Pradesh',
+  '201301':'Noida|Gautam Buddha Nagar|Uttar Pradesh','201304':'Noida|Gautam Buddha Nagar|Uttar Pradesh','201001':'Ghaziabad|Ghaziabad|Uttar Pradesh','201002':'Ghaziabad|Ghaziabad|Uttar Pradesh',
+  '277001':'Ballia|Ballia|Uttar Pradesh','277209':'Ballia|Ballia|Uttar Pradesh','277213':'Rasra|Ballia|Uttar Pradesh','277216':'Sikandarpur|Ballia|Uttar Pradesh',
+  '208001':'Kanpur|Kanpur Nagar|Uttar Pradesh','208002':'Kanpur|Kanpur Nagar|Uttar Pradesh','208003':'Kanpur|Kanpur Nagar|Uttar Pradesh',
+  '221001':'Varanasi|Varanasi|Uttar Pradesh','221002':'Varanasi|Varanasi|Uttar Pradesh','221010':'Varanasi|Varanasi|Uttar Pradesh',
+  '211001':'Allahabad|Allahabad|Uttar Pradesh','211002':'Allahabad|Allahabad|Uttar Pradesh',
+  '243001':'Bareilly|Bareilly|Uttar Pradesh','244001':'Moradabad|Moradabad|Uttar Pradesh','250001':'Meerut|Meerut|Uttar Pradesh',
+  '273001':'Gorakhpur|Gorakhpur|Uttar Pradesh','282001':'Agra|Agra|Uttar Pradesh','282002':'Agra|Agra|Uttar Pradesh',
+  // Delhi
+  '110001':'New Delhi|New Delhi|Delhi','110002':'Delhi|Central Delhi|Delhi','110003':'Delhi|South Delhi|Delhi','110004':'Delhi|New Delhi|Delhi','110005':'Delhi|Central Delhi|Delhi',
+  '110006':'Delhi|Central Delhi|Delhi','110007':'Delhi|North Delhi|Delhi','110008':'Delhi|West Delhi|Delhi','110009':'Delhi|North Delhi|Delhi','110010':'Delhi|South Delhi|Delhi',
+  '110011':'Delhi|South West Delhi|Delhi','110012':'Delhi|South West Delhi|Delhi','110013':'Delhi|South East Delhi|Delhi','110014':'Delhi|South Delhi|Delhi','110015':'Delhi|West Delhi|Delhi',
+  '110016':'Delhi|South Delhi|Delhi','110017':'Delhi|South Delhi|Delhi','110018':'Delhi|West Delhi|Delhi','110019':'Delhi|South Delhi|Delhi','110020':'Delhi|South West Delhi|Delhi',
+  '110025':'Delhi|South East Delhi|Delhi','110044':'Delhi|South East Delhi|Delhi','110045':'Delhi|South West Delhi|Delhi','110051':'Delhi|East Delhi|Delhi','110092':'Delhi|East Delhi|Delhi',
+  // Maharashtra
+  '400001':'Mumbai|Mumbai|Maharashtra','400002':'Mumbai|Mumbai|Maharashtra','400003':'Mumbai|Mumbai|Maharashtra','400004':'Mumbai|Mumbai|Maharashtra','400005':'Mumbai|Mumbai|Maharashtra',
+  '400006':'Mumbai|Mumbai|Maharashtra','400007':'Mumbai|Mumbai|Maharashtra','400008':'Mumbai|Mumbai|Maharashtra','400009':'Mumbai|Mumbai|Maharashtra','400010':'Mumbai|Mumbai|Maharashtra',
+  '400050':'Mumbai|Mumbai Suburban|Maharashtra','400051':'Mumbai|Mumbai Suburban|Maharashtra','400053':'Mumbai|Mumbai Suburban|Maharashtra','400054':'Mumbai|Mumbai Suburban|Maharashtra',
+  '400059':'Mumbai|Mumbai Suburban|Maharashtra','400060':'Mumbai|Mumbai Suburban|Maharashtra','400061':'Mumbai|Mumbai Suburban|Maharashtra','400063':'Mumbai|Mumbai Suburban|Maharashtra',
+  '400064':'Mumbai|Mumbai Suburban|Maharashtra','400066':'Mumbai|Mumbai Suburban|Maharashtra','400067':'Mumbai|Mumbai Suburban|Maharashtra','400068':'Mumbai|Mumbai Suburban|Maharashtra',
+  '400069':'Mumbai|Mumbai Suburban|Maharashtra','400070':'Mumbai|Mumbai Suburban|Maharashtra','400071':'Mumbai|Thane|Maharashtra','400072':'Mumbai|Mumbai Suburban|Maharashtra',
+  '400601':'Thane|Thane|Maharashtra','400602':'Thane|Thane|Maharashtra','400603':'Thane|Thane|Maharashtra','400604':'Thane|Thane|Maharashtra','400614':'Thane|Thane|Maharashtra',
+  '411001':'Pune|Pune|Maharashtra','411002':'Pune|Pune|Maharashtra','411004':'Pune|Pune|Maharashtra','411005':'Pune|Pune|Maharashtra','411006':'Pune|Pune|Maharashtra',
+  '411007':'Pune|Pune|Maharashtra','411011':'Pune|Pune|Maharashtra','411014':'Pune|Pune|Maharashtra','411016':'Pune|Pune|Maharashtra','411017':'Pune|Pune|Maharashtra',
+  '431001':'Aurangabad|Aurangabad|Maharashtra','440001':'Nagpur|Nagpur|Maharashtra','440002':'Nagpur|Nagpur|Maharashtra','440003':'Nagpur|Nagpur|Maharashtra',
+  // Karnataka
+  '560001':'Bangalore|Bangalore Urban|Karnataka','560002':'Bangalore|Bangalore Urban|Karnataka','560003':'Bangalore|Bangalore Urban|Karnataka','560004':'Bangalore|Bangalore Urban|Karnataka',
+  '560005':'Bangalore|Bangalore Urban|Karnataka','560006':'Bangalore|Bangalore Urban|Karnataka','560008':'Bangalore|Bangalore Urban|Karnataka','560009':'Bangalore|Bangalore Urban|Karnataka',
+  '560010':'Bangalore|Bangalore Urban|Karnataka','560011':'Bangalore|Bangalore Urban|Karnataka','560012':'Bangalore|Bangalore Urban|Karnataka','560013':'Bangalore|Bangalore Urban|Karnataka',
+  '560014':'Bangalore|Bangalore Urban|Karnataka','560016':'Bangalore|Bangalore Urban|Karnataka','560017':'Bangalore|Bangalore Urban|Karnataka','560018':'Bangalore|Bangalore Urban|Karnataka',
+  '560025':'Bangalore|Bangalore Urban|Karnataka','560027':'Bangalore|Bangalore Urban|Karnataka','560034':'Bangalore|Bangalore Urban|Karnataka','560040':'Bangalore|Bangalore Urban|Karnataka',
+  '560047':'Bangalore|Bangalore Urban|Karnataka','560048':'Bangalore|Bangalore Urban|Karnataka','560066':'Bangalore|Bangalore Urban|Karnataka','560068':'Bangalore|Bangalore Urban|Karnataka',
+  '560076':'Bangalore|Bangalore Urban|Karnataka','560078':'Bangalore|Bangalore Urban|Karnataka','560085':'Bangalore|Bangalore Urban|Karnataka','560100':'Bangalore|Bangalore Urban|Karnataka',
+  '570001':'Mysuru|Mysuru|Karnataka','575001':'Mangaluru|Dakshina Kannada|Karnataka',
+  // Tamil Nadu
+  '600001':'Chennai|Chennai|Tamil Nadu','600002':'Chennai|Chennai|Tamil Nadu','600003':'Chennai|Chennai|Tamil Nadu','600004':'Chennai|Chennai|Tamil Nadu','600005':'Chennai|Chennai|Tamil Nadu',
+  '600006':'Chennai|Chennai|Tamil Nadu','600007':'Chennai|Chennai|Tamil Nadu','600008':'Chennai|Chennai|Tamil Nadu','600009':'Chennai|Chennai|Tamil Nadu','600010':'Chennai|Chennai|Tamil Nadu',
+  '600011':'Chennai|Chennai|Tamil Nadu','600012':'Chennai|Chennai|Tamil Nadu','600013':'Chennai|Chennai|Tamil Nadu','600014':'Chennai|Chennai|Tamil Nadu','600015':'Chennai|Chennai|Tamil Nadu',
+  '600017':'Chennai|Chennai|Tamil Nadu','600020':'Chennai|Chennai|Tamil Nadu','600026':'Chennai|Chennai|Tamil Nadu','600028':'Chennai|Chennai|Tamil Nadu','600029':'Chennai|Chennai|Tamil Nadu',
+  '600033':'Chennai|Chennai|Tamil Nadu','600034':'Chennai|Chennai|Tamil Nadu','600035':'Chennai|Chennai|Tamil Nadu','600040':'Chennai|Chennai|Tamil Nadu','600041':'Chennai|Chennai|Tamil Nadu',
+  '641001':'Coimbatore|Coimbatore|Tamil Nadu','641002':'Coimbatore|Coimbatore|Tamil Nadu','625001':'Madurai|Madurai|Tamil Nadu','620001':'Tiruchirappalli|Tiruchirappalli|Tamil Nadu',
+  // Telangana / AP
+  '500001':'Hyderabad|Hyderabad|Telangana','500002':'Hyderabad|Hyderabad|Telangana','500003':'Hyderabad|Hyderabad|Telangana','500004':'Hyderabad|Hyderabad|Telangana','500005':'Hyderabad|Hyderabad|Telangana',
+  '500006':'Hyderabad|Hyderabad|Telangana','500007':'Hyderabad|Hyderabad|Telangana','500008':'Hyderabad|Hyderabad|Telangana','500016':'Hyderabad|Hyderabad|Telangana','500034':'Hyderabad|Hyderabad|Telangana',
+  '500038':'Hyderabad|Hyderabad|Telangana','500072':'Hyderabad|Ranga Reddy|Telangana','500076':'Hyderabad|Ranga Reddy|Telangana','500081':'Hyderabad|Ranga Reddy|Telangana',
+  '520001':'Vijayawada|Krishna|Andhra Pradesh','530001':'Visakhapatnam|Visakhapatnam|Andhra Pradesh',
+  // West Bengal
+  '700001':'Kolkata|Kolkata|West Bengal','700002':'Kolkata|Kolkata|West Bengal','700003':'Kolkata|Kolkata|West Bengal','700004':'Kolkata|Kolkata|West Bengal','700005':'Kolkata|Kolkata|West Bengal',
+  '700006':'Kolkata|Kolkata|West Bengal','700007':'Kolkata|Kolkata|West Bengal','700008':'Kolkata|Kolkata|West Bengal','700009':'Kolkata|Kolkata|West Bengal','700010':'Kolkata|Kolkata|West Bengal',
+  '700012':'Kolkata|Kolkata|West Bengal','700013':'Kolkata|Kolkata|West Bengal','700014':'Kolkata|Kolkata|West Bengal','700016':'Kolkata|Kolkata|West Bengal','700017':'Kolkata|Kolkata|West Bengal',
+  '700019':'Kolkata|Kolkata|West Bengal','700020':'Kolkata|Kolkata|West Bengal','700025':'Kolkata|Kolkata|West Bengal','700026':'Kolkata|Kolkata|West Bengal','700027':'Kolkata|Kolkata|West Bengal',
+  // Gujarat
+  '380001':'Ahmedabad|Ahmedabad|Gujarat','380002':'Ahmedabad|Ahmedabad|Gujarat','380004':'Ahmedabad|Ahmedabad|Gujarat','380006':'Ahmedabad|Ahmedabad|Gujarat','380007':'Ahmedabad|Ahmedabad|Gujarat',
+  '380008':'Ahmedabad|Ahmedabad|Gujarat','380009':'Ahmedabad|Ahmedabad|Gujarat','380013':'Ahmedabad|Ahmedabad|Gujarat','380015':'Ahmedabad|Ahmedabad|Gujarat','380051':'Ahmedabad|Ahmedabad|Gujarat',
+  '395001':'Surat|Surat|Gujarat','395002':'Surat|Surat|Gujarat','395003':'Surat|Surat|Gujarat','395004':'Surat|Surat|Gujarat','395005':'Surat|Surat|Gujarat',
+  '390001':'Vadodara|Vadodara|Gujarat','390002':'Vadodara|Vadodara|Gujarat','390003':'Vadodara|Vadodara|Gujarat',
+  // Rajasthan
+  '302001':'Jaipur|Jaipur|Rajasthan','302002':'Jaipur|Jaipur|Rajasthan','302003':'Jaipur|Jaipur|Rajasthan','302004':'Jaipur|Jaipur|Rajasthan','302005':'Jaipur|Jaipur|Rajasthan',
+  '302006':'Jaipur|Jaipur|Rajasthan','302012':'Jaipur|Jaipur|Rajasthan','302015':'Jaipur|Jaipur|Rajasthan','302017':'Jaipur|Jaipur|Rajasthan','302018':'Jaipur|Jaipur|Rajasthan',
+  '313001':'Udaipur|Udaipur|Rajasthan','342001':'Jodhpur|Jodhpur|Rajasthan','324001':'Kota|Kota|Rajasthan',
+  // Punjab / Haryana / Chandigarh
+  '160001':'Chandigarh|Chandigarh|Chandigarh','160002':'Chandigarh|Chandigarh|Chandigarh','160003':'Chandigarh|Chandigarh|Chandigarh','160014':'Chandigarh|Chandigarh|Chandigarh','160017':'Chandigarh|Chandigarh|Chandigarh',
+  '141001':'Ludhiana|Ludhiana|Punjab','141002':'Ludhiana|Ludhiana|Punjab','143001':'Amritsar|Amritsar|Punjab','143002':'Amritsar|Amritsar|Punjab',
+  '122001':'Gurgaon|Gurugram|Haryana','122002':'Gurgaon|Gurugram|Haryana','122003':'Gurgaon|Gurugram|Haryana','122004':'Gurgaon|Gurugram|Haryana',
+  '121001':'Faridabad|Faridabad|Haryana','121002':'Faridabad|Faridabad|Haryana',
+  // Kerala
+  '695001':'Thiruvananthapuram|Thiruvananthapuram|Kerala','695002':'Thiruvananthapuram|Thiruvananthapuram|Kerala','695003':'Thiruvananthapuram|Thiruvananthapuram|Kerala',
+  '682001':'Kochi|Ernakulam|Kerala','682002':'Kochi|Ernakulam|Kerala','682003':'Kochi|Ernakulam|Kerala','682011':'Kochi|Ernakulam|Kerala','682017':'Kochi|Ernakulam|Kerala',
+  '673001':'Kozhikode|Kozhikode|Kerala','676001':'Malappuram|Malappuram|Kerala',
+  // Madhya Pradesh
+  '462001':'Bhopal|Bhopal|Madhya Pradesh','462002':'Bhopal|Bhopal|Madhya Pradesh','462003':'Bhopal|Bhopal|Madhya Pradesh',
+  '452001':'Indore|Indore|Madhya Pradesh','452002':'Indore|Indore|Madhya Pradesh','452003':'Indore|Indore|Madhya Pradesh',
+  // Bihar
+  '800001':'Patna|Patna|Bihar','800002':'Patna|Patna|Bihar','800003':'Patna|Patna|Bihar','800004':'Patna|Patna|Bihar','800007':'Patna|Patna|Bihar',
+  // Odisha
+  '751001':'Bhubaneswar|Khordha|Odisha','751002':'Bhubaneswar|Khordha|Odisha','751003':'Bhubaneswar|Khordha|Odisha',
+  // Assam
+  '781001':'Guwahati|Kamrup|Assam','781002':'Guwahati|Kamrup|Assam','781003':'Guwahati|Kamrup|Assam',
+  // Uttarakhand
+  '248001':'Dehradun|Dehradun|Uttarakhand','248002':'Dehradun|Dehradun|Uttarakhand',
+  // Jharkhand
+  '834001':'Ranchi|Ranchi|Jharkhand','834002':'Ranchi|Ranchi|Jharkhand',
+  // Himachal Pradesh
+  '171001':'Shimla|Shimla|Himachal Pradesh','171002':'Shimla|Shimla|Himachal Pradesh',
+};
 
-const DISTRICTS = ['South Delhi','North Delhi','East Delhi','West Delhi','Central Delhi','Andheri','Bandra','Dadar','Powai','Malad','Borivali','Thane','Navi Mumbai','Whitefield','Koramangala','Indiranagar','Jayanagar','Hebbal','Electronic City','Anna Nagar','T Nagar','Velachery','Besant Nagar','Banjara Hills','Jubilee Hills','Kukatpally','Secunderabad','Salt Lake','New Town','Howrah','Alipore','Gomti Nagar','Hazratganj','Alambagh','Aliganj','Sector 62','Sector 18','DLF Phase','Cyber City','MG Road','BTM Layout','JP Nagar','Marathahalli'];
+function joinFetchPincode(pin) {
+  if (!pin || pin.length !== 6) return;
+  const status = document.getElementById('join-pincode-status');
+  status.innerHTML = '<span style="color:var(--muted)">Looking up…</span>';
 
-const STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal','Andaman and Nicobar Islands','Chandigarh','Dadra and Nagar Haveli','Daman and Diu','Delhi','Jammu and Kashmir','Ladakh','Lakshadweep','Puducherry'];
+  // 1. Try offline map first (instant, no network)
+  if (PIN_MAP[pin]) {
+    const [city, district, state] = PIN_MAP[pin].split('|');
+    joinFillLocation(city, district, state, '');
+    status.innerHTML = '<span style="color:#22C55E">✓ ' + city + ', ' + district + ', ' + state + '</span>';
+    return;
+  }
 
-const DATA_MAP = { city: CITIES, district: DISTRICTS, state: STATES };
+  // 2. Try live API with timeout
+  status.innerHTML = '<span style="color:var(--muted)">Fetching from database…</span>';
+  const controller = new AbortController();
+  const tid = setTimeout(() => controller.abort(), 4000);
 
-function showSuggestions(type, val) {
-  const dropdown = document.getElementById(type + '-dropdown');
-  if (!val || val.length < 1) { dropdown.style.display = 'none'; return; }
-  const matches = DATA_MAP[type].filter(s => s.toLowerCase().includes(val.toLowerCase())).slice(0, 8);
-  if (!matches.length) { dropdown.style.display = 'none'; return; }
-  dropdown.innerHTML = matches.map(m => `<div class="suggest-item" onmousedown="selectSuggestion('${type}','${m}')">${m}</div>`).join('');
-  dropdown.style.display = 'block';
+  const sources = [
+    'https://api.postalpincode.in/pincode/' + pin,
+    'https://corsproxy.io/?' + encodeURIComponent('https://api.postalpincode.in/pincode/' + pin),
+  ];
+
+  let tried = 0;
+  function tryNext() {
+    if (tried >= sources.length) {
+      // 3. All APIs failed — show manual fields clearly
+      status.innerHTML = '<span style="color:#F59E0B">⚠ Pincode not in our database — please fill city, district & state manually below.</span>';
+      // Clear fields and focus city
+      joinFillLocation('', '', '', '');
+      setTimeout(() => { const c = document.getElementById('join-city'); if(c) c.focus(); }, 100);
+      return;
+    }
+    fetch(sources[tried++], { signal: controller.signal })
+      .then(r => r.json())
+      .then(d => {
+        clearTimeout(tid);
+        if (d && d[0] && d[0].Status === 'Success' && d[0].PostOffice?.length) {
+          const po = d[0].PostOffice[0];
+          joinFillLocation(po.Block || po.Name, po.District, po.State, d[0].PostOffice.map(p=>p.Name).join(', '));
+          status.innerHTML = '<span style="color:#22C55E">✓ ' + (po.Block||po.Name) + ', ' + po.District + ', ' + po.State + '</span>';
+        } else { tryNext(); }
+      })
+      .catch(() => tryNext());
+  }
+  tryNext();
 }
 
-function hideSuggestions(type) {
-  const el = document.getElementById(type + '-dropdown');
-  if (el) el.style.display = 'none';
+function joinFillLocation(city, district, state, po) {
+  const c = document.getElementById('join-city');
+  const d = document.getElementById('join-district');
+  const s = document.getElementById('join-state');
+  const p = document.getElementById('join-po');
+  if (c) c.value = city;
+  if (d) d.value = district;
+  if (s) {
+    // Set select value
+    const opts = s.options;
+    for (let i = 0; i < opts.length; i++) {
+      if (opts[i].value === state || opts[i].text === state) { s.selectedIndex = i; break; }
+    }
+    // If not matched (e.g. different spelling), add a temporary option
+    if (state && s.value !== state) {
+      const opt = document.createElement('option');
+      opt.value = state; opt.text = state; opt.selected = true;
+      s.appendChild(opt);
+    }
+  }
+  if (p) p.value = po;
 }
 
-function selectSuggestion(type, val) {
-  document.getElementById('f-' + type).value = val;
-  hideSuggestions(type);
-}
-
-// Photo handler
-function handlePhoto(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 5*1024*1024) { alert('Photo too large. Please use an image under 5MB.'); return; }
+function handleJoinPhoto(input) {
+  const file = input.files[0]; if (!file) return;
+  if (file.size > 5*1024*1024) { alert('Photo too large. Max 5MB.'); return; }
   const reader = new FileReader();
   reader.onload = e => {
-    const image = new Image();
-    image.onload = () => {
+    const img = new Image();
+    img.onload = () => {
       const canvas = document.createElement('canvas');
-      const MAX = 1200;
-      let w = image.width, h = image.height;
-      if (w > MAX || h > MAX) {
-        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
-        else { w = Math.round(w * MAX / h); h = MAX; }
-      }
-      canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext('2d');
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(image, 0, 0, w, h);
-      const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
-      document.getElementById('photoPreview').src = dataUrl;
-      document.getElementById('photoPreview').style.display = 'block';
-      document.getElementById('photoIcon').style.display = 'none';
-      document.getElementById('photoData').value = dataUrl;
+      const MAX=800; let w=img.width,h=img.height;
+      if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}
+      canvas.width=w;canvas.height=h;
+      const ctx=canvas.getContext('2d');ctx.imageSmoothingQuality='high';
+      ctx.drawImage(img,0,0,w,h);
+      const dataUrl=canvas.toDataURL('image/jpeg',0.88);
+      const prev=document.getElementById('join-photo-preview');
+      const icon=document.getElementById('join-photo-icon');
+      if(prev){prev.src=dataUrl;prev.style.display='block';}
+      if(icon) icon.style.display='none';
+      document.getElementById('join-photo-data').value=dataUrl;
     };
-    image.src = e.target.result;
+    img.src=e.target.result;
   };
   reader.readAsDataURL(file);
 }
 
-// Validation
-function validate() {
-  let ok = true;
-  const required = [
-    { id:'f-name',     err:'err-name',     msg:'Name is required' },
-    { id:'f-email',    err:'err-email',    msg:'Valid email is required', type:'email' },
-    { id:'f-platform', err:'err-platform', msg:'Please select a platform' },
-    { id:'f-language', err:'err-language', msg:'Please select at least one language' },
-    { id:'f-niche',    err:'err-niche',    msg:'Please select your niche' },
-    { id:'f-bio',      err:'err-bio',      msg:'Please write a short bio' },
-    { id:'f-state',    err:'err-state',    msg:'Please enter your state' },
-  ];
-  required.forEach(f => {
-    const el = document.getElementById(f.id);
-    const errEl = document.getElementById(f.err);
-    const val = el.value.trim();
-    let valid = val !== '';
-    if (f.type === 'email') valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-    if (!valid) { el.classList.add('error'); errEl.style.display='block'; ok=false; }
-    else { el.classList.remove('error'); errEl.style.display='none'; }
-  });
-  return ok;
-}
+async function submitJoinForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const lang = document.getElementById('join-lang-val').value;
+  if (!lang) { document.getElementById('join-lang-error').style.display='block'; return; }
+  const niche = document.getElementById('join-niche-val').value;
+  if (!niche) { document.getElementById('join-niche-error').style.display='block'; return; }
 
-async function submitForm() {
-  if (!validate()) { document.querySelector('.form-input.error')?.scrollIntoView({behavior:'smooth',block:'center'}); return; }
-
-  const btn = document.getElementById('submitBtn');
+  const btn = document.getElementById('join-submit-btn');
   btn.textContent = 'Submitting...'; btn.disabled = true;
-  document.getElementById('loadingOverlay').classList.add('show');
 
-  const photoData = document.getElementById('photoData').value || null;
-
-  const entry = {
-    id:          Date.now(),
-    name:        document.getElementById('f-name').value.trim(),
-    email:       document.getElementById('f-email').value.trim(),
-    handle:      document.getElementById('f-handle').value.trim(),
-    followers:   document.getElementById('f-followers').value.trim(),
-    platform:    document.getElementById('f-platform').value,
-    language:    document.getElementById('f-language').value,
-    niche:       document.getElementById('f-niche').value,
-    city:        document.getElementById('f-city').value.trim(),
-    district:    document.getElementById('f-district').value.trim(),
-    state:       document.getElementById('f-state').value.trim(),
-    bio:         document.getElementById('f-bio').value.trim(),
-    brandCat:    document.getElementById('f-brand-cat').value,
-    rate:        document.getElementById('f-rate').value,
-    extra:       document.getElementById('f-extra').value.trim(),
-    emoji:       rand(CREATOR_EMOJIS),
-    submittedAt: new Date().toISOString()
-    // photo not included — too large for Apps Script POST limit
+  const fd = new FormData(form);
+  const data = {
+    type:'Creator',
+    source:'join.html',
+    name:fd.get('name')||'',
+    email:fd.get('email')||'',
+    whatsapp:fd.get('whatsapp')||'',
+    pincode:fd.get('pincode')||'',
+    city:fd.get('city')||'',
+    district:fd.get('district')||'',
+    state:fd.get('state')||'',
+    post_office:fd.get('post_office')||'',
+    platform:fd.get('platform')||'',
+    instagram:fd.get('instagram')||'',
+    youtube:fd.get('youtube')||'',
+    followers:fd.get('followers_display')||fd.get('followers')||'',
+    engagement:fd.get('engagement_rate')||'',
+    language:lang,
+    niche:niche,
+    notes:fd.get('past_collabs')||'',
+    motivation:fd.get('motivation')||''
   };
 
-  // Save photo locally so admin can see it on same browser
-  if (photoData) {
-    try { localStorage.setItem('pending_photo_' + entry.id, photoData); } catch(e) {}
-  }
+  try {
+    fetch(SCRIPT_URL+'?action=contact',{method:'POST',mode:'no-cors',body:JSON.stringify(data)});
+    fetch('https://formsubmit.co/ajax/inflyrhq@gmail.com',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(Object.assign({},data,{_subject:'New Creator Application (join.html) — INFLYR',_captcha:'false',_template:'table'}))
+    }).catch(()=>{});
+  } catch {}
 
-  // JSONP GET — 302 redirect problem nahi aati (same method as admin uses)
-  await new Promise((resolve) => {
-    const cb = 'jp_' + Date.now();
-    const data = encodeURIComponent(JSON.stringify(entry));
-    const url = SCRIPT_URL + '?action=add_pending&data=' + data + '&cb=' + cb;
-    const script = document.createElement('script');
-    let done = false;
-    window[cb] = () => { done = true; delete window[cb]; if (script.parentNode) script.parentNode.removeChild(script); resolve(); };
-    script.onerror = () => { done = true; delete window[cb]; resolve(); };
-    setTimeout(() => { if (!done) { done = true; delete window[cb]; resolve(); } }, 8000);
-    script.src = url;
-    document.head.appendChild(script);
-  });
+  const toast = document.getElementById('join-toast');
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),4000);
 
-  document.getElementById('loadingOverlay').classList.remove('show');
-  document.getElementById('joinForm').style.display   = 'none';
-  document.getElementById('successScreen').style.display = 'block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('form-wrapper').style.display='none';
+  document.getElementById('join-success').style.display='block';
+
+  const waMsg = encodeURIComponent('Hi INFLYR! I just applied as a creator. Name: '+data.name+', Platform: '+data.platform+', Followers: '+data.followers+', Niche: '+niche);
+  setTimeout(()=>{ window.open('https://wa.me/916307041225?text='+waMsg,'_blank'); },1200);
 }
 </script>
 </body>
