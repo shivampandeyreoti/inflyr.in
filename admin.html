@@ -213,6 +213,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5vw;height:64px;di
   .dash-actions{width:100%}
   .btn-add,.btn-add-brand{flex:1;justify-content:center}
 }
+
+/* ── ADMIN PILLS (language/niche in Add Creator modal) ── */
+.admin-pill {
+  background: var(--ink-3); border: 1px solid var(--ink-4);
+  color: var(--secondary); padding: 6px 12px; border-radius: 9999px;
+  font-family: 'DM Mono', monospace; font-size: .65rem; cursor: pointer;
+  transition: all .18s; letter-spacing: .04em;
+}
+.admin-pill:hover { border-color: var(--lime); color: var(--chalk); }
+.admin-pill.selected { background: rgba(200,241,53,.12); border-color: var(--lime); color: var(--lime); }
+.admin-pill-purple:hover { border-color: var(--purple); color: var(--chalk); }
+.admin-pill-purple.selected { background: rgba(138,92,246,.12); border-color: var(--purple); color: var(--purple); }
 </style>
 </head>
 <body>
@@ -709,59 +721,129 @@ function openCreateModal(type) {
   if (type === 'creator') {
     openModal(`
       <div class="modal-header"><div class="modal-title">ADD CREATOR</div><button class="modal-close" onclick="closeModal()">✕</button></div>
-      <div class="mform-grid" id="create-form">
-        <div class="mform-row mform-full">
-          <label class="mform-label">Profile Photo</label>
-          <div class="photo-upload-area" id="cf-photo-area" ondragover="photoDragOver(event,'cf-photo-area')" ondragleave="photoDragLeave('cf-photo-area')" ondrop="photoDrop(event,'cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name')">
-            <input type="file" accept="image/*" id="cf-photo-file" onchange="photoFileChange(this,'cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name')">
-            <div class="photo-preview-thumb" id="cf-photo-thumb">📷</div>
-            <div class="photo-upload-text">
-              <strong>Click or drag & drop a photo</strong>
-              JPG, PNG, WEBP · Max 2 MB · <span id="cf-photo-name">No file chosen</span>
-            </div>
-            <button type="button" class="photo-clear-btn" onclick="photoClear('cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name',event)">✕ Clear</button>
+      <div style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:20px">Manually add a creator to the sheet. All fields saved directly.</div>
+
+      <!-- PHOTO -->
+      <div style="margin-bottom:16px">
+        <label class="mform-label">Profile Photo</label>
+        <div class="photo-upload-area" id="cf-photo-area" ondragover="photoDragOver(event,'cf-photo-area')" ondragleave="photoDragLeave('cf-photo-area')" ondrop="photoDrop(event,'cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name')">
+          <input type="file" accept="image/*" id="cf-photo-file" onchange="photoFileChange(this,'cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name')">
+          <div class="photo-preview-thumb" id="cf-photo-thumb">📷</div>
+          <div class="photo-upload-text">
+            <strong>Click or drag & drop a photo</strong>
+            JPG, PNG, WEBP · Max 5 MB · <span id="cf-photo-name">No file chosen</span>
           </div>
-          <input type="hidden" id="cf-photo">
+          <button type="button" class="photo-clear-btn" onclick="photoClear('cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name',event)">✕ Clear</button>
         </div>
-        <div class="mform-row"><label class="mform-label">Name *</label><input class="mform-input" id="cf-name" placeholder="Priya Singh"></div>
+        <input type="hidden" id="cf-photo">
+      </div>
+
+      <!-- BASIC INFO -->
+      <div class="mform-grid">
+        <div class="mform-row"><label class="mform-label">Full Name *</label><input class="mform-input" id="cf-name" placeholder="Priya Singh"></div>
         <div class="mform-row"><label class="mform-label">Email *</label><input class="mform-input" id="cf-email" type="email" placeholder="priya@email.com"></div>
-        <div class="mform-row"><label class="mform-label">WhatsApp</label><input class="mform-input" id="cf-wa" placeholder="91XXXXXXXXXX"></div>
-        <div class="mform-row"><label class="mform-label">Instagram</label><input class="mform-input" id="cf-ig" placeholder="@handle"></div>
-        <div class="mform-row"><label class="mform-label">YouTube</label><input class="mform-input" id="cf-yt" placeholder="channel URL"></div>
-        <div class="mform-row"><label class="mform-label">Platform</label>
-          <select class="mform-select" id="cf-platform">
-            <option>Instagram</option><option>YouTube</option><option>Both</option><option>Moj</option><option>Josh</option>
-          </select>
+        <div class="mform-row"><label class="mform-label">WhatsApp</label><input class="mform-input" id="cf-wa" placeholder="+91 98765 43210"></div>
+
+        <!-- PINCODE -->
+        <div class="mform-row">
+          <label class="mform-label">Pincode <span style="color:var(--muted);text-transform:none">(auto-fills location)</span></label>
+          <div style="display:flex;gap:6px">
+            <input class="mform-input" id="cf-pin" placeholder="226001" maxlength="6"
+              oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)adminFetchPincode(this.value)"
+              style="flex:1;margin:0">
+            <button type="button" onclick="adminFetchPincode(document.getElementById('cf-pin').value)"
+              style="background:var(--ink-3);border:1px solid var(--ink-4);color:var(--chalk);padding:0 12px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.68rem;cursor:pointer;white-space:nowrap">Fetch →</button>
+          </div>
+          <div id="cf-pincode-status" style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-top:4px"></div>
         </div>
-        <div class="mform-row"><label class="mform-label">Followers</label><input class="mform-input" id="cf-followers" placeholder="e.g. 25K"></div>
-        <div class="mform-row"><label class="mform-label">Engagement</label><input class="mform-input" id="cf-eng" placeholder="e.g. 4%–7%"></div>
-        <div class="mform-row"><label class="mform-label">Language</label><input class="mform-input" id="cf-lang" placeholder="Hindi, English"></div>
-        <div class="mform-row"><label class="mform-label">Niche</label><input class="mform-input" id="cf-niche" placeholder="Fashion & Style, Travel"></div>
-        <div class="mform-row"><label class="mform-label">City</label><input class="mform-input" id="cf-city" placeholder="Lucknow"></div>
-        <div class="mform-row"><label class="mform-label">State</label>
+        <div class="mform-row"><label class="mform-label">City / Town</label><input class="mform-input" id="cf-city" placeholder="Lucknow"></div>
+        <div class="mform-row"><label class="mform-label">District</label><input class="mform-input" id="cf-district" placeholder="Lucknow"></div>
+        <div class="mform-row">
+          <label class="mform-label">State</label>
           <select class="mform-select" id="cf-state">
             <option value="">Select State</option>
-            <option>Uttar Pradesh</option><option>Maharashtra</option><option>Delhi</option>
-            <option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option>
-            <option>Rajasthan</option><option>West Bengal</option><option>Telangana</option>
-            <option>Kerala</option><option>Punjab</option><option>Bihar</option>
-            <option>Madhya Pradesh</option><option>Assam</option><option>Jharkhand</option>
-            <option>Uttarakhand</option><option>Himachal Pradesh</option><option>Goa</option><option>Other</option>
+            <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option><option>Bihar</option>
+            <option>Chhattisgarh</option><option>Goa</option><option>Gujarat</option><option>Haryana</option>
+            <option>Himachal Pradesh</option><option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+            <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option><option>Meghalaya</option>
+            <option>Mizoram</option><option>Nagaland</option><option>Odisha</option><option>Punjab</option>
+            <option>Rajasthan</option><option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+            <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option><option>West Bengal</option>
+            <option>Delhi</option><option>Jammu and Kashmir</option><option>Ladakh</option><option>Chandigarh</option>
+            <option>Puducherry</option><option>Other</option>
           </select>
         </div>
-        <div class="mform-row"><label class="mform-label">Pincode</label><input class="mform-input" id="cf-pin" placeholder="226001"></div>
-        <div class="mform-row"><label class="mform-label">Status</label>
+
+        <!-- PLATFORM & HANDLES -->
+        <div class="mform-row">
+          <label class="mform-label">Primary Platform</label>
+          <select class="mform-select" id="cf-platform">
+            <option value="">Select platform</option>
+            <option>Instagram</option><option>YouTube</option><option>Both Instagram & YouTube</option>
+            <option>LinkedIn</option><option>X (Twitter)</option><option>Moj</option><option>Josh</option><option>Other</option>
+          </select>
+        </div>
+        <div class="mform-row"><label class="mform-label">Instagram Handle</label><input class="mform-input" id="cf-ig" placeholder="@yourhandle"></div>
+        <div class="mform-row"><label class="mform-label">YouTube Channel</label><input class="mform-input" id="cf-yt" placeholder="Channel name or URL"></div>
+
+        <!-- FOLLOWERS -->
+        <div class="mform-row">
+          <label class="mform-label">Total Followers / Subscribers</label>
+          <input class="mform-input" id="cf-followers-num" type="number" placeholder="e.g. 12500" min="0"
+            oninput="adminFollowerDisplay(this.value)">
+          <div id="cf-follower-tag" style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--lime);margin-top:4px;min-height:14px"></div>
+          <input type="hidden" id="cf-followers">
+        </div>
+        <div class="mform-row">
+          <label class="mform-label">Avg Engagement Rate</label>
+          <select class="mform-select" id="cf-eng">
+            <option value="">Select range</option>
+            <option>Below 2%</option><option>2% – 4%</option><option>4% – 7%</option><option>7%+</option>
+          </select>
+        </div>
+
+        <!-- STATUS -->
+        <div class="mform-row">
+          <label class="mform-label">Status</label>
           <select class="mform-select" id="cf-status">
-            <option value="Approved">Approved</option><option value="Pending">Pending</option><option value="Rejected">Rejected</option>
+            <option value="Approved">Approved ✅</option>
+            <option value="Pending">Pending ⏳</option>
+            <option value="Rejected">Rejected ✗</option>
           </select>
         </div>
-        <div class="mform-row mform-full"><label class="mform-label">Notes / Past Collabs</label><textarea class="mform-textarea" id="cf-notes" placeholder="Any past brand collaborations…"></textarea></div>
       </div>
+
+      <!-- LANGUAGE PILLS -->
+      <div style="margin:16px 0">
+        <label class="mform-label">Content Language(s) <span style="color:var(--muted);text-transform:none">(select all that apply)</span></label>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:8px" id="cf-lang-pills">
+          ${['Hindi','English','Hinglish','Bhojpuri','Tamil','Telugu','Marathi','Bengali','Kannada','Gujarati','Punjabi','Malayalam','Odia','Rajasthani','Haryanvi','Assamese','Maithili','Urdu','Other'].map(l=>\`<button type="button" class="admin-pill" data-val="\${l}" onclick="adminPillToggle(this,'cf-lang-val','cf-lang-pills')">\${l}</button>\`).join('')}
+        </div>
+        <input type="hidden" id="cf-lang-val">
+      </div>
+
+      <!-- NICHE PILLS -->
+      <div style="margin:16px 0">
+        <label class="mform-label">Content Niche(s) <span style="color:var(--muted);text-transform:none">(select all that apply)</span></label>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:8px" id="cf-niche-pills">
+          ${['Fashion & Style','Beauty & Makeup','Skincare','Food & Cooking','Travel & Lifestyle','Tech & Gaming','Fitness & Health','Finance & Business','Comedy & Entertainment','Education','Parenting & Family','Dance & Music','Motivation & Mindset','Home & Decor','Vlogs','Spiritual','Other'].map(n=>\`<button type="button" class="admin-pill admin-pill-purple" data-val="\${n}" onclick="adminPillToggle(this,'cf-niche-val','cf-niche-pills')">\${n}</button>\`).join('')}
+        </div>
+        <input type="hidden" id="cf-niche-val">
+      </div>
+
+      <!-- NOTES -->
+      <div style="margin-bottom:16px">
+        <label class="mform-label">Past Brand Collaborations</label>
+        <input class="mform-input" id="cf-notes" placeholder="e.g. Mamaearth, Boat, Sugar Cosmetics">
+      </div>
+
       <div style="display:flex;gap:10px;margin-top:20px">
         <button class="btn-action btn-save" id="create-save-btn" onclick="submitCreate('creator')">＋ Add Creator</button>
         <button class="btn-action btn-cancel" onclick="closeModal()">Cancel</button>
-      </div>`);
+      </div>\`);
   } else {
+    openModal(`
+      <div class="modal-header"><div class="modal-title">ADD BRAND</div>  } else {
     openModal(`
       <div class="modal-header"><div class="modal-title">ADD BRAND</div><button class="modal-close" onclick="closeModal()">✕</button></div>
       <div class="mform-grid" id="create-form">
@@ -808,20 +890,21 @@ async function submitCreate(type) {
     if (!name || !email) { showNotif('Name and Email are required.','error'); btn.disabled=false; btn.textContent='＋ Add Creator'; return; }
     payload = Object.assign(payload, {
       name, email,
-      photo:     document.getElementById('cf-photo').value || '',
-      whatsapp: document.getElementById('cf-wa').value.trim(),
-      instagram: document.getElementById('cf-ig').value.trim(),
-      youtube:   document.getElementById('cf-yt').value.trim(),
-      platform:  document.getElementById('cf-platform').value,
-      followers: document.getElementById('cf-followers').value.trim(),
-      engagement:document.getElementById('cf-eng').value.trim(),
-      language:  document.getElementById('cf-lang').value.trim(),
-      niche:     document.getElementById('cf-niche').value.trim(),
-      city:      document.getElementById('cf-city').value.trim(),
-      state:     document.getElementById('cf-state').value,
-      pincode:   document.getElementById('cf-pin').value.trim(),
-      status:    document.getElementById('cf-status').value,
-      notes:     document.getElementById('cf-notes').value.trim(),
+      photo:     (document.getElementById('cf-photo') || {}).value || '',
+      whatsapp:  (document.getElementById('cf-wa') || {}).value?.trim() || '',
+      instagram: (document.getElementById('cf-ig') || {}).value?.trim() || '',
+      youtube:   (document.getElementById('cf-yt') || {}).value?.trim() || '',
+      platform:  (document.getElementById('cf-platform') || {}).value || '',
+      followers: (document.getElementById('cf-followers') || {}).value?.trim() || (document.getElementById('cf-followers-num') || {}).value || '',
+      engagement:(document.getElementById('cf-eng') || {}).value?.trim() || '',
+      language:  (document.getElementById('cf-lang-val') || document.getElementById('cf-lang') || {}).value?.trim() || '',
+      niche:     (document.getElementById('cf-niche-val') || document.getElementById('cf-niche') || {}).value?.trim() || '',
+      city:      (document.getElementById('cf-city') || {}).value?.trim() || '',
+      district:  (document.getElementById('cf-district') || {}).value?.trim() || '',
+      state:     (document.getElementById('cf-state') || {}).value || '',
+      pincode:   (document.getElementById('cf-pin') || {}).value?.trim() || '',
+      status:    (document.getElementById('cf-status') || {}).value || 'Approved',
+      notes:     (document.getElementById('cf-notes') || {}).value?.trim() || '',
       source: 'admin',
     });
   } else {
@@ -868,6 +951,19 @@ function openEditModal(type, row) {
       <div class="modal-header"><div class="modal-title">EDIT CREATOR</div><button class="modal-close" onclick="closeModal()">✕</button></div>
       <p style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:20px">Editing: <strong style="color:var(--chalk)">${esc(c.name||'Creator')}</strong> (Sheet row ${row})</p>
       <div class="mform-grid">
+        <div class="mform-row mform-full">
+          <label class="mform-label">Profile Photo</label>
+          <div class="photo-upload-area" id="ef-photo-area" ondragover="photoDragOver(event,'ef-photo-area')" ondragleave="photoDragLeave('ef-photo-area')" ondrop="photoDrop(event,'ef-photo','ef-photo-area','ef-photo-thumb','ef-photo-name')">
+            <input type="file" accept="image/*" id="ef-photo-file" onchange="photoFileChange(this,'ef-photo','ef-photo-area','ef-photo-thumb','ef-photo-name')">
+            <div class="photo-preview-thumb" id="ef-photo-thumb">${c.photo && c.photo.startsWith('data:') ? '<img src="'+c.photo+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">' : '📷'}</div>
+            <div class="photo-upload-text">
+              <strong>Click or drag & drop to change photo</strong>
+              JPG, PNG, WEBP · Max 5 MB · <span id="ef-photo-name">${c.photo && c.photo.startsWith('data:') ? 'Current photo loaded' : 'No file chosen'}</span>
+            </div>
+            <button type="button" class="photo-clear-btn" onclick="photoClear('ef-photo','ef-photo-area','ef-photo-thumb','ef-photo-name',event)">✕ Clear</button>
+          </div>
+          <input type="hidden" id="ef-photo" value="${c.photo && c.photo.startsWith('data:') ? c.photo : ''}">
+        </div>
         <div class="mform-row"><label class="mform-label">Name</label><input class="mform-input" id="ef-name" value="${esc(c.name||'')}"></div>
         <div class="mform-row"><label class="mform-label">Email</label><input class="mform-input" id="ef-email" type="email" value="${esc(c.email||'')}"></div>
         <div class="mform-row"><label class="mform-label">WhatsApp</label><input class="mform-input" id="ef-wa" value="${esc(c.whatsapp||'')}"></div>
@@ -951,6 +1047,7 @@ async function submitEdit(type, row) {
     const c = creators.find(x => x._row === row);
     if (!c) return;
     payload = Object.assign(payload, {
+      photo:     document.getElementById('ef-photo') ? document.getElementById('ef-photo').value : undefined,
       name:      document.getElementById('ef-name').value.trim(),
       email:     document.getElementById('ef-email').value.trim(),
       whatsapp:  document.getElementById('ef-wa').value.trim(),
@@ -1088,6 +1185,207 @@ function showNotif(msg, type='success') {
 function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
+
+// ═══════════════════════════════════════════════════════════
+// PHOTO UPLOAD — compress, preview, base64 (max 5 MB)
+// ═══════════════════════════════════════════════════════════
+const MAX_PHOTO_MB = 5;
+const MAX_PHOTO_BYTES = MAX_PHOTO_MB * 1024 * 1024;
+
+function compressImage(file, maxW, quality, callback) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = new Image();
+    img.onload = function() {
+      const canvas = document.createElement('canvas');
+      let w = img.width, h = img.height;
+      if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL('image/jpeg', quality));
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handlePhotoFile(file, hiddenId, areaId, thumbId, nameId) {
+  if (!file || !file.type.startsWith('image/')) {
+    showNotif('Please select an image file (JPG, PNG, WEBP)', 'error');
+    return;
+  }
+  if (file.size > MAX_PHOTO_BYTES) {
+    showNotif('Photo too large — max ' + MAX_PHOTO_MB + ' MB allowed', 'error');
+    return;
+  }
+
+  // Show filename immediately
+  const nameEl = document.getElementById(nameId);
+  if (nameEl) nameEl.textContent = file.name;
+
+  // Compress to max 800px wide, quality 0.82
+  compressImage(file, 800, 0.82, function(dataUrl) {
+    // Set hidden input value (base64)
+    const hidden = document.getElementById(hiddenId);
+    if (hidden) hidden.value = dataUrl;
+
+    // Show preview in thumb
+    const thumb = document.getElementById(thumbId);
+    if (thumb) {
+      thumb.innerHTML = '<img src="' + dataUrl + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    }
+
+    // Highlight area
+    const area = document.getElementById(areaId);
+    if (area) area.style.borderColor = 'var(--lime)';
+
+    const kb = Math.round(dataUrl.length * 0.75 / 1024);
+    showNotif('✅ Photo loaded — ' + kb + ' KB', 'success');
+  });
+}
+
+function photoFileChange(input, hiddenId, areaId, thumbId, nameId) {
+  if (input.files && input.files[0]) {
+    handlePhotoFile(input.files[0], hiddenId, areaId, thumbId, nameId);
+  }
+}
+
+function photoDrop(event, hiddenId, areaId, thumbId, nameId) {
+  event.preventDefault();
+  const area = document.getElementById(areaId);
+  if (area) { area.classList.remove('drag-over'); area.style.borderColor = ''; }
+  const file = event.dataTransfer && event.dataTransfer.files[0];
+  if (file) handlePhotoFile(file, hiddenId, areaId, thumbId, nameId);
+}
+
+function photoDragOver(event, areaId) {
+  event.preventDefault();
+  const area = document.getElementById(areaId);
+  if (area) area.classList.add('drag-over');
+}
+
+function photoDragLeave(areaId) {
+  const area = document.getElementById(areaId);
+  if (area) { area.classList.remove('drag-over'); area.style.borderColor = ''; }
+}
+
+function photoClear(hiddenId, areaId, thumbId, nameId, event) {
+  if (event) { event.stopPropagation(); event.preventDefault(); }
+  const hidden = document.getElementById(hiddenId);
+  const thumb  = document.getElementById(thumbId);
+  const area   = document.getElementById(areaId);
+  const nameEl = document.getElementById(nameId);
+  if (hidden) hidden.value = '';
+  if (thumb)  thumb.innerHTML = '📷';
+  if (area)   { area.style.borderColor = ''; area.classList.remove('drag-over'); }
+  if (nameEl) nameEl.textContent = 'No file chosen';
+  // Reset file input so same file can be re-selected
+  const fileInput = area ? area.querySelector('input[type=file]') : null;
+  if (fileInput) fileInput.value = '';
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// ADMIN CREATOR FORM HELPERS
+// ═══════════════════════════════════════════════════════════
+function adminPillToggle(btn, hiddenId, containerId) {
+  btn.classList.toggle('selected');
+  const vals = [...document.querySelectorAll('#' + containerId + ' .admin-pill.selected')].map(b => b.dataset.val);
+  const hidden = document.getElementById(hiddenId);
+  if (hidden) hidden.value = vals.join(', ');
+}
+
+function adminFollowerDisplay(val) {
+  const n = parseInt(val);
+  const tag = document.getElementById('cf-follower-tag');
+  const hid = document.getElementById('cf-followers');
+  if (!val || isNaN(n)) { if(tag) tag.textContent=''; if(hid) hid.value=''; return; }
+  const disp = n>=10000000?(n/10000000).toFixed(1).replace('.0','')+' Cr'
+             : n>=100000?(n/100000).toFixed(1).replace('.0','')+' Lakh'
+             : n>=1000?(n/1000).toFixed(1).replace('.0','')+'K'
+             : n.toString();
+  const tier = n<1000?'Nano':n<5000?'Micro-S':n<10000?'Micro':n<50000?'Micro-M':n<100000?'Micro-L':n<500000?'Macro':n<1000000?'Mega':'Celebrity';
+  if (tag) tag.textContent = disp + ' followers · ' + tier + ' creator';
+  if (hid) hid.value = disp + ' (' + tier + ')';
+}
+
+// Pincode lookup for admin Add Creator modal
+const ADMIN_PIN_MAP = {
+  '226001':'Lucknow|Lucknow|Uttar Pradesh','201301':'Noida|Gautam Buddha Nagar|Uttar Pradesh',
+  '201001':'Ghaziabad|Ghaziabad|Uttar Pradesh','208001':'Kanpur|Kanpur Nagar|Uttar Pradesh',
+  '221001':'Varanasi|Varanasi|Uttar Pradesh','211001':'Prayagraj|Allahabad|Uttar Pradesh',
+  '277001':'Ballia|Ballia|Uttar Pradesh','273001':'Gorakhpur|Gorakhpur|Uttar Pradesh',
+  '282001':'Agra|Agra|Uttar Pradesh','250001':'Meerut|Meerut|Uttar Pradesh',
+  '110001':'New Delhi|New Delhi|Delhi','110002':'Delhi|Central Delhi|Delhi','110011':'Delhi|South West Delhi|Delhi',
+  '110051':'Delhi|East Delhi|Delhi','110092':'Delhi|East Delhi|Delhi',
+  '400001':'Mumbai|Mumbai|Maharashtra','400050':'Mumbai|Mumbai Suburban|Maharashtra',
+  '400601':'Thane|Thane|Maharashtra','411001':'Pune|Pune|Maharashtra','440001':'Nagpur|Nagpur|Maharashtra',
+  '560001':'Bangalore|Bangalore Urban|Karnataka','560034':'Bangalore|Bangalore Urban|Karnataka',
+  '570001':'Mysuru|Mysuru|Karnataka','575001':'Mangaluru|Dakshina Kannada|Karnataka',
+  '600001':'Chennai|Chennai|Tamil Nadu','641001':'Coimbatore|Coimbatore|Tamil Nadu',
+  '625001':'Madurai|Madurai|Tamil Nadu','620001':'Tiruchirappalli|Tiruchirappalli|Tamil Nadu',
+  '500001':'Hyderabad|Hyderabad|Telangana','500034':'Hyderabad|Hyderabad|Telangana',
+  '520001':'Vijayawada|Krishna|Andhra Pradesh','530001':'Visakhapatnam|Visakhapatnam|Andhra Pradesh',
+  '700001':'Kolkata|Kolkata|West Bengal','700019':'Kolkata|Kolkata|West Bengal',
+  '380001':'Ahmedabad|Ahmedabad|Gujarat','395001':'Surat|Surat|Gujarat','390001':'Vadodara|Vadodara|Gujarat',
+  '302001':'Jaipur|Jaipur|Rajasthan','313001':'Udaipur|Udaipur|Rajasthan','342001':'Jodhpur|Jodhpur|Rajasthan',
+  '160001':'Chandigarh|Chandigarh|Chandigarh','141001':'Ludhiana|Ludhiana|Punjab',
+  '143001':'Amritsar|Amritsar|Punjab','122001':'Gurgaon|Gurugram|Haryana',
+  '695001':'Thiruvananthapuram|Thiruvananthapuram|Kerala','682001':'Kochi|Ernakulam|Kerala',
+  '673001':'Kozhikode|Kozhikode|Kerala','462001':'Bhopal|Bhopal|Madhya Pradesh',
+  '452001':'Indore|Indore|Madhya Pradesh','800001':'Patna|Patna|Bihar',
+  '751001':'Bhubaneswar|Khordha|Odisha','781001':'Guwahati|Kamrup|Assam',
+  '248001':'Dehradun|Dehradun|Uttarakhand','834001':'Ranchi|Ranchi|Jharkhand',
+  '171001':'Shimla|Shimla|Himachal Pradesh','431001':'Aurangabad|Aurangabad|Maharashtra',
+};
+
+function adminFetchPincode(pin) {
+  if (!pin || pin.length !== 6) return;
+  const status = document.getElementById('cf-pincode-status');
+  if (!status) return;
+  status.innerHTML = '<span style="color:var(--muted)">Looking up…</span>';
+
+  if (ADMIN_PIN_MAP[pin]) {
+    const [city, district, state] = ADMIN_PIN_MAP[pin].split('|');
+    adminFillLocation(city, district, state);
+    status.innerHTML = '<span style="color:var(--success)">✓ ' + city + ', ' + district + ', ' + state + '</span>';
+    return;
+  }
+
+  // Live API fallback
+  fetch('https://api.postalpincode.in/pincode/' + pin)
+    .then(r => r.json())
+    .then(d => {
+      if (d && d[0] && d[0].Status === 'Success' && d[0].PostOffice?.length) {
+        const po = d[0].PostOffice[0];
+        adminFillLocation(po.Block || po.Name, po.District, po.State);
+        status.innerHTML = '<span style="color:var(--success)">✓ ' + (po.Block||po.Name) + ', ' + po.District + ', ' + po.State + '</span>';
+      } else {
+        status.innerHTML = '<span style="color:var(--warning)">⚠ Not found — fill manually below</span>';
+      }
+    })
+    .catch(() => {
+      status.innerHTML = '<span style="color:var(--warning)">⚠ API unavailable — fill manually</span>';
+    });
+}
+
+function adminFillLocation(city, district, state) {
+  const c = document.getElementById('cf-city');
+  const d = document.getElementById('cf-district');
+  const s = document.getElementById('cf-state');
+  if (c) c.value = city;
+  if (d) d.value = district;
+  if (s) {
+    for (let i = 0; i < s.options.length; i++) {
+      if (s.options[i].text === state || s.options[i].value === state) { s.selectedIndex = i; return; }
+    }
+    const opt = document.createElement('option');
+    opt.value = state; opt.text = state; opt.selected = true;
+    s.appendChild(opt);
+  }
+}
+
 </script>
 </body>
 </html>

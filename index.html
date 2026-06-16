@@ -5030,10 +5030,24 @@ function escHtml(s) {
 }
 
 function getSocialUrl(c) {
-  if (!c.handle) return null;
-  const h = c.handle.replace('@','');
-  if (c.platform && c.platform.toLowerCase().includes('youtube')) return 'https://youtube.com/@' + h;
-  return 'https://instagram.com/' + h;
+  // Sheet stores instagram handle in 'instagram' field, fallback to 'handle'
+  const ig = (c.instagram || c.handle || '').replace('@','').trim();
+  const yt = (c.youtube || '').trim();
+  const plat = (c.platform || '').toLowerCase();
+
+  // YouTube priority if platform is YouTube or Both
+  if (plat.includes('youtube') && yt) {
+    if (yt.startsWith('http')) return yt;
+    return 'https://youtube.com/@' + yt.replace('@','');
+  }
+  // Instagram
+  if (ig) return 'https://instagram.com/' + ig;
+  // YouTube fallback
+  if (yt) {
+    if (yt.startsWith('http')) return yt;
+    return 'https://youtube.com/@' + yt.replace('@','');
+  }
+  return null;
 }
 
 function parseFollowers(str) {
@@ -5055,13 +5069,13 @@ function creatorCard(c) {
     ${cover}
     <div class="nc-body">
       <div class="nc-name">${escHtml(c.name)}</div>
-      ${c.handle ? `<div class="nc-handle">@${escHtml(c.handle.replace('@',''))}</div>` : ''}
+      ${(c.instagram||c.handle) ? `<div class="nc-handle">@${escHtml((c.instagram||c.handle).replace('@',''))}</div>` : ''}
       ${c.followers ? `<div class="nc-stat"><strong>${escHtml(c.followers)}</strong> followers</div>` : ''}
       <div class="nc-tags">
-        ${c.niche ? `<span class="nc-tag">${escHtml(c.niche)}</span>` : ''}
-        ${c.language ? `<span class="nc-tag">${escHtml(c.language)}</span>` : ''}
+        ${c.niche ? `<span class="nc-tag">${escHtml(c.niche.split(',')[0].trim())}</span>` : ''}
+        ${c.language ? `<span class="nc-tag">${escHtml(c.language.split(',')[0].trim())}</span>` : ''}
         ${c.platform ? `<span class="nc-tag">${escHtml(c.platform)}</span>` : ''}
-        ${c.city ? `<span class="nc-tag">📍${escHtml(c.city)}</span>` : ''}
+        ${(c.city||c.state) ? `<span class="nc-tag">📍${escHtml(c.city||c.state)}</span>` : ''}
       </div>
       ${socialUrl ? `<a href="${socialUrl}" target="_blank" onclick="event.stopPropagation()" class="nc-social-btn">${platformIcon} View Profile</a>` : ''}
     </div>
