@@ -7,311 +7,476 @@
 <meta name="robots" content="noindex, nofollow">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0C0C0C;--ink-2:#141414;--ink-3:#1E1E1E;--lime:#C8F135;--purple:#8A5CF6;--chalk:#F5F2EC;--secondary:#9A9590;--muted:#5A5652;--success:#22C55E;--error:#EF4444;--warning:#F59E0B}
+:root{
+  --ink:#0C0C0C;--ink-2:#141414;--ink-3:#1E1E1E;--ink-4:#252525;
+  --lime:#C8F135;--lime-dim:rgba(200,241,53,.12);
+  --purple:#8A5CF6;--purple-dim:rgba(138,92,246,.12);
+  --chalk:#F5F2EC;--secondary:#9A9590;--muted:#5A5652;
+  --success:#22C55E;--error:#EF4444;--warning:#F59E0B;
+  --brand-color:#38BDF8;--brand-dim:rgba(56,189,248,.12);
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px}
+html{font-size:16px;scroll-behavior:smooth}
 body{background:var(--ink);color:var(--chalk);font-family:'DM Sans',sans-serif;min-height:100svh}
-.bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em}
-.mono{font-family:'DM Mono',monospace}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(12,12,12,.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.07)}
-.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.1em;color:var(--chalk);display:flex;align-items:center;gap:8px}
-.nav-brand .dot{width:8px;height:8px;background:var(--lime);border-radius:50%}
-.admin-badge-nav{background:rgba(200,241,53,.1);border:1px solid rgba(200,241,53,.25);color:var(--lime);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px}
-.logout-btn{background:none;border:1px solid var(--ink-3);color:var(--muted);padding:8px 16px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.7rem;cursor:pointer;transition:all .2s;letter-spacing:.06em}
-.logout-btn:hover{border-color:var(--error);color:var(--error)}
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5vw;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(12,12,12,.96);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.07)}
+.nav-brand{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.1em;display:flex;align-items:center;gap:8px}
+.nav-dot{width:8px;height:8px;background:var(--lime);border-radius:50%}
+.badge{background:var(--lime-dim);border:1px solid rgba(200,241,53,.25);color:var(--lime);font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px}
+.nav-right{display:flex;align-items:center;gap:12px}
+.btn-ghost{background:none;border:1px solid var(--ink-3);color:var(--muted);padding:8px 16px;border-radius:4px;font-family:'DM Mono',monospace;font-size:.7rem;cursor:pointer;transition:all .2s;letter-spacing:.06em}
+.btn-ghost:hover{border-color:var(--error);color:var(--error)}
 
-/* WRAP */
-.wrap{max-width:1100px;margin:0 auto;padding:88px 5vw 60px}
+/* ── WRAP ── */
+.wrap{max-width:1200px;margin:0 auto;padding:88px 5vw 80px}
 
-/* AUTH */
+/* ── AUTH ── */
 #auth-gate{max-width:360px;margin:0 auto;padding-top:80px}
+.auth-label{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--lime);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
 .auth-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:.04em;margin-bottom:8px}
 .auth-sub{color:var(--muted);font-family:'DM Mono',monospace;font-size:.75rem;margin-bottom:28px}
 .form-label{display:block;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.06em;color:var(--secondary);text-transform:uppercase;margin-bottom:8px}
 .form-input{width:100%;background:var(--ink-2);border:1px solid var(--ink-3);color:var(--chalk);padding:12px 16px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.9375rem;transition:border-color .2s;outline:none;margin-bottom:12px}
 .form-input:focus{border-color:var(--lime)}
-.btn-primary{width:100%;background:var(--lime);color:var(--ink);border:none;padding:14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9375rem;cursor:pointer;transition:all .2s}
+.form-select{width:100%;background:var(--ink-2);border:1px solid var(--ink-3);color:var(--chalk);padding:12px 16px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none;cursor:pointer;margin-bottom:12px}
+.form-select option{background:var(--ink-2)}
+.form-textarea{width:100%;background:var(--ink-2);border:1px solid var(--ink-3);color:var(--chalk);padding:12px 16px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.875rem;outline:none;resize:vertical;min-height:80px;margin-bottom:12px}
+.form-textarea:focus{border-color:var(--lime)}
+.btn-primary{width:100%;background:var(--lime);color:var(--ink);border:none;padding:14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9375rem;cursor:pointer;transition:all .2s}
 .btn-primary:hover{background:#a8cc20}
 .auth-err{display:none;color:var(--error);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:8px}
 
-/* DASHBOARD */
+/* ── DASHBOARD ── */
 #dashboard{display:none}
-.dash-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:32px}
+.dash-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:32px}
 .dash-title{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;letter-spacing:.04em}
-.dash-sub{color:var(--muted);font-family:'DM Mono',monospace;font-size:.75rem;margin-top:4px}
+.dash-sub{color:var(--muted);font-family:'DM Mono',monospace;font-size:.72rem;margin-top:6px}
+.dash-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
-/* STATS STRIP */
-.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid var(--ink-3);margin-bottom:36px}
-.stat-card{background:var(--ink-2);padding:20px 24px}
-.stat-val{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em;color:var(--lime)}
-.stat-label{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+/* ── STATS ── */
+.stats-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;border:1px solid var(--ink-3);margin-bottom:32px}
+.stat-card{background:var(--ink-2);padding:18px 20px}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.04em;color:var(--lime)}
+.stat-label{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px;line-height:1.3}
 
-/* TABS */
-.tabs{display:flex;gap:2px;background:var(--ink-2);border:1px solid var(--ink-3);border-radius:8px;padding:4px;width:fit-content;margin-bottom:24px}
-.tab-btn{background:none;border:none;padding:9px 20px;font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);cursor:pointer;border-radius:6px;transition:all .2s;letter-spacing:.06em;text-transform:uppercase}
-.tab-btn.active{background:var(--ink-3);color:var(--chalk)}
+/* ── SECTION TABS ── */
+.section-tabs{display:flex;gap:2px;background:var(--ink-2);border:1px solid var(--ink-3);border-radius:8px;padding:4px;width:fit-content;margin-bottom:24px}
+.stab{background:none;border:none;padding:10px 24px;font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted);cursor:pointer;border-radius:6px;transition:all .2s;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.stab.active{background:var(--ink-3);color:var(--chalk)}
 
-/* FILTER ROW */
+/* ── FILTER ROW ── */
 .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
 .filter-input{background:var(--ink-2);border:1px solid var(--ink-3);color:var(--chalk);padding:8px 14px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.72rem;outline:none;transition:border-color .2s}
 .filter-input:focus{border-color:var(--lime)}
 .filter-input::placeholder{color:var(--muted)}
 .filter-select{background:var(--ink-2);border:1px solid var(--ink-3);color:var(--chalk);padding:8px 14px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.72rem;outline:none;cursor:pointer}
 
-/* GRID */
-.creator-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+/* ── STATUS FILTER TABS ── */
+.status-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:20px}
+.status-tab{background:var(--ink-2);border:1px solid var(--ink-3);color:var(--muted);padding:6px 14px;border-radius:9999px;font-family:'DM Mono',monospace;font-size:.68rem;cursor:pointer;transition:all .2s;letter-spacing:.04em}
+.status-tab.active-all{border-color:var(--chalk);color:var(--chalk)}
+.status-tab.active-pending{border-color:var(--warning);color:var(--warning);background:rgba(245,158,11,.08)}
+.status-tab.active-approved{border-color:var(--success);color:var(--success);background:rgba(34,197,94,.08)}
+.status-tab.active-rejected{border-color:var(--error);color:var(--error);background:rgba(239,68,68,.08)}
+.status-tab.active-active{border-color:var(--brand-color);color:var(--brand-color);background:var(--brand-dim)}
+
+/* ── GRID ── */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+
+/* ── CREATOR CARD ── */
 .creator-card{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:12px;overflow:hidden;transition:border-color .2s}
-.creator-card:hover{border-color:rgba(200,241,53,.25)}
-.creator-card.pending{border-left:3px solid var(--warning)}
-.creator-card.approved{border-left:3px solid var(--success)}
-.creator-card.rejected{border-left:3px solid var(--error);opacity:.6}
+.creator-card:hover{border-color:rgba(200,241,53,.2)}
+.creator-card.s-pending{border-left:3px solid var(--warning)}
+.creator-card.s-approved{border-left:3px solid var(--success)}
+.creator-card.s-rejected{border-left:3px solid var(--error);opacity:.65}
+.creator-card.s-active{border-left:3px solid var(--brand-color)}
+.creator-card.s-new_lead{border-left:3px solid var(--purple)}
 
-.card-header{display:flex;align-items:center;gap:12px;padding:20px 20px 0}
-.card-avatar{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--ink-3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;overflow:hidden}
-.card-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
-.card-name{font-weight:600;font-size:1rem;margin-bottom:2px}
-.card-handle{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted)}
-.card-status{margin-left:auto;font-family:'DM Mono',monospace;font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:4px}
-.status-pending{background:rgba(245,158,11,.12);color:var(--warning);border:1px solid rgba(245,158,11,.2)}
-.status-approved{background:rgba(34,197,94,.12);color:var(--success);border:1px solid rgba(34,197,94,.2)}
-.status-rejected{background:rgba(239,68,68,.12);color:var(--error);border:1px solid rgba(239,68,68,.2)}
+.card-header{display:flex;align-items:center;gap:12px;padding:18px 18px 0}
+.card-avatar{width:48px;height:48px;border-radius:50%;background:var(--ink-3);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.3rem;overflow:hidden}
+.card-avatar img{width:100%;height:100%;object-fit:cover}
+.card-name{font-weight:600;font-size:.9375rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-handle{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted)}
+.card-status-badge{margin-left:auto;flex-shrink:0;font-family:'DM Mono',monospace;font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:4px}
+.sb-pending{background:rgba(245,158,11,.12);color:var(--warning);border:1px solid rgba(245,158,11,.25)}
+.sb-approved{background:rgba(34,197,94,.12);color:var(--success);border:1px solid rgba(34,197,94,.25)}
+.sb-rejected{background:rgba(239,68,68,.12);color:var(--error);border:1px solid rgba(239,68,68,.25)}
+.sb-active{background:var(--brand-dim);color:var(--brand-color);border:1px solid rgba(56,189,248,.25)}
+.sb-new_lead{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(138,92,246,.25)}
 
-.card-body{padding:16px 20px}
-.card-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.meta-tag{background:var(--ink-3);color:var(--muted);font-family:'DM Mono',monospace;font-size:.62rem;padding:3px 8px;border-radius:9999px;text-transform:uppercase;letter-spacing:.04em}
-.meta-tag.lime{background:rgba(200,241,53,.08);color:var(--lime)}
-.meta-tag.purple{background:rgba(138,92,246,.08);color:var(--purple)}
-.card-detail{font-size:.8rem;color:var(--secondary);margin-bottom:4px;line-height:1.5}
+.card-body{padding:14px 18px}
+.card-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.meta-tag{background:var(--ink-3);color:var(--muted);font-family:'DM Mono',monospace;font-size:.6rem;padding:3px 8px;border-radius:9999px;text-transform:uppercase;letter-spacing:.04em}
+.meta-tag.mt-lime{background:var(--lime-dim);color:var(--lime)}
+.meta-tag.mt-purple{background:var(--purple-dim);color:var(--purple)}
+.meta-tag.mt-blue{background:var(--brand-dim);color:var(--brand-color)}
+.card-detail{font-size:.78rem;color:var(--secondary);margin-bottom:3px;line-height:1.5}
 .card-detail strong{color:var(--chalk)}
 
-.card-actions{display:flex;gap:8px;padding:0 20px 20px;margin-top:12px}
-.action-btn{flex:1;padding:9px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.7rem;cursor:pointer;border:none;transition:all .2s;letter-spacing:.04em;text-transform:uppercase}
-.btn-approve{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.25)}
-.btn-approve:hover{background:rgba(34,197,94,.25)}
-.btn-reject{background:rgba(239,68,68,.1);color:var(--error);border:1px solid rgba(239,68,68,.2)}
-.btn-reject:hover{background:rgba(239,68,68,.2)}
-.btn-wa{background:rgba(37,211,102,.1);color:#25D366;border:1px solid rgba(37,211,102,.2)}
-.btn-wa:hover{background:rgba(37,211,102,.2)}
-.btn-view{background:var(--ink-3);color:var(--secondary);border:1px solid var(--ink-3)}
-.btn-view:hover{color:var(--chalk)}
+.card-actions{display:flex;gap:6px;padding:0 18px 18px;margin-top:10px;flex-wrap:wrap}
+.act{flex:1;min-width:0;padding:8px 6px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.62rem;cursor:pointer;border:none;transition:all .2s;letter-spacing:.04em;text-transform:uppercase;text-align:center;white-space:nowrap}
+.act-approve{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.25)}
+.act-approve:hover{background:rgba(34,197,94,.28)}
+.act-reject{background:rgba(239,68,68,.1);color:var(--error);border:1px solid rgba(239,68,68,.2)}
+.act-reject:hover{background:rgba(239,68,68,.22)}
+.act-wa{background:rgba(37,211,102,.1);color:#25D366;border:1px solid rgba(37,211,102,.2)}
+.act-wa:hover{background:rgba(37,211,102,.22)}
+.act-edit{background:var(--ink-3);color:var(--secondary);border:1px solid var(--ink-4)}
+.act-edit:hover{color:var(--lime);border-color:var(--lime)}
+.act-del{background:rgba(239,68,68,.06);color:var(--muted);border:1px solid rgba(239,68,68,.12)}
+.act-del:hover{color:var(--error);border-color:var(--error)}
+.act-view{background:var(--ink-3);color:var(--secondary);border:1px solid var(--ink-4)}
+.act-view:hover{color:var(--chalk)}
 
-/* EMPTY STATE */
-.empty-state{text-align:center;padding:60px 20px;color:var(--muted);font-family:'DM Mono',monospace;font-size:.8rem;border:1px dashed var(--ink-3);border-radius:12px}
+/* ── EMPTY ── */
+.empty-state{text-align:center;padding:60px 20px;color:var(--muted);font-family:'DM Mono',monospace;font-size:.8rem;border:1px dashed var(--ink-3);border-radius:12px;grid-column:1/-1}
 .empty-state .icon{font-size:2.5rem;margin-bottom:12px}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px}
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:9000;display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
 .modal-overlay.open{display:flex}
-.modal{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:16px;max-width:600px;width:100%;max-height:90svh;overflow-y:auto;padding:32px}
+.modal{background:var(--ink-2);border:1px solid var(--ink-3);border-radius:16px;width:100%;max-width:640px;max-height:92svh;overflow-y:auto;padding:32px;position:relative}
 .modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
 .modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;letter-spacing:.04em}
-.modal-close{background:none;border:none;color:var(--muted);font-size:1.4rem;cursor:pointer;padding:4px}
+.modal-close{background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;padding:4px;line-height:1}
 .modal-close:hover{color:var(--chalk)}
-.detail-row{display:flex;gap:12px;margin-bottom:12px;font-size:.875rem}
-.detail-key{color:var(--muted);font-family:'DM Mono',monospace;font-size:.7rem;width:120px;flex-shrink:0;padding-top:2px}
-.detail-val{color:var(--chalk);line-height:1.5}
-.modal-avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--ink-3);margin-bottom:20px}
+.modal-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;border:2px solid var(--ink-3);margin-bottom:20px;display:block}
+.detail-row{display:flex;gap:12px;margin-bottom:10px;font-size:.85rem;align-items:flex-start}
+.detail-key{color:var(--muted);font-family:'DM Mono',monospace;font-size:.68rem;width:110px;flex-shrink:0;padding-top:3px;text-transform:uppercase;letter-spacing:.04em}
+.detail-val{color:var(--chalk);line-height:1.55;word-break:break-word}
 
-/* NOTIFICATIONS */
-.notif{position:fixed;bottom:24px;right:24px;background:var(--ink-2);border:1px solid var(--ink-3);padding:16px 20px;border-radius:8px;z-index:9999;font-family:'DM Mono',monospace;font-size:.75rem;transform:translateY(120%);opacity:0;transition:all .35s;max-width:300px}
+/* form in modal */
+.mform-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mform-full{grid-column:1/-1}
+.mform-label{display:block;font-family:'DM Mono',monospace;font-size:.68rem;color:var(--secondary);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.mform-input{width:100%;background:var(--ink);border:1px solid var(--ink-3);color:var(--chalk);padding:10px 14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.875rem;outline:none;transition:border-color .2s}
+.mform-input:focus{border-color:var(--purple)}
+.mform-select{width:100%;background:var(--ink);border:1px solid var(--ink-3);color:var(--chalk);padding:10px 14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.875rem;outline:none;cursor:pointer}
+.mform-select option{background:var(--ink-2)}
+.mform-textarea{width:100%;background:var(--ink);border:1px solid var(--ink-3);color:var(--chalk);padding:10px 14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:.875rem;outline:none;resize:vertical;min-height:72px}
+.mform-textarea:focus{border-color:var(--purple)}
+.mform-row{margin-bottom:0}
+
+/* ── BUTTONS ── */
+.btn-action{padding:10px 20px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;border:none;transition:all .2s;letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:6px}
+.btn-save{background:var(--lime);color:var(--ink);font-weight:700}
+.btn-save:hover{background:#a8cc20}
+.btn-save:disabled{opacity:.55;cursor:not-allowed}
+.btn-cancel{background:var(--ink-3);color:var(--secondary);border:1px solid var(--ink-4)}
+.btn-cancel:hover{color:var(--chalk)}
+.btn-add{background:var(--lime);color:var(--ink);font-weight:700;font-family:'DM Mono',monospace;font-size:.72rem;padding:9px 18px;border-radius:6px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.btn-add:hover{background:#a8cc20}
+.btn-add-brand{background:var(--brand-color);color:var(--ink);font-weight:700;font-family:'DM Mono',monospace;font-size:.72rem;padding:9px 18px;border-radius:6px;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.btn-add-brand:hover{background:#60caef}
+.btn-export{background:var(--ink-3);border:1px solid var(--ink-4);color:var(--secondary);font-family:'DM Mono',monospace;font-size:.7rem;padding:9px 16px;border-radius:6px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .2s}
+.btn-export:hover{color:var(--chalk)}
+.btn-refresh{background:var(--ink-3);border:1px solid var(--ink-4);color:var(--secondary);font-family:'DM Mono',monospace;font-size:.7rem;padding:9px 14px;border-radius:6px;cursor:pointer;transition:all .2s}
+.btn-refresh:hover{color:var(--lime);border-color:var(--lime)}
+.btn-refresh.spinning{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── SECTION DIVIDER ── */
+.section-block{display:none}
+.section-block.active{display:block}
+
+/* ── NOTIFICATIONS ── */
+.notif{position:fixed;bottom:24px;right:24px;background:var(--ink-2);border:1px solid var(--ink-3);padding:14px 20px;border-radius:8px;z-index:9999;font-family:'DM Mono',monospace;font-size:.75rem;transform:translateY(120%);opacity:0;transition:all .35s;max-width:320px;line-height:1.4}
 .notif.show{transform:translateY(0);opacity:1}
 .notif.success{border-color:var(--success);color:var(--success)}
 .notif.error{border-color:var(--error);color:var(--error)}
+.notif.warn{border-color:var(--warning);color:var(--warning)}
 
-@media(max-width:700px){
-  .stats-strip{grid-template-columns:repeat(2,1fr)}
-  .creator-grid{grid-template-columns:1fr}
+/* ── LOADING ── */
+.loading-row{padding:40px;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:.78rem;grid-column:1/-1;letter-spacing:.04em}
+
+@media(max-width:800px){
+  .stats-strip{grid-template-columns:repeat(3,1fr)}
+  .mform-grid{grid-template-columns:1fr}
+  .card-grid{grid-template-columns:1fr}
   nav{padding:0 16px}
-  .wrap{padding:76px 16px 48px}
+  .wrap{padding:76px 16px 60px}
+  .modal{padding:20px}
+}
+@media(max-width:480px){
+  .stats-strip{grid-template-columns:repeat(2,1fr)}
+  .dash-actions{width:100%}
+  .btn-add,.btn-add-brand{flex:1;justify-content:center}
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-brand"><div class="dot"></div>INFLYR <span class="admin-badge-nav">Admin</span></div>
-  <button class="logout-btn" onclick="adminLogout()" id="logout-btn" style="display:none">Logout →</button>
+  <div class="nav-brand"><div class="nav-dot"></div>INFLYR <span class="badge">Admin</span></div>
+  <div class="nav-right">
+    <a href="index.html" style="color:var(--muted);font-family:'DM Mono',monospace;font-size:.7rem;text-decoration:none;display:none" id="back-link">← Site</a>
+    <button class="btn-ghost" onclick="adminLogout()" id="logout-btn" style="display:none">Logout →</button>
+  </div>
 </nav>
 
 <div class="wrap">
 
-  <!-- AUTH GATE -->
+  <!-- ── AUTH GATE ── -->
   <div id="auth-gate">
-    <div style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--lime);letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px">⚡ Admin Access</div>
+    <div class="auth-label">⚡ Admin Access</div>
     <div class="auth-title">ADMIN PANEL</div>
     <div class="auth-sub">INFLYR internal dashboard. Authorized access only.</div>
-    <div>
-      <label class="form-label">Password</label>
-      <input type="password" id="auth-pw" class="form-input" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')doLogin()">
-      <button class="btn-primary" onclick="doLogin()">Enter Dashboard →</button>
-      <div class="auth-err" id="auth-err">Wrong password. Try again.</div>
-    </div>
+    <label class="form-label">Password</label>
+    <input type="password" id="auth-pw" class="form-input" placeholder="Enter admin password"
+           onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn-primary" onclick="doLogin()">Enter Dashboard →</button>
+    <div class="auth-err" id="auth-err">❌ Wrong password. Try again.</div>
   </div>
 
-  <!-- DASHBOARD -->
+  <!-- ── DASHBOARD ── -->
   <div id="dashboard">
+
     <div class="dash-header">
       <div>
-        <div class="dash-title">CREATOR DASHBOARD</div>
-        <div class="dash-sub">Manage applications, approve/reject creators, view live network.</div>
+        <div class="dash-title">INFLYR DASHBOARD</div>
+        <div class="dash-sub" id="last-sync">Loading data from Google Sheets…</div>
       </div>
-      <a href="index.html" style="color:var(--secondary);font-family:'DM Mono',monospace;font-size:.72rem;text-decoration:none">← Back to site</a>
+      <div class="dash-actions" id="dash-actions-bar">
+        <button class="btn-refresh" id="refresh-btn" onclick="refreshAll()" title="Refresh from Sheets">↻</button>
+        <button class="btn-add" onclick="openCreateModal('creator')">＋ Add Creator</button>
+        <button class="btn-add-brand" onclick="openCreateModal('brand')">＋ Add Brand</button>
+        <button class="btn-export" onclick="exportCSV()">⬇ Export CSV</button>
+      </div>
     </div>
 
     <!-- STATS -->
     <div class="stats-strip">
-      <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-label">Total Applications</div></div>
-      <div class="stat-card"><div class="stat-val" style="color:var(--warning)" id="stat-pending">0</div><div class="stat-label">Pending Review</div></div>
-      <div class="stat-card"><div class="stat-val" style="color:var(--success)" id="stat-approved">0</div><div class="stat-label">Approved Creators</div></div>
-      <div class="stat-card"><div class="stat-val" style="color:var(--error)" id="stat-rejected">0</div><div class="stat-label">Rejected</div></div>
+      <div class="stat-card"><div class="stat-val" id="s-total-c">–</div><div class="stat-label">Total Creators</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--warning)" id="s-pending-c">–</div><div class="stat-label">Pending Review</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--success)" id="s-approved-c">–</div><div class="stat-label">Approved</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--brand-color)" id="s-total-b">–</div><div class="stat-label">Total Brands</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--purple)" id="s-new-b">–</div><div class="stat-label">New Leads</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--error)" id="s-rejected-c">–</div><div class="stat-label">Rejected</div></div>
     </div>
 
-    <!-- TABS -->
-    <div class="tabs">
-      <button class="tab-btn active" id="tab-pending-btn" onclick="switchAdminTab('pending')">⏳ Pending</button>
-      <button class="tab-btn" id="tab-approved-btn" onclick="switchAdminTab('approved')">✅ Approved</button>
-      <button class="tab-btn" id="tab-all-btn" onclick="switchAdminTab('all')">📋 All</button>
+    <!-- SECTION TABS -->
+    <div class="section-tabs">
+      <button class="stab active" id="stab-creators" onclick="switchSection('creators')">🎬 Creators</button>
+      <button class="stab" id="stab-brands" onclick="switchSection('brands')">🏢 Brands</button>
     </div>
 
-    <!-- FILTERS -->
-    <div class="filter-row">
-      <input type="text" class="filter-input" id="f-search" placeholder="Search name / handle / niche..." oninput="renderCreators()" style="min-width:220px">
-      <select class="filter-select" id="f-niche" onchange="renderCreators()">
-        <option value="">All Niches</option>
-        <option>Fashion & Style</option><option>Beauty & Makeup</option><option>Skincare</option>
-        <option>Food & Cooking</option><option>Travel & Lifestyle</option><option>Tech & Gaming</option>
-        <option>Fitness & Health</option><option>Finance & Business</option><option>Comedy & Entertainment</option>
-        <option>Education</option><option>Parenting & Family</option><option>Dance & Music</option>
-        <option>Motivation & Mindset</option><option>Home & Decor</option><option>Vlogs</option><option>Spiritual</option>
-      </select>
-      <select class="filter-select" id="f-state" onchange="renderCreators()">
-        <option value="">All States</option>
-        <option>Uttar Pradesh</option><option>Maharashtra</option><option>Delhi</option>
-        <option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option>
-        <option>Rajasthan</option><option>West Bengal</option><option>Telangana</option>
-        <option>Kerala</option><option>Punjab</option><option>Bihar</option><option>Madhya Pradesh</option>
-      </select>
-      <button onclick="exportCSV()" style="background:var(--ink-3);border:1px solid var(--ink-3);color:var(--secondary);padding:8px 16px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.7rem;cursor:pointer;white-space:nowrap" onmouseover="this.style.color='var(--chalk)'" onmouseout="this.style.color='var(--secondary)'">⬇ Export CSV</button>
+    <!-- ── CREATORS SECTION ── -->
+    <div class="section-block active" id="section-creators">
+      <div class="filter-row">
+        <input type="text" class="filter-input" id="f-search-c" placeholder="Search name / handle / niche…" oninput="renderCreators()" style="min-width:200px">
+        <select class="filter-select" id="f-niche-c" onchange="renderCreators()">
+          <option value="">All Niches</option>
+          <option>Fashion &amp; Style</option><option>Beauty &amp; Makeup</option><option>Skincare</option>
+          <option>Food &amp; Cooking</option><option>Travel &amp; Lifestyle</option><option>Tech &amp; Gaming</option>
+          <option>Fitness &amp; Health</option><option>Finance &amp; Business</option><option>Comedy &amp; Entertainment</option>
+          <option>Education</option><option>Parenting &amp; Family</option><option>Dance &amp; Music</option>
+          <option>Motivation &amp; Mindset</option><option>Home &amp; Decor</option><option>Vlogs</option><option>Spiritual</option>
+        </select>
+        <select class="filter-select" id="f-state-c" onchange="renderCreators()">
+          <option value="">All States</option>
+          <option>Uttar Pradesh</option><option>Maharashtra</option><option>Delhi</option>
+          <option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option>
+          <option>Rajasthan</option><option>West Bengal</option><option>Telangana</option>
+          <option>Kerala</option><option>Punjab</option><option>Bihar</option>
+          <option>Madhya Pradesh</option><option>Assam</option><option>Jharkhand</option>
+          <option>Uttarakhand</option><option>Himachal Pradesh</option>
+        </select>
+      </div>
+      <div class="status-tabs" id="creator-status-tabs">
+        <button class="status-tab active-all" onclick="setCreatorStatusFilter('all',this)">All</button>
+        <button class="status-tab" onclick="setCreatorStatusFilter('pending',this)">⏳ Pending</button>
+        <button class="status-tab" onclick="setCreatorStatusFilter('approved',this)">✅ Approved</button>
+        <button class="status-tab" onclick="setCreatorStatusFilter('rejected',this)">✗ Rejected</button>
+      </div>
+      <div class="card-grid" id="creator-grid"></div>
     </div>
 
-    <!-- GRID -->
-    <div class="creator-grid" id="creator-grid"></div>
-    <div class="empty-state" id="empty-state" style="display:none"><div class="icon">📭</div>No applications yet.<br>Share the creator join link to get applicants.</div>
-  </div>
-</div>
+    <!-- ── BRANDS SECTION ── -->
+    <div class="section-block" id="section-brands">
+      <div class="filter-row">
+        <input type="text" class="filter-input" id="f-search-b" placeholder="Search brand / contact / industry…" oninput="renderBrands()" style="min-width:200px">
+        <select class="filter-select" id="f-industry-b" onchange="renderBrands()">
+          <option value="">All Industries</option>
+          <option>Fashion &amp; Apparel</option><option>Beauty &amp; Skincare</option><option>Food &amp; Beverage</option>
+          <option>Health &amp; Wellness</option><option>Tech &amp; Gadgets</option><option>Finance &amp; Fintech</option>
+          <option>Education &amp; EdTech</option><option>Home &amp; Living</option><option>Travel</option>
+          <option>Sports &amp; Fitness</option><option>Baby &amp; Kids</option><option>Automotive</option><option>Other</option>
+        </select>
+      </div>
+      <div class="status-tabs" id="brand-status-tabs">
+        <button class="status-tab active-all" onclick="setBrandStatusFilter('all',this)">All</button>
+        <button class="status-tab" onclick="setBrandStatusFilter('new_lead',this)">🆕 New Lead</button>
+        <button class="status-tab" onclick="setBrandStatusFilter('active',this)">✅ Active</button>
+        <button class="status-tab" onclick="setBrandStatusFilter('closed',this)">✗ Closed</button>
+      </div>
+      <div class="card-grid" id="brand-grid"></div>
+    </div>
 
-<!-- DETAIL MODAL -->
+  </div><!-- /dashboard -->
+</div><!-- /wrap -->
+
+<!-- ── MODAL: view/edit/create ── -->
 <div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
-  <div class="modal" id="modal-content"></div>
+  <div class="modal" id="modal-body"></div>
 </div>
 
-<!-- NOTIFICATION -->
+<!-- ── NOTIFICATION ── -->
 <div class="notif" id="notif"></div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────────
-const ADMIN_PASSWORD = 'inflyr2026'; // ← Change this password!
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzAb6FxyhTdrmQ09hR1Z2jVUXvRDw9vNpGVb6IIqVUxutn32VkuzDc2VcHRGzEJyrz4/exec';
-const STORAGE_KEY = 'inflyr_creators';
+// ═══════════════════════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════════════════════
+const ADMIN_PASSWORD = 'inflyr2026';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnCmkbd___2ghycrarPYus4JFcCYNzqdiNLcszPUhF44lvLotzspMJcNvsuGSIcfJvfw/exec';
+const SK_CREATORS = 'inflyr_v2_creators';
+const SK_BRANDS   = 'inflyr_v2_brands';
 
 let creators = [];
-let currentTab = 'pending';
+let brands   = [];
+let creatorStatusFilter = 'all';
+let brandStatusFilter   = 'all';
+let currentSection = 'creators';
 
-// ─── AUTH ──────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════════════
 function doLogin() {
-  const pw = document.getElementById('auth-pw').value;
+  const pw = document.getElementById('auth-pw').value.trim();
   if (pw === ADMIN_PASSWORD) {
     document.getElementById('auth-gate').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     document.getElementById('logout-btn').style.display = 'block';
+    document.getElementById('back-link').style.display = 'block';
     sessionStorage.setItem('inflyr_admin', '1');
-    loadCreators();
+    refreshAll();
   } else {
     document.getElementById('auth-err').style.display = 'block';
   }
 }
-
 function adminLogout() {
   sessionStorage.removeItem('inflyr_admin');
   location.reload();
 }
-
-// Auto-login if session active
+// Auto-login
 if (sessionStorage.getItem('inflyr_admin') === '1') {
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('dashboard').style.display = 'block';
   document.getElementById('logout-btn').style.display = 'block';
-  setTimeout(loadCreators, 100);
+  document.getElementById('back-link').style.display = 'block';
+  setTimeout(refreshAll, 80);
 }
 
-// ─── DATA ──────────────────────────────────────────────────────────
-function loadCreators() {
-  // Load from localStorage (creators submitted via forms on this device/session)
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    try { creators = JSON.parse(stored); } catch { creators = []; }
-  }
-  // Also try to load from Google Sheets (via SCRIPT_URL)
-  fetchFromSheet();
-  renderCreators();
-  updateStats();
+// ═══════════════════════════════════════════════════════════
+// DATA — FETCH FROM SHEETS
+// ═══════════════════════════════════════════════════════════
+async function refreshAll() {
+  const btn = document.getElementById('refresh-btn');
+  btn.classList.add('spinning');
+  setLastSync('Syncing with Google Sheets…');
+  await Promise.all([fetchCreators(), fetchBrands()]);
+  btn.classList.remove('spinning');
+  setLastSync('Last synced: ' + new Date().toLocaleTimeString('en-IN'));
 }
 
-async function fetchFromSheet() {
+function setLastSync(msg) {
+  document.getElementById('last-sync').textContent = msg;
+}
+
+async function fetchCreators() {
+  document.getElementById('creator-grid').innerHTML = '<div class="loading-row">⏳ Loading creators…</div>';
   try {
-    const res = await fetch(SCRIPT_URL + '?action=getCreators');
-    if (!res.ok) return;
+    const res = await fetch(SCRIPT_URL + '?action=getCreators&_=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    if (data && data.creators && Array.isArray(data.creators)) {
-      // Merge with local, avoid duplicates
-      data.creators.forEach(c => {
-        if (!creators.find(x => x.email === c.email && x.instagram === c.instagram)) {
-          creators.push({ ...c, status: c.status || 'pending', _id: c._id || Date.now()+Math.random() });
-        }
-      });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(creators));
-      renderCreators();
-      updateStats();
+    if (data.creators && Array.isArray(data.creators)) {
+      creators = data.creators;
+      localStorage.setItem(SK_CREATORS, JSON.stringify(creators));
+    } else {
+      throw new Error(data.error || 'No creators array');
     }
-  } catch {}
-}
-
-function saveCreators() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(creators));
+  } catch(err) {
+    showNotif('Creators fetch failed: ' + err.message, 'error');
+    // Fallback to local cache
+    try { creators = JSON.parse(localStorage.getItem(SK_CREATORS) || '[]'); } catch { creators = []; }
+  }
+  renderCreators();
   updateStats();
-  renderCreators();
 }
 
-// ─── STATS ─────────────────────────────────────────────────────────
+async function fetchBrands() {
+  document.getElementById('brand-grid').innerHTML = '<div class="loading-row">⏳ Loading brands…</div>';
+  try {
+    const res = await fetch(SCRIPT_URL + '?action=getBrands&_=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (data.brands && Array.isArray(data.brands)) {
+      brands = data.brands;
+      localStorage.setItem(SK_BRANDS, JSON.stringify(brands));
+    } else {
+      throw new Error(data.error || 'No brands array');
+    }
+  } catch(err) {
+    showNotif('Brands fetch failed: ' + err.message, 'error');
+    try { brands = JSON.parse(localStorage.getItem(SK_BRANDS) || '[]'); } catch { brands = []; }
+  }
+  renderBrands();
+  updateStats();
+}
+
+// ═══════════════════════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════════════════════
 function updateStats() {
-  document.getElementById('stat-total').textContent = creators.length;
-  document.getElementById('stat-pending').textContent = creators.filter(c=>c.status==='pending'||!c.status).length;
-  document.getElementById('stat-approved').textContent = creators.filter(c=>c.status==='approved').length;
-  document.getElementById('stat-rejected').textContent = creators.filter(c=>c.status==='rejected').length;
+  document.getElementById('s-total-c').textContent   = creators.length;
+  document.getElementById('s-pending-c').textContent = creators.filter(c => (c.status||'pending') === 'pending').length;
+  document.getElementById('s-approved-c').textContent= creators.filter(c => c.status === 'approved').length;
+  document.getElementById('s-rejected-c').textContent= creators.filter(c => c.status === 'rejected').length;
+  document.getElementById('s-total-b').textContent   = brands.length;
+  document.getElementById('s-new-b').textContent     = brands.filter(b => (b.status||'').toLowerCase().includes('lead') || (b.status||'').toLowerCase() === 'new lead').length;
 }
 
-// ─── TABS ──────────────────────────────────────────────────────────
-function switchAdminTab(tab) {
-  currentTab = tab;
-  ['pending','approved','all'].forEach(t => {
-    document.getElementById('tab-'+t+'-btn').classList.toggle('active', t===tab);
+// ═══════════════════════════════════════════════════════════
+// SECTION SWITCHING
+// ═══════════════════════════════════════════════════════════
+function switchSection(sec) {
+  currentSection = sec;
+  ['creators','brands'].forEach(s => {
+    document.getElementById('stab-'+s).classList.toggle('active', s === sec);
+    document.getElementById('section-'+s).classList.toggle('active', s === sec);
   });
+}
+
+// ═══════════════════════════════════════════════════════════
+// STATUS FILTER TABS
+// ═══════════════════════════════════════════════════════════
+function setCreatorStatusFilter(val, el) {
+  creatorStatusFilter = val;
+  document.querySelectorAll('#creator-status-tabs .status-tab').forEach(t => t.className = 'status-tab');
+  el.className = 'status-tab active-' + val;
   renderCreators();
 }
+function setBrandStatusFilter(val, el) {
+  brandStatusFilter = val;
+  document.querySelectorAll('#brand-status-tabs .status-tab').forEach(t => t.className = 'status-tab');
+  el.className = 'status-tab active-' + (val === 'new_lead' ? 'active' : val);
+  renderBrands();
+}
 
-// ─── RENDER ────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// RENDER CREATORS
+// ═══════════════════════════════════════════════════════════
 function renderCreators() {
-  const search = document.getElementById('f-search').value.toLowerCase();
-  const niche = document.getElementById('f-niche').value;
-  const state = document.getElementById('f-state').value;
+  const search = (document.getElementById('f-search-c').value || '').toLowerCase();
+  const niche  = document.getElementById('f-niche-c').value;
+  const state  = document.getElementById('f-state-c').value;
 
   let list = creators.filter(c => {
-    if (currentTab === 'pending' && (c.status && c.status !== 'pending')) return false;
-    if (currentTab === 'approved' && c.status !== 'approved') return false;
+    const st = (c.status || 'pending').toLowerCase();
+    if (creatorStatusFilter !== 'all' && st !== creatorStatusFilter) return false;
     if (search) {
-      const hay = ((c.name||'')+(c.instagram||'')+(c.niche||'')+(c.email||'')).toLowerCase();
+      const hay = ((c.name||'')+(c.instagram||'')+(c.niche||'')+(c.email||'')+(c.whatsapp||'')).toLowerCase();
       if (!hay.includes(search)) return false;
     }
     if (niche && !(c.niche||'').includes(niche)) return false;
@@ -319,165 +484,585 @@ function renderCreators() {
     return true;
   });
 
-  // Sort: pending first, then by date
-  list.sort((a,b) => {
-    if (!a.status || a.status==='pending') return -1;
-    if (!b.status || b.status==='pending') return 1;
-    return 0;
+  list.sort((a, b) => {
+    const order = {pending:0, approved:1, rejected:2};
+    return (order[a.status||'pending']||0) - (order[b.status||'pending']||0);
   });
 
   const grid = document.getElementById('creator-grid');
-  const empty = document.getElementById('empty-state');
-
   if (!list.length) {
-    grid.innerHTML = '';
-    empty.style.display = 'block';
+    grid.innerHTML = '<div class="empty-state"><div class="icon">📭</div>No creators found.<br>Try changing the filter or add one manually.</div>';
     return;
   }
-  empty.style.display = 'none';
 
   grid.innerHTML = list.map(c => {
-    const status = c.status || 'pending';
-    const statusClass = status === 'approved' ? 'status-approved' : status === 'rejected' ? 'status-rejected' : 'status-pending';
-    const cardClass = status === 'approved' ? 'approved' : status === 'rejected' ? 'rejected' : 'pending';
-    const avatarHtml = c.photo
-      ? `<div class="card-avatar"><img src="${c.photo}" alt="${c.name||''}"></div>`
+    const st   = (c.status || 'pending').toLowerCase();
+    const sbCls = 'sb-' + st;
+    const cardCls = 's-' + st;
+    const avatar = c.photo && c.photo !== '[Photo Attached]'
+      ? `<div class="card-avatar"><img src="${esc(c.photo)}" alt=""></div>`
       : `<div class="card-avatar">👤</div>`;
+    const niches = (c.niche||'').split(',').slice(0,2).map(n=>`<span class="meta-tag mt-purple">${esc(n.trim())}</span>`).join('');
+    const langs  = (c.language||'').split(',').slice(0,2).map(l=>`<span class="meta-tag mt-lime">${esc(l.trim())}</span>`).join('');
 
-    const niches = (c.niche||'').split(',').slice(0,2).map(n=>`<span class="meta-tag purple">${n.trim()}</span>`).join('');
-    const langs = (c.language||'').split(',').slice(0,2).map(l=>`<span class="meta-tag lime">${l.trim()}</span>`).join('');
-
-    return `<div class="creator-card ${cardClass}" id="card-${c._id}">
+    return `<div class="creator-card ${cardCls}" id="cc-${c._row}">
       <div class="card-header">
-        ${avatarHtml}
+        ${avatar}
         <div style="flex:1;min-width:0">
-          <div class="card-name">${c.name||'Unknown'}</div>
-          <div class="card-handle">@${(c.instagram||'').replace('@','')||'—'}</div>
+          <div class="card-name">${esc(c.name||'Unknown')}</div>
+          <div class="card-handle">@${esc((c.instagram||'').replace('@','')||'—')}</div>
         </div>
-        <div class="card-status ${statusClass}">${status}</div>
+        <span class="card-status-badge ${sbCls}">${st}</span>
       </div>
       <div class="card-body">
-        <div class="card-meta">${niches}${langs}<span class="meta-tag">${c.platform||'—'}</span>${c.followers?`<span class="meta-tag lime">${c.followers}</span>`:''}</div>
-        <div class="card-detail"><strong>Location:</strong> ${[c.city,c.district,c.state].filter(Boolean).join(', ')||'—'}</div>
-        ${c.pincode?`<div class="card-detail"><strong>Pincode:</strong> ${c.pincode}</div>`:''}
-        <div class="card-detail"><strong>WhatsApp:</strong> ${c.whatsapp||'—'}</div>
-        <div class="card-detail"><strong>Email:</strong> ${c.email||'—'}</div>
-        ${c.engagement?`<div class="card-detail"><strong>Engagement:</strong> ${c.engagement}</div>`:''}
+        <div class="card-meta">${niches}${langs}<span class="meta-tag">${esc(c.platform||'—')}</span>${c.followers?`<span class="meta-tag mt-lime">${esc(c.followers)}</span>`:''}</div>
+        <div class="card-detail"><strong>Location:</strong> ${esc([c.city,c.state].filter(Boolean).join(', ')||'—')}</div>
+        <div class="card-detail"><strong>WhatsApp:</strong> ${esc(c.whatsapp||'—')}</div>
+        <div class="card-detail"><strong>Email:</strong> ${esc(c.email||'—')}</div>
+        ${c.engagement?`<div class="card-detail"><strong>Engagement:</strong> ${esc(c.engagement)}</div>`:''}
       </div>
       <div class="card-actions">
-        <button class="action-btn btn-approve" onclick="approveCreator('${c._id}')">✅ Approve</button>
-        <button class="action-btn btn-reject" onclick="rejectCreator('${c._id}')">✗ Reject</button>
-        <button class="action-btn btn-wa" onclick="whatsappCreator('${c.whatsapp||''}','${c.name||''}')">💬 WA</button>
-        <button class="action-btn btn-view" onclick="viewDetail('${c._id}')">👁</button>
+        ${st !== 'approved' ? `<button class="act act-approve" onclick="updateCreatorStatus(${c._row},'approved')">✅ Approve</button>` : ''}
+        ${st !== 'rejected' ? `<button class="act act-reject" onclick="updateCreatorStatus(${c._row},'rejected')">✗ Reject</button>` : ''}
+        <button class="act act-wa" onclick="openWA('${esc(c.whatsapp||'')}','${esc(c.name||'')}')">💬 WA</button>
+        <button class="act act-edit" onclick="openEditModal('creator',${c._row})">✏</button>
+        <button class="act act-del" onclick="deleteRow('creator',${c._row},'${esc(c.name||'this creator')}')">🗑</button>
+        <button class="act act-view" onclick="viewCreator(${c._row})">👁</button>
       </div>
     </div>`;
   }).join('');
 }
 
-// ─── ACTIONS ───────────────────────────────────────────────────────
-function approveCreator(id) {
-  const c = creators.find(x => String(x._id) === String(id));
-  if (!c) return;
-  c.status = 'approved';
-  saveCreators();
-  showNotif('✅ ' + (c.name||'Creator') + ' approved!', 'success');
-  // Push to Google Sheet
-  try { fetch(SCRIPT_URL+'?action=updateStatus',{method:'POST',mode:'no-cors',body:JSON.stringify({email:c.email,instagram:c.instagram,status:'approved'})}); } catch {}
+// ═══════════════════════════════════════════════════════════
+// RENDER BRANDS
+// ═══════════════════════════════════════════════════════════
+function renderBrands() {
+  const search   = (document.getElementById('f-search-b').value || '').toLowerCase();
+  const industry = document.getElementById('f-industry-b').value;
+
+  let list = brands.filter(b => {
+    const st = (b.status || 'new lead').toLowerCase().replace(' ','_');
+    if (brandStatusFilter !== 'all' && st !== brandStatusFilter) return false;
+    if (search) {
+      const hay = ((b.brand_name||b.company||'')+(b.contact_name||b.name||'')+(b.email||'')+(b.industry||'')).toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    if (industry && (b.industry||'') !== industry) return false;
+    return true;
+  });
+
+  const grid = document.getElementById('brand-grid');
+  if (!list.length) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">📭</div>No brands found.<br>Add a brand manually or wait for enquiries.</div>';
+    return;
+  }
+
+  grid.innerHTML = list.map(b => {
+    const company = b.brand_name || b.company || '—';
+    const contact = b.contact_name || b.name || '—';
+    const st = (b.status || 'new lead').toLowerCase();
+    const stKey = st.replace(' ','_');
+    const sbCls = stKey === 'new_lead' ? 'sb-new_lead' : stKey === 'active' ? 'sb-active' : stKey === 'closed' ? 'sb-rejected' : 'sb-pending';
+    const cardCls = stKey === 'new_lead' ? 's-new_lead' : stKey === 'active' ? 's-active' : stKey === 'closed' ? 's-rejected' : 's-pending';
+
+    return `<div class="creator-card ${cardCls}" id="bc-${b._row}">
+      <div class="card-header">
+        <div class="card-avatar">🏢</div>
+        <div style="flex:1;min-width:0">
+          <div class="card-name">${esc(company)}</div>
+          <div class="card-handle">${esc(contact)}</div>
+        </div>
+        <span class="card-status-badge ${sbCls}">${st}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-meta">
+          ${b.industry?`<span class="meta-tag mt-blue">${esc(b.industry)}</span>`:''}
+          ${b.budget?`<span class="meta-tag mt-lime">${esc(b.budget)}</span>`:''}
+          ${b.timeline?`<span class="meta-tag">${esc(b.timeline)}</span>`:''}
+        </div>
+        <div class="card-detail"><strong>Email:</strong> ${esc(b.email||'—')}</div>
+        <div class="card-detail"><strong>WhatsApp:</strong> ${esc(b.whatsapp||'—')}</div>
+        ${b.brief?`<div class="card-detail"><strong>Brief:</strong> ${esc((b.brief||'').slice(0,80))}${(b.brief||'').length>80?'…':''}</div>`:''}
+      </div>
+      <div class="card-actions">
+        ${stKey !== 'active' ? `<button class="act act-approve" onclick="updateBrandStatus(${b._row},'active')">✅ Active</button>` : ''}
+        ${stKey !== 'closed' ? `<button class="act act-reject" onclick="updateBrandStatus(${b._row},'closed')">✗ Close</button>` : ''}
+        <button class="act act-wa" onclick="openWA('${esc(b.whatsapp||'')}','${esc(company)}')">💬 WA</button>
+        <button class="act act-edit" onclick="openEditModal('brand',${b._row})">✏</button>
+        <button class="act act-del" onclick="deleteRow('brand',${b._row},'${esc(company)}')">🗑</button>
+        <button class="act act-view" onclick="viewBrand(${b._row})">👁</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
-function rejectCreator(id) {
-  if (!confirm('Reject this creator?')) return;
-  const c = creators.find(x => String(x._id) === String(id));
+// ═══════════════════════════════════════════════════════════
+// STATUS UPDATES
+// ═══════════════════════════════════════════════════════════
+async function updateCreatorStatus(row, status) {
+  const c = creators.find(x => x._row === row);
   if (!c) return;
-  c.status = 'rejected';
-  saveCreators();
-  showNotif('Creator rejected.', 'error');
-  try { fetch(SCRIPT_URL+'?action=updateStatus',{method:'POST',mode:'no-cors',body:JSON.stringify({email:c.email,instagram:c.instagram,status:'rejected'})}); } catch {}
+  c.status = status;
+  renderCreators(); updateStats();
+  showNotif((status === 'approved' ? '✅ ' : '✗ ') + (c.name||'Creator') + ' ' + status, status === 'approved' ? 'success' : 'warn');
+  await postToSheet('updateStatus', { _row: row, email: c.email, instagram: c.instagram, status });
+  localStorage.setItem(SK_CREATORS, JSON.stringify(creators));
 }
 
-function whatsappCreator(phone, name) {
-  let p = phone.replace(/\D/g,'');
+async function updateBrandStatus(row, status) {
+  const b = brands.find(x => x._row === row);
+  if (!b) return;
+  b.status = status;
+  renderBrands(); updateStats();
+  showNotif((b.brand_name||b.company||'Brand') + ' → ' + status, 'success');
+  await postToSheet('editBrand', { _row: row, status });
+  localStorage.setItem(SK_BRANDS, JSON.stringify(brands));
+}
+
+// ═══════════════════════════════════════════════════════════
+// DELETE
+// ═══════════════════════════════════════════════════════════
+async function deleteRow(type, row, name) {
+  if (!confirm(`Delete "${name}"? This removes them from Google Sheets permanently.`)) return;
+  if (type === 'creator') {
+    creators = creators.filter(c => c._row !== row);
+    renderCreators(); updateStats();
+    localStorage.setItem(SK_CREATORS, JSON.stringify(creators));
+    await postToSheet('deleteCreator', { _row: row });
+    showNotif('🗑 ' + name + ' deleted.', 'warn');
+  } else {
+    brands = brands.filter(b => b._row !== row);
+    renderBrands(); updateStats();
+    localStorage.setItem(SK_BRANDS, JSON.stringify(brands));
+    await postToSheet('deleteBrand', { _row: row });
+    showNotif('🗑 ' + name + ' deleted.', 'warn');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// VIEW DETAIL MODALS
+// ═══════════════════════════════════════════════════════════
+function viewCreator(row) {
+  const c = creators.find(x => x._row === row);
+  if (!c) return;
+  const fields = [
+    ['Status', c.status||'pending'],['Platform', c.platform||'—'],
+    ['Instagram','@'+((c.instagram||'').replace('@','')||'—')],
+    ['YouTube', c.youtube||'—'],['Followers', c.followers||'—'],
+    ['Engagement', c.engagement||'—'],['Language', c.language||'—'],
+    ['Niche', c.niche||'—'],['Email', c.email||'—'],
+    ['WhatsApp', c.whatsapp||'—'],['Pincode', c.pincode||'—'],
+    ['City', c.city||'—'],['District', c.district||'—'],['State', c.state||'—'],
+    ['Past Collabs', c.notes||c.past_collabs||'—'],
+    ['Motivation', c.motivation||'—'],['Source', c.source||'—'],
+    ['Submitted', c.timestamp||'—'],
+  ];
+  openModal(`
+    <div class="modal-header"><div class="modal-title">${esc(c.name||'Creator')}</div><button class="modal-close" onclick="closeModal()">✕</button></div>
+    ${c.photo && c.photo !== '[Photo Attached]' ? `<img src="${esc(c.photo)}" class="modal-avatar" alt="">` : ''}
+    ${fields.map(([k,v])=>`<div class="detail-row"><div class="detail-key">${k}</div><div class="detail-val">${esc(String(v))}</div></div>`).join('')}
+    <div style="display:flex;gap:8px;margin-top:24px;flex-wrap:wrap">
+      ${(c.status||'pending')!=='approved'?`<button class="act act-approve" onclick="updateCreatorStatus(${c._row},'approved');closeModal()" style="flex:1;padding:12px">✅ Approve</button>`:''}
+      ${(c.status||'pending')!=='rejected'?`<button class="act act-reject" onclick="updateCreatorStatus(${c._row},'rejected');closeModal()" style="flex:1;padding:12px">✗ Reject</button>`:''}
+      <button class="act act-wa" onclick="openWA('${esc(c.whatsapp||'')}','${esc(c.name||'')}')" style="flex:1;padding:12px">💬 WhatsApp</button>
+      <button class="act act-edit" onclick="closeModal();openEditModal('creator',${c._row})" style="flex:1;padding:12px">✏ Edit</button>
+    </div>`);
+}
+
+function viewBrand(row) {
+  const b = brands.find(x => x._row === row);
+  if (!b) return;
+  const company = b.brand_name || b.company || '—';
+  const fields = [
+    ['Status', b.status||'—'],['Contact', b.contact_name||b.name||'—'],
+    ['Email', b.email||'—'],['WhatsApp', b.whatsapp||'—'],
+    ['Industry', b.industry||'—'],['Budget', b.budget||'—'],
+    ['Timeline', b.timeline||'—'],['Platforms', b.platforms||b.target_platforms||'—'],
+    ['Brief', b.brief||'—'],['Goal', b.goal||'—'],
+    ['Source', b.source||'—'],['Submitted', b.timestamp||'—'],
+  ];
+  openModal(`
+    <div class="modal-header"><div class="modal-title">${esc(company)}</div><button class="modal-close" onclick="closeModal()">✕</button></div>
+    ${fields.map(([k,v])=>`<div class="detail-row"><div class="detail-key">${k}</div><div class="detail-val">${esc(String(v))}</div></div>`).join('')}
+    <div style="display:flex;gap:8px;margin-top:24px;flex-wrap:wrap">
+      <button class="act act-approve" onclick="updateBrandStatus(${b._row},'active');closeModal()" style="flex:1;padding:12px">✅ Set Active</button>
+      <button class="act act-reject" onclick="updateBrandStatus(${b._row},'closed');closeModal()" style="flex:1;padding:12px">✗ Close</button>
+      <button class="act act-wa" onclick="openWA('${esc(b.whatsapp||'')}','${esc(company)}')" style="flex:1;padding:12px">💬 WhatsApp</button>
+      <button class="act act-edit" onclick="closeModal();openEditModal('brand',${b._row})" style="flex:1;padding:12px">✏ Edit</button>
+    </div>`);
+}
+
+// ═══════════════════════════════════════════════════════════
+// CREATE MODAL
+// ═══════════════════════════════════════════════════════════
+function openCreateModal(type) {
+  if (type === 'creator') {
+    openModal(`
+      <div class="modal-header"><div class="modal-title">ADD CREATOR</div><button class="modal-close" onclick="closeModal()">✕</button></div>
+      <div class="mform-grid" id="create-form">
+        <div class="mform-row"><label class="mform-label">Name *</label><input class="mform-input" id="cf-name" placeholder="Priya Singh"></div>
+        <div class="mform-row"><label class="mform-label">Email *</label><input class="mform-input" id="cf-email" type="email" placeholder="priya@email.com"></div>
+        <div class="mform-row"><label class="mform-label">WhatsApp</label><input class="mform-input" id="cf-wa" placeholder="91XXXXXXXXXX"></div>
+        <div class="mform-row"><label class="mform-label">Instagram</label><input class="mform-input" id="cf-ig" placeholder="@handle"></div>
+        <div class="mform-row"><label class="mform-label">YouTube</label><input class="mform-input" id="cf-yt" placeholder="channel URL"></div>
+        <div class="mform-row"><label class="mform-label">Platform</label>
+          <select class="mform-select" id="cf-platform">
+            <option>Instagram</option><option>YouTube</option><option>Both</option><option>Moj</option><option>Josh</option>
+          </select>
+        </div>
+        <div class="mform-row"><label class="mform-label">Followers</label><input class="mform-input" id="cf-followers" placeholder="e.g. 25K"></div>
+        <div class="mform-row"><label class="mform-label">Engagement</label><input class="mform-input" id="cf-eng" placeholder="e.g. 4%–7%"></div>
+        <div class="mform-row"><label class="mform-label">Language</label><input class="mform-input" id="cf-lang" placeholder="Hindi, English"></div>
+        <div class="mform-row"><label class="mform-label">Niche</label><input class="mform-input" id="cf-niche" placeholder="Fashion & Style, Travel"></div>
+        <div class="mform-row"><label class="mform-label">City</label><input class="mform-input" id="cf-city" placeholder="Lucknow"></div>
+        <div class="mform-row"><label class="mform-label">State</label>
+          <select class="mform-select" id="cf-state">
+            <option value="">Select State</option>
+            <option>Uttar Pradesh</option><option>Maharashtra</option><option>Delhi</option>
+            <option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option>
+            <option>Rajasthan</option><option>West Bengal</option><option>Telangana</option>
+            <option>Kerala</option><option>Punjab</option><option>Bihar</option>
+            <option>Madhya Pradesh</option><option>Assam</option><option>Jharkhand</option>
+            <option>Uttarakhand</option><option>Himachal Pradesh</option><option>Goa</option><option>Other</option>
+          </select>
+        </div>
+        <div class="mform-row"><label class="mform-label">Pincode</label><input class="mform-input" id="cf-pin" placeholder="226001"></div>
+        <div class="mform-row"><label class="mform-label">Status</label>
+          <select class="mform-select" id="cf-status">
+            <option value="Approved">Approved</option><option value="Pending">Pending</option><option value="Rejected">Rejected</option>
+          </select>
+        </div>
+        <div class="mform-row mform-full"><label class="mform-label">Notes / Past Collabs</label><textarea class="mform-textarea" id="cf-notes" placeholder="Any past brand collaborations…"></textarea></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <button class="btn-action btn-save" id="create-save-btn" onclick="submitCreate('creator')">＋ Add Creator</button>
+        <button class="btn-action btn-cancel" onclick="closeModal()">Cancel</button>
+      </div>`);
+  } else {
+    openModal(`
+      <div class="modal-header"><div class="modal-title">ADD BRAND</div><button class="modal-close" onclick="closeModal()">✕</button></div>
+      <div class="mform-grid" id="create-form">
+        <div class="mform-row mform-full"><label class="mform-label">Brand / Company Name *</label><input class="mform-input" id="bf-company" placeholder="Nykaa, Mamaearth…"></div>
+        <div class="mform-row"><label class="mform-label">Contact Person *</label><input class="mform-input" id="bf-name" placeholder="Rahul Sharma"></div>
+        <div class="mform-row"><label class="mform-label">Email *</label><input class="mform-input" id="bf-email" type="email" placeholder="marketing@brand.com"></div>
+        <div class="mform-row"><label class="mform-label">WhatsApp</label><input class="mform-input" id="bf-wa" placeholder="91XXXXXXXXXX"></div>
+        <div class="mform-row"><label class="mform-label">Industry</label>
+          <select class="mform-select" id="bf-industry">
+            <option value="">Select Industry</option>
+            <option>Fashion &amp; Apparel</option><option>Beauty &amp; Skincare</option><option>Food &amp; Beverage</option>
+            <option>Health &amp; Wellness</option><option>Tech &amp; Gadgets</option><option>Finance &amp; Fintech</option>
+            <option>Education &amp; EdTech</option><option>Home &amp; Living</option><option>Travel</option>
+            <option>Sports &amp; Fitness</option><option>Baby &amp; Kids</option><option>Automotive</option><option>Other</option>
+          </select>
+        </div>
+        <div class="mform-row"><label class="mform-label">Budget</label><input class="mform-input" id="bf-budget" placeholder="₹10K–₹50K"></div>
+        <div class="mform-row"><label class="mform-label">Timeline</label><input class="mform-input" id="bf-timeline" placeholder="June 2026"></div>
+        <div class="mform-row"><label class="mform-label">Target Platforms</label><input class="mform-input" id="bf-platforms" placeholder="Instagram, YouTube"></div>
+        <div class="mform-row"><label class="mform-label">Status</label>
+          <select class="mform-select" id="bf-status">
+            <option value="New Lead">New Lead</option><option value="Active">Active</option><option value="Closed">Closed</option>
+          </select>
+        </div>
+        <div class="mform-row mform-full"><label class="mform-label">Campaign Brief</label><textarea class="mform-textarea" id="bf-brief" placeholder="What does the brand want creators to do?"></textarea></div>
+        <div class="mform-row mform-full"><label class="mform-label">Goal</label><textarea class="mform-textarea" id="bf-goal" placeholder="Brand awareness, app installs, sales…" style="min-height:56px"></textarea></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <button class="btn-action btn-save" id="create-save-btn" onclick="submitCreate('brand')">＋ Add Brand</button>
+        <button class="btn-action btn-cancel" onclick="closeModal()">Cancel</button>
+      </div>`);
+  }
+}
+
+async function submitCreate(type) {
+  const btn = document.getElementById('create-save-btn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  let payload = { type: type === 'creator' ? 'Creator' : 'Brand' };
+
+  if (type === 'creator') {
+    const name = document.getElementById('cf-name').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    if (!name || !email) { showNotif('Name and Email are required.','error'); btn.disabled=false; btn.textContent='＋ Add Creator'; return; }
+    payload = Object.assign(payload, {
+      name, email,
+      whatsapp: document.getElementById('cf-wa').value.trim(),
+      instagram: document.getElementById('cf-ig').value.trim(),
+      youtube:   document.getElementById('cf-yt').value.trim(),
+      platform:  document.getElementById('cf-platform').value,
+      followers: document.getElementById('cf-followers').value.trim(),
+      engagement:document.getElementById('cf-eng').value.trim(),
+      language:  document.getElementById('cf-lang').value.trim(),
+      niche:     document.getElementById('cf-niche').value.trim(),
+      city:      document.getElementById('cf-city').value.trim(),
+      state:     document.getElementById('cf-state').value,
+      pincode:   document.getElementById('cf-pin').value.trim(),
+      status:    document.getElementById('cf-status').value,
+      notes:     document.getElementById('cf-notes').value.trim(),
+      source: 'admin',
+    });
+  } else {
+    const company = document.getElementById('bf-company').value.trim();
+    const email   = document.getElementById('bf-email').value.trim();
+    if (!company || !email) { showNotif('Company and Email are required.','error'); btn.disabled=false; btn.textContent='＋ Add Brand'; return; }
+    payload = Object.assign(payload, {
+      company, email,
+      name:     document.getElementById('bf-name').value.trim(),
+      whatsapp: document.getElementById('bf-wa').value.trim(),
+      industry: document.getElementById('bf-industry').value,
+      budget:   document.getElementById('bf-budget').value.trim(),
+      timeline: document.getElementById('bf-timeline').value.trim(),
+      target_platforms: document.getElementById('bf-platforms').value.trim(),
+      status:   document.getElementById('bf-status').value,
+      brief:    document.getElementById('bf-brief').value.trim(),
+      goal:     document.getElementById('bf-goal').value.trim(),
+      source: 'admin',
+    });
+  }
+
+  const action = type === 'creator' ? 'addCreator' : 'addBrand';
+  const result = await postToSheet(action, payload);
+
+  if (result && result.ok) {
+    showNotif('✅ ' + (type === 'creator' ? 'Creator' : 'Brand') + ' added successfully!', 'success');
+    closeModal();
+    setTimeout(() => type === 'creator' ? fetchCreators() : fetchBrands(), 800);
+  } else {
+    showNotif('Error: ' + (result && result.error ? result.error : 'Could not save to sheet'), 'error');
+    btn.disabled = false;
+    btn.textContent = '＋ Add ' + (type === 'creator' ? 'Creator' : 'Brand');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// EDIT MODAL
+// ═══════════════════════════════════════════════════════════
+function openEditModal(type, row) {
+  if (type === 'creator') {
+    const c = creators.find(x => x._row === row);
+    if (!c) return;
+    openModal(`
+      <div class="modal-header"><div class="modal-title">EDIT CREATOR</div><button class="modal-close" onclick="closeModal()">✕</button></div>
+      <p style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:20px">Editing: <strong style="color:var(--chalk)">${esc(c.name||'Creator')}</strong> (Sheet row ${row})</p>
+      <div class="mform-grid">
+        <div class="mform-row"><label class="mform-label">Name</label><input class="mform-input" id="ef-name" value="${esc(c.name||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Email</label><input class="mform-input" id="ef-email" type="email" value="${esc(c.email||'')}"></div>
+        <div class="mform-row"><label class="mform-label">WhatsApp</label><input class="mform-input" id="ef-wa" value="${esc(c.whatsapp||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Instagram</label><input class="mform-input" id="ef-ig" value="${esc(c.instagram||'')}"></div>
+        <div class="mform-row"><label class="mform-label">YouTube</label><input class="mform-input" id="ef-yt" value="${esc(c.youtube||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Platform</label>
+          <select class="mform-select" id="ef-platform">
+            ${['Instagram','YouTube','Both','Moj','Josh'].map(p=>`<option${c.platform===p?' selected':''}>${p}</option>`).join('')}
+          </select>
+        </div>
+        <div class="mform-row"><label class="mform-label">Followers</label><input class="mform-input" id="ef-followers" value="${esc(c.followers||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Engagement</label><input class="mform-input" id="ef-eng" value="${esc(c.engagement||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Language</label><input class="mform-input" id="ef-lang" value="${esc(c.language||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Niche</label><input class="mform-input" id="ef-niche" value="${esc(c.niche||'')}"></div>
+        <div class="mform-row"><label class="mform-label">City</label><input class="mform-input" id="ef-city" value="${esc(c.city||'')}"></div>
+        <div class="mform-row"><label class="mform-label">District</label><input class="mform-input" id="ef-district" value="${esc(c.district||'')}"></div>
+        <div class="mform-row"><label class="mform-label">State</label>
+          <select class="mform-select" id="ef-state">
+            <option value="">Select State</option>
+            ${['Uttar Pradesh','Maharashtra','Delhi','Karnataka','Tamil Nadu','Gujarat','Rajasthan','West Bengal','Telangana','Kerala','Punjab','Bihar','Madhya Pradesh','Assam','Jharkhand','Uttarakhand','Himachal Pradesh','Goa','Other']
+              .map(s=>`<option${c.state===s?' selected':''}>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div class="mform-row"><label class="mform-label">Pincode</label><input class="mform-input" id="ef-pin" value="${esc(c.pincode||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Status</label>
+          <select class="mform-select" id="ef-status">
+            ${['Pending','Approved','Rejected'].map(s=>`<option${(c.status||'').toLowerCase()===s.toLowerCase()?' selected':''}>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div class="mform-row mform-full"><label class="mform-label">Notes / Past Collabs</label><textarea class="mform-textarea" id="ef-notes">${esc(c.notes||c.past_collabs||'')}</textarea></div>
+        <div class="mform-row mform-full"><label class="mform-label">Motivation</label><textarea class="mform-textarea" id="ef-motivation" style="min-height:56px">${esc(c.motivation||'')}</textarea></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <button class="btn-action btn-save" id="edit-save-btn" onclick="submitEdit('creator',${row})">💾 Save Changes</button>
+        <button class="btn-action btn-cancel" onclick="closeModal()">Cancel</button>
+      </div>`);
+  } else {
+    const b = brands.find(x => x._row === row);
+    if (!b) return;
+    const company = b.brand_name || b.company || '';
+    openModal(`
+      <div class="modal-header"><div class="modal-title">EDIT BRAND</div><button class="modal-close" onclick="closeModal()">✕</button></div>
+      <p style="font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);margin-bottom:20px">Editing: <strong style="color:var(--chalk)">${esc(company||'Brand')}</strong> (Sheet row ${row})</p>
+      <div class="mform-grid">
+        <div class="mform-row mform-full"><label class="mform-label">Brand / Company Name</label><input class="mform-input" id="ebf-company" value="${esc(company)}"></div>
+        <div class="mform-row"><label class="mform-label">Contact Person</label><input class="mform-input" id="ebf-name" value="${esc(b.contact_name||b.name||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Email</label><input class="mform-input" id="ebf-email" value="${esc(b.email||'')}"></div>
+        <div class="mform-row"><label class="mform-label">WhatsApp</label><input class="mform-input" id="ebf-wa" value="${esc(b.whatsapp||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Industry</label>
+          <select class="mform-select" id="ebf-industry">
+            <option value="">Select Industry</option>
+            ${['Fashion &amp; Apparel','Beauty &amp; Skincare','Food &amp; Beverage','Health &amp; Wellness','Tech &amp; Gadgets','Finance &amp; Fintech','Education &amp; EdTech','Home &amp; Living','Travel','Sports &amp; Fitness','Baby &amp; Kids','Automotive','Other']
+              .map(ind=>`<option${(b.industry||'')===ind?' selected':''}>${ind}</option>`).join('')}
+          </select>
+        </div>
+        <div class="mform-row"><label class="mform-label">Budget</label><input class="mform-input" id="ebf-budget" value="${esc(b.budget||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Timeline</label><input class="mform-input" id="ebf-timeline" value="${esc(b.timeline||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Platforms</label><input class="mform-input" id="ebf-platforms" value="${esc(b.platforms||b.target_platforms||'')}"></div>
+        <div class="mform-row"><label class="mform-label">Status</label>
+          <select class="mform-select" id="ebf-status">
+            ${['New Lead','Active','Closed'].map(s=>`<option${(b.status||'').toLowerCase()===s.toLowerCase()?' selected':''}>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div class="mform-row mform-full"><label class="mform-label">Campaign Brief</label><textarea class="mform-textarea" id="ebf-brief">${esc(b.brief||'')}</textarea></div>
+        <div class="mform-row mform-full"><label class="mform-label">Goal</label><textarea class="mform-textarea" id="ebf-goal" style="min-height:56px">${esc(b.goal||'')}</textarea></div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px">
+        <button class="btn-action btn-save" id="edit-save-btn" onclick="submitEdit('brand',${row})">💾 Save Changes</button>
+        <button class="btn-action btn-cancel" onclick="closeModal()">Cancel</button>
+      </div>`);
+  }
+}
+
+async function submitEdit(type, row) {
+  const btn = document.getElementById('edit-save-btn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  let payload = { _row: row };
+
+  if (type === 'creator') {
+    const c = creators.find(x => x._row === row);
+    if (!c) return;
+    payload = Object.assign(payload, {
+      name:      document.getElementById('ef-name').value.trim(),
+      email:     document.getElementById('ef-email').value.trim(),
+      whatsapp:  document.getElementById('ef-wa').value.trim(),
+      instagram: document.getElementById('ef-ig').value.trim(),
+      youtube:   document.getElementById('ef-yt').value.trim(),
+      platform:  document.getElementById('ef-platform').value,
+      followers: document.getElementById('ef-followers').value.trim(),
+      engagement:document.getElementById('ef-eng').value.trim(),
+      language:  document.getElementById('ef-lang').value.trim(),
+      niche:     document.getElementById('ef-niche').value.trim(),
+      city:      document.getElementById('ef-city').value.trim(),
+      district:  document.getElementById('ef-district').value.trim(),
+      state:     document.getElementById('ef-state').value,
+      pincode:   document.getElementById('ef-pin').value.trim(),
+      status:    document.getElementById('ef-status').value,
+      notes:     document.getElementById('ef-notes').value.trim(),
+      motivation:document.getElementById('ef-motivation').value.trim(),
+    });
+    // Optimistic update in memory
+    Object.assign(c, payload);
+    renderCreators(); updateStats();
+  } else {
+    const b = brands.find(x => x._row === row);
+    if (!b) return;
+    payload = Object.assign(payload, {
+      brand_name:      document.getElementById('ebf-company').value.trim(),
+      contact_name:    document.getElementById('ebf-name').value.trim(),
+      email:           document.getElementById('ebf-email').value.trim(),
+      whatsapp:        document.getElementById('ebf-wa').value.trim(),
+      industry:        document.getElementById('ebf-industry').value,
+      budget:          document.getElementById('ebf-budget').value.trim(),
+      timeline:        document.getElementById('ebf-timeline').value.trim(),
+      platforms:       document.getElementById('ebf-platforms').value.trim(),
+      status:          document.getElementById('ebf-status').value,
+      brief:           document.getElementById('ebf-brief').value.trim(),
+      goal:            document.getElementById('ebf-goal').value.trim(),
+    });
+    Object.assign(b, payload);
+    renderBrands(); updateStats();
+  }
+
+  const action = type === 'creator' ? 'editCreator' : 'editBrand';
+  const result = await postToSheet(action, payload);
+
+  if (result && result.ok) {
+    showNotif('✅ Changes saved to Google Sheets!', 'success');
+    closeModal();
+    localStorage.setItem(type === 'creator' ? SK_CREATORS : SK_BRANDS, JSON.stringify(type === 'creator' ? creators : brands));
+  } else {
+    showNotif('⚠ Local changes saved. Sheet sync failed: ' + (result && result.error ? result.error : 'No response'), 'warn');
+    closeModal();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// WHATSAPP
+// ═══════════════════════════════════════════════════════════
+function openWA(phone, name) {
+  let p = phone.replace(/\D/g, '');
   if (!p) { showNotif('No phone number.', 'error'); return; }
-  if (!p.startsWith('91') && p.length===10) p = '91'+p;
+  if (!p.startsWith('91') && p.length === 10) p = '91' + p;
   const msg = encodeURIComponent('Hi ' + (name||'there') + '! This is INFLYR. We have a campaign that matches your profile. Can we connect?');
   window.open('https://wa.me/' + p + '?text=' + msg, '_blank');
 }
 
-function viewDetail(id) {
-  const c = creators.find(x => String(x._id) === String(id));
-  if (!c) return;
-  const m = document.getElementById('modal-content');
-  m.innerHTML = `
-    <div class="modal-header">
-      <div class="modal-title">${c.name||'Creator'}</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    ${c.photo?`<img src="${c.photo}" class="modal-avatar" alt="">`:``}
-    ${[
-      ['Instagram','@'+((c.instagram||'').replace('@','')||'—')],
-      ['YouTube',c.youtube||'—'],
-      ['Email',c.email||'—'],
-      ['WhatsApp',c.whatsapp||'—'],
-      ['Platform',c.platform||'—'],
-      ['Followers',c.followers||'—'],
-      ['Engagement',c.engagement||'—'],
-      ['Niche',c.niche||'—'],
-      ['Language',c.language||'—'],
-      ['Pincode',c.pincode||'—'],
-      ['City',c.city||'—'],
-      ['District',c.district||'—'],
-      ['State',c.state||'—'],
-      ['Past Collabs',c.notes||'—'],
-      ['Motivation',c.motivation||'—'],
-      ['Status',c.status||'pending'],
-      ['Source',c.source||'website'],
-    ].map(([k,v])=>`<div class="detail-row"><div class="detail-key">${k}</div><div class="detail-val">${v}</div></div>`).join('')}
-    <div style="display:flex;gap:8px;margin-top:24px">
-      <button class="action-btn btn-approve" onclick="approveCreator('${c._id}');closeModal()" style="flex:1;padding:12px">✅ Approve</button>
-      <button class="action-btn btn-reject" onclick="rejectCreator('${c._id}');closeModal()" style="flex:1;padding:12px">✗ Reject</button>
-      <button class="action-btn btn-wa" onclick="whatsappCreator('${c.whatsapp||''}','${c.name||''}')" style="flex:1;padding:12px">💬 WhatsApp</button>
-    </div>`;
-  document.getElementById('modal-overlay').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-}
-
-// ─── EXPORT ────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// EXPORT CSV
+// ═══════════════════════════════════════════════════════════
 function exportCSV() {
-  const cols = ['name','email','whatsapp','pincode','city','district','state','platform','instagram','youtube','followers','engagement','language','niche','notes','motivation','status'];
-  const rows = [cols.join(','), ...creators.map(c=>cols.map(k=>'"'+(c[k]||'').replace(/"/g,'""')+'"').join(','))];
-  const blob = new Blob([rows.join('\n')],{type:'text/csv'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'inflyr_creators_'+new Date().toISOString().slice(0,10)+'.csv';
+  if (currentSection === 'creators') {
+    const cols = ['name','email','whatsapp','pincode','city','district','state','platform','instagram','youtube','followers','engagement','language','niche','notes','motivation','status','timestamp'];
+    const rows = [cols.join(','), ...creators.map(c => cols.map(k => '"'+(c[k]||'').replace(/"/g,'""')+'"').join(','))];
+    dl(rows.join('\n'), 'inflyr_creators_'+today()+'.csv', 'text/csv');
+  } else {
+    const cols = ['brand_name','contact_name','email','whatsapp','industry','budget','timeline','platforms','brief','goal','status','timestamp'];
+    const rows = [cols.join(','), ...brands.map(b => cols.map(k => '"'+(b[k]||b['company']||'').replace(/"/g,'""')+'"').join(','))];
+    dl(rows.join('\n'), 'inflyr_brands_'+today()+'.csv', 'text/csv');
+  }
+}
+function dl(content, filename, mime) {
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([content],{type:mime})), download: filename });
   a.click();
 }
+function today() { return new Date().toISOString().slice(0,10); }
 
-// ─── NOTIFICATIONS ─────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════
+// MODAL HELPERS
+// ═══════════════════════════════════════════════════════════
+function openModal(html) {
+  document.getElementById('modal-body').innerHTML = html;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.getElementById('modal-body').innerHTML = '';
+}
+
+// ═══════════════════════════════════════════════════════════
+// API — POST TO SHEET
+// ═══════════════════════════════════════════════════════════
+async function postToSheet(action, payload) {
+  try {
+    // Google Apps Script doesn't support CORS for custom POST responses,
+    // so we use no-cors for fire-and-forget, but for actions where we need
+    // a response (add/edit), we use a GET workaround via URL params if small enough.
+    // For now: all mutations use no-cors (sheet will be updated; we re-fetch to confirm).
+    await fetch(SCRIPT_URL + '?action=' + action, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+    // Since no-cors means we can't read the response, return optimistic ok
+    return { ok: true };
+  } catch(err) {
+    return { ok: false, error: err.message };
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// NOTIFICATION
+// ═══════════════════════════════════════════════════════════
+let notifTimer;
 function showNotif(msg, type='success') {
   const el = document.getElementById('notif');
   el.textContent = msg;
-  el.className = 'notif '+type;
-  el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),3000);
+  el.className = 'notif ' + type + ' show';
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(() => el.classList.remove('show'), 3500);
 }
 
-// ─── DEMO DATA (remove in production) ──────────────────────────────
-function loadDemoData() {
-  if (creators.length > 0) return;
-  creators = [
-    {_id:'demo1',name:'Priya Singh',instagram:'@priyalifestyle',whatsapp:'+919876543210',email:'priya@email.com',platform:'Instagram',followers:'45K (Micro-M)',engagement:'4% – 7%',language:'Hindi, English',niche:'Fashion & Style, Travel & Lifestyle',city:'Lucknow',district:'Lucknow',state:'Uttar Pradesh',pincode:'226001',status:'pending',photo:''},
-    {_id:'demo2',name:'Rohan Verma',instagram:'@rohantech',whatsapp:'+919123456789',email:'rohan@email.com',platform:'YouTube',followers:'120K (Macro)',engagement:'7%+',language:'Hindi, Hinglish',niche:'Tech & Gaming, Finance & Business',city:'Noida',district:'Gautam Buddha Nagar',state:'Uttar Pradesh',pincode:'201301',status:'pending',photo:''},
-    {_id:'demo3',name:'Ananya Sharma',instagram:'@ananyabeauty',whatsapp:'+918765432109',email:'ananya@email.com',platform:'Instagram',followers:'8.5K (Micro)',engagement:'4% – 7%',language:'Tamil, English',niche:'Beauty & Makeup, Skincare',city:'Chennai',district:'Chennai',state:'Tamil Nadu',pincode:'600001',status:'approved',photo:''},
-  ];
-  saveCreators();
-}
-
-// Auto-load demo on first use
-if (sessionStorage.getItem('inflyr_admin') === '1') {
-  setTimeout(loadDemoData, 500);
+// ═══════════════════════════════════════════════════════════
+// UTILITY
+// ═══════════════════════════════════════════════════════════
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 </script>
 </body>
