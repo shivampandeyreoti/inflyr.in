@@ -575,7 +575,8 @@ async function submitJoinForm(e) {
     language:lang,
     niche:niche,
     notes:fd.get('past_collabs')||'',
-    motivation:fd.get('motivation')||''
+    motivation:fd.get('motivation')||'',
+    photo: document.getElementById('join-photo-data').value || ''
   };
 
   try {

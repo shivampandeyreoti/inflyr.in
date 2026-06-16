@@ -114,8 +114,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5vw;height:64px;di
 .card-detail{font-size:.78rem;color:var(--secondary);margin-bottom:3px;line-height:1.5}
 .card-detail strong{color:var(--chalk)}
 
-.card-actions{display:flex;gap:6px;padding:0 18px 18px;margin-top:10px;flex-wrap:wrap}
-.act{flex:1;min-width:0;padding:8px 6px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.62rem;cursor:pointer;border:none;transition:all .2s;letter-spacing:.04em;text-transform:uppercase;text-align:center;white-space:nowrap}
+.card-actions{padding:0 18px 18px;margin-top:10px}
+.card-actions-row{display:flex;gap:6px;margin-bottom:6px}
+.card-actions-row:last-child{margin-bottom:0}
+.act{padding:8px 10px;border-radius:6px;font-family:'DM Mono',monospace;font-size:.62rem;cursor:pointer;border:none;transition:all .2s;letter-spacing:.04em;text-transform:uppercase;text-align:center;white-space:nowrap}
+.act-primary{flex:1}
+.act-icon{width:36px;flex-shrink:0;font-size:.8rem}
 .act-approve{background:rgba(34,197,94,.15);color:var(--success);border:1px solid rgba(34,197,94,.25)}
 .act-approve:hover{background:rgba(34,197,94,.28)}
 .act-reject{background:rgba(239,68,68,.1);color:var(--error);border:1px solid rgba(239,68,68,.2)}
@@ -544,12 +548,16 @@ function renderCreators() {
         ${c.engagement?`<div class="card-detail"><strong>Engagement:</strong> ${esc(c.engagement)}</div>`:''}
       </div>
       <div class="card-actions">
-        ${st !== 'approved' ? `<button class="act act-approve" onclick="updateCreatorStatus(${c._row},'approved')">✅ Approve</button>` : ''}
-        ${st !== 'rejected' ? `<button class="act act-reject" onclick="updateCreatorStatus(${c._row},'rejected')">✗ Reject</button>` : ''}
-        <button class="act act-wa" onclick="openWA('${esc(c.whatsapp||'')}','${esc(c.name||'')}')">💬 WA</button>
-        <button class="act act-edit" onclick="openEditModal('creator',${c._row})">✏</button>
-        <button class="act act-del" onclick="deleteRow('creator',${c._row},'${esc(c.name||'this creator')}')">🗑</button>
-        <button class="act act-view" onclick="viewCreator(${c._row})">👁</button>
+        <div class="card-actions-row">
+          ${st !== 'approved' ? `<button class="act act-approve act-primary" onclick="updateCreatorStatus(${c._row},'approved')">✅ Approve</button>` : '<div class="act-primary"></div>'}
+          ${st !== 'rejected' ? `<button class="act act-reject act-primary" onclick="updateCreatorStatus(${c._row},'rejected')">✗ Reject</button>` : '<div class="act-primary"></div>'}
+          <button class="act act-wa act-primary" onclick="openWA('${esc(c.whatsapp||'')}','${esc(c.name||'')}')">💬 WA</button>
+        </div>
+        <div class="card-actions-row">
+          <button class="act act-view act-primary" onclick="viewCreator(${c._row})">👁 View</button>
+          <button class="act act-edit act-primary" onclick="openEditModal('creator',${c._row})">✏ Edit</button>
+          <button class="act act-del act-primary" onclick="deleteRow('creator',${c._row},'${esc(c.name||'this creator')}')">🗑 Delete</button>
+        </div>
       </div>
     </div>`;
   }).join('');
@@ -607,12 +615,16 @@ function renderBrands() {
         ${b.brief?`<div class="card-detail"><strong>Brief:</strong> ${esc((b.brief||'').slice(0,80))}${(b.brief||'').length>80?'…':''}</div>`:''}
       </div>
       <div class="card-actions">
-        ${stKey !== 'active' ? `<button class="act act-approve" onclick="updateBrandStatus(${b._row},'active')">✅ Active</button>` : ''}
-        ${stKey !== 'closed' ? `<button class="act act-reject" onclick="updateBrandStatus(${b._row},'closed')">✗ Close</button>` : ''}
-        <button class="act act-wa" onclick="openWA('${esc(b.whatsapp||'')}','${esc(company)}')">💬 WA</button>
-        <button class="act act-edit" onclick="openEditModal('brand',${b._row})">✏</button>
-        <button class="act act-del" onclick="deleteRow('brand',${b._row},'${esc(company)}')">🗑</button>
-        <button class="act act-view" onclick="viewBrand(${b._row})">👁</button>
+        <div class="card-actions-row">
+          ${stKey !== 'active' ? `<button class="act act-approve act-primary" onclick="updateBrandStatus(${b._row},'active')">✅ Active</button>` : '<div class="act-primary"></div>'}
+          ${stKey !== 'closed' ? `<button class="act act-reject act-primary" onclick="updateBrandStatus(${b._row},'closed')">✗ Close</button>` : '<div class="act-primary"></div>'}
+          <button class="act act-wa act-primary" onclick="openWA('${esc(b.whatsapp||'')}','${esc(company)}')">💬 WA</button>
+        </div>
+        <div class="card-actions-row">
+          <button class="act act-view act-primary" onclick="viewBrand(${b._row})">👁 View</button>
+          <button class="act act-edit act-primary" onclick="openEditModal('brand',${b._row})">✏ Edit</button>
+          <button class="act act-del act-primary" onclick="deleteRow('brand',${b._row},'${esc(company)}')">🗑 Delete</button>
+        </div>
       </div>
     </div>`;
   }).join('');
