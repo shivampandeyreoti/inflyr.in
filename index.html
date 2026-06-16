@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ===== PRIMARY SEO ===== -->
-<title>INFLYR — India's Performance-First UGC & Influencer Marketing Agency | IMA</title>
-<meta name="description" content="INFLYR is India's performance influencer marketing agency (IMA). UGC content pipelines, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands. Book a free audit.">
-<meta name="keywords" content="influencer marketing India, UGC agency India, creator marketing D2C, nano influencer agency India, micro influencer marketing India, influencer marketing platform India, UGC content agency, D2C influencer campaigns, creator marketplace India, IMA influencer marketing, INFLYR, performance creator marketing, affiliate creator network India, regional influencer marketing India, Hindi influencer marketing, Tamil influencer campaigns, brand creator collaboration India, ugc video agency India, paid brand collaboration creators, creator economy India">
+<title>INFLYR — India's Performance-First UGC & Influencer Marketing Agency</title>
+<meta name="description" content="INFLYR is India's performance influencer marketing agency. UGC content pipelines, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands. Book a free audit.">
+<meta name="keywords" content="influencer marketing India, UGC agency India, creator marketing D2C, nano influencer agency India, micro influencer marketing India, influencer marketing platform India, UGC content agency, D2C influencer campaigns, creator marketplace India, INFLYR, performance creator marketing, affiliate creator network India, regional influencer marketing India, Hindi influencer marketing, Tamil influencer campaigns, brand creator collaboration India, ugc video agency India, paid brand collaboration creators, creator economy India">
 <meta name="author" content="INFLYR — Shivam Pandey">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://inflyr.in/">
@@ -31,7 +31,7 @@
 <link rel="alternate" hreflang="x-default" href="https://inflyr.in/">
 
 <!-- ===== OPEN GRAPH ===== -->
-<meta property="og:title" content="INFLYR — India's Performance-First UGC & Influencer Marketing Agency | IMA">
+<meta property="og:title" content="INFLYR — India's Performance-First UGC & Influencer Marketing Agency">
 <meta property="og:description" content="Performance creator marketing for D2C brands. UGC campaigns, influencer marketing, affiliate networks in 12+ Indian languages. Nano to mega creators. Book a free audit at inflyr.in.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://inflyr.in/">
@@ -44,7 +44,7 @@
 
 <!-- ===== TWITTER / X CARD ===== -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="INFLYR — India's Performance-First UGC & Influencer Marketing Agency | IMA">
+<meta name="twitter:title" content="INFLYR — India's Performance-First UGC & Influencer Marketing Agency">
 <meta name="twitter:description" content="Performance creator marketing for D2C brands. UGC campaigns, influencer marketing & affiliate creator networks. 12+ Indian languages. inflyr.in">
 <meta name="twitter:image" content="https://inflyr.in/og-image.jpg">
 <meta name="twitter:site" content="@inflyrhq">
@@ -57,7 +57,7 @@
   "@type": "MarketingAgency",
   "@id": "https://inflyr.in/#organization",
   "name": "INFLYR",
-  "alternateName": ["IMA", "Inflyr Marketing Agency", "Influencer Marketing Agency India"],
+  "alternateName": ["Inflyr Marketing Agency", "Influencer Marketing Agency India"],
   "url": "https://inflyr.in",
   "logo": {
     "@type": "ImageObject",
@@ -187,15 +187,7 @@
       "name": "What is INFLYR?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "INFLYR (also known as IMA — Inflyr Marketing Agency) is India's performance-first influencer marketing agency and UGC creator platform, founded by Shivam Pandey. INFLYR connects D2C brands with verified UGC creators and influencers across nano, micro, macro, and mega tiers for measurable, ROI-driven campaigns. The website is inflyr.in."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is IMA in influencer marketing?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "IMA stands for Inflyr Marketing Agency — the operational entity behind INFLYR at inflyr.in. It is India's performance influencer marketing agency that runs UGC campaigns, influencer campaigns, and affiliate creator networks for D2C brands."
+        "text": "INFLYR is India's performance-first influencer marketing agency and UGC creator platform, founded by Shivam Pandey. INFLYR connects D2C brands with verified UGC creators and influencers across nano, micro, macro, and mega tiers for measurable, ROI-driven campaigns. The website is inflyr.in."
       }
     },
     {
@@ -298,7 +290,7 @@
     "@type": "WebPage",
     "@id": "https://inflyr.in/#webpage",
     "url": "https://inflyr.in/",
-    "name": "INFLYR — India's Performance-First UGC & Influencer Marketing Agency | IMA",
+    "name": "INFLYR — India's Performance-First Influencer Marketing Agency",
     "description": "India's performance creator marketing platform for D2C brands.",
     "isPartOf": { "@id": "https://inflyr.in/#website" },
     "about": { "@id": "https://inflyr.in/#organization" }
@@ -2007,13 +1999,35 @@ footer {
 /* ============ NETWORK SHOWCASE ============ */
 .network-tabs {
   display: flex;
-  gap: 2px;
+  gap: 0;
   margin: 40px 0 32px;
   background: var(--ink-2);
   border: 1px solid var(--ink-3);
   border-radius: 6px;
   padding: 4px;
   width: fit-content;
+  position: relative;
+}
+/* Animated sliding pill indicator */
+.network-tabs::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  height: calc(100% - 8px);
+  width: calc(50% - 4px);
+  background: var(--ink-3);
+  border-radius: 4px;
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.32s ease;
+  z-index: 0;
+  will-change: transform;
+}
+.network-tabs[data-active="brand"]::before {
+  transform: translateX(100%);
+}
+.network-tabs[data-active="creator"]::before {
+  transform: translateX(0%);
 }
 .network-tab-btn {
   background: none;
@@ -2026,11 +2040,53 @@ footer {
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: color 0.28s ease;
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  white-space: nowrap;
 }
-.network-tab-btn.active { background: var(--ink-3); color: var(--chalk); }
+.network-tab-btn.active { color: var(--chalk); background: none; }
 .network-tab-btn.creator.active { color: var(--purple); }
 .network-tab-btn.brand.active { color: var(--lime); }
+
+/* ---- NETWORK CONTENT TRANSITION WRAPPER ---- */
+.network-content-area {
+  position: relative;
+  overflow: hidden;
+}
+.network-panel {
+  width: 100%;
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+.network-panel.entering {
+  opacity: 0;
+  transform: translateX(24px);
+}
+.network-panel.exiting {
+  opacity: 0;
+  transform: translateX(-24px);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  pointer-events: none;
+}
+.network-panel.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* Reverse direction for brand → creator */
+.network-panel.entering-reverse {
+  opacity: 0;
+  transform: translateX(-24px);
+}
+.network-panel.exiting-reverse {
+  opacity: 0;
+  transform: translateX(24px);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  pointer-events: none;
+}
 
 /* ---- FILTER BUTTON + PANEL ---- */
 .filter-bar { display: none; } /* hide old big bars */
@@ -2648,6 +2704,7 @@ footer {
     <li><a href="#" onclick="showPage('brands');return false;">For Brands</a></li>
     <li><a href="#" onclick="showPage('creators');return false;">For Creators</a></li>
     <li><a href="#" onclick="showPage('faq');return false;">FAQs</a></li>
+    <li><a href="#" onclick="showPage('blog');return false;">Blog</a></li>
     <li><a href="#" onclick="showPage('home'); setTimeout(()=>document.getElementById('about').scrollIntoView({behavior:'smooth'}),100);return false;">About</a></li>
     <li><a href="#" onclick="showPage('legal');return false;">Legal</a></li>
   </ul>
@@ -2662,6 +2719,7 @@ footer {
   <a href="#" onclick="showPage('brands');toggleMenu();return false;">For Brands</a>
   <a href="#" onclick="showPage('creators');toggleMenu();return false;">For Creators</a>
   <a href="#" onclick="showPage('faq');toggleMenu();return false;">FAQs</a>
+  <a href="#" onclick="showPage('blog');toggleMenu();return false;">Blog</a>
   <a href="#" onclick="showPage('legal');toggleMenu();return false;">Legal</a>
   <a href="#" class="mob-cta" onclick="showPage('start');toggleMenu();return false;">Get Started →</a>
 </div>
@@ -2921,11 +2979,16 @@ footer {
   <p class="section-body reveal">A growing network of verified creators and D2C brands building performance-first campaigns across India.</p>
 
   <!-- MAIN TABS -->
-  <div class="network-tabs reveal">
+  <div class="network-tabs reveal" data-active="creator">
     <button class="network-tab-btn creator active" onclick="switchNetworkTab('creator')">🎬 Creators</button>
     <button class="network-tab-btn brand" onclick="switchNetworkTab('brand')">🛍️ Brands</button>
   </div>
 
+  <!-- NETWORK CONTENT TRANSITION AREA -->
+  <div class="network-content-area">
+
+  <!-- CREATOR PANEL -->
+  <div id="creator-panel" class="network-panel visible">
   <!-- CREATOR FILTER BUTTON ROW -->
   <div id="creator-filter-area" class="reveal">
     <div class="network-filter-row">
@@ -3011,8 +3074,21 @@ footer {
     </div>
   </div>
 
+  <!-- SCROLL STRIP: CREATOR -->
+  <div id="creator-scroll-wrap" class="network-scroll-wrap reveal">
+    <div id="network-creator-grid" class="network-grid"></div>
+  </div>
+
+  <div id="network-join-btn" style="text-align:center;margin-top:36px" class="reveal">
+    <a href="#" onclick="showPage('creators');setTimeout(()=>{document.getElementById('creator-form')?.scrollIntoView({behavior:'smooth'})},150);return false;" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;padding:13px 28px;border-radius:6px;text-decoration:none;font-size:.9rem;transition:background .2s" onmouseover="this.style.background='#7040e0'" onmouseout="this.style.background='var(--purple)'">🎬 Apply as Creator →</a>
+    <p style="color:var(--muted);font-family:'DM Mono',monospace;font-size:.7rem;margin-top:12px">Free to join · Profile appears after approval · Matched with D2C brands</p>
+  </div>
+  </div><!-- end creator-panel -->
+
+  <!-- BRAND PANEL -->
+  <div id="brand-panel" class="network-panel entering" style="display:none">
   <!-- BRAND FILTER BUTTON ROW -->
-  <div id="brand-filter-area" class="reveal" style="display:none">
+  <div id="brand-filter-area" class="reveal">
     <div class="network-filter-row">
       <button class="filter-btn" id="brand-filter-btn" onclick="toggleFilterPanel('brand')">
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 2h11M3 6.5h7M5 11h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
@@ -3046,23 +3122,15 @@ footer {
     </div>
   </div>
 
-  <!-- SCROLL STRIP: CREATOR -->
-  <div id="creator-scroll-wrap" class="network-scroll-wrap reveal">
-    <div id="network-creator-grid" class="network-grid"></div>
-  </div>
-
-
   <!-- SCROLL STRIP: BRAND -->
-  <div id="brand-scroll-wrap" class="network-scroll-wrap reveal" style="display:none">
+  <div id="brand-scroll-wrap" class="network-scroll-wrap reveal">
     <div id="network-brand-grid" class="network-grid"></div>
   </div>
+  </div><!-- end brand-panel -->
 
+  </div><!-- end network-content-area -->
 
-  <div id="network-join-btn" style="text-align:center;margin-top:36px" class="reveal">
-    <a href="#" onclick="showPage('creators');setTimeout(()=>{document.getElementById('creator-form')?.scrollIntoView({behavior:'smooth'})},150);return false;" style="display:inline-flex;align-items:center;gap:8px;background:var(--purple);color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;padding:13px 28px;border-radius:6px;text-decoration:none;font-size:.9rem;transition:background .2s" onmouseover="this.style.background='#7040e0'" onmouseout="this.style.background='var(--purple)'">🎬 Apply as Creator →</a>
-    <p style="color:var(--muted);font-family:'DM Mono',monospace;font-size:.7rem;margin-top:12px">Free to join · Profile appears after approval · Matched with D2C brands</p>
-  </div>
-</section>
+</section><!-- end #network-showcase -->
 
 <div class="divider"></div>
 
@@ -3990,6 +4058,56 @@ footer {
 </div>
 </div><!-- end legal page -->
 
+<!-- ==================== BLOG PAGE ==================== -->
+<div id="page-blog" class="page">
+<section style="padding-top:100px;min-height:100svh;background:var(--ink);padding-bottom:80px">
+  <div style="max-width:900px;margin:0 auto;padding:0 5vw">
+
+    <!-- Header -->
+    <div class="section-label reveal">From the Feed</div>
+    <h1 class="section-headline reveal" style="margin-bottom:12px">INFLYR ON<br><span class="lime">X (TWITTER).</span></h1>
+    <p class="section-body reveal" style="margin-bottom:48px">Our latest thoughts on creator marketing, UGC, D2C growth and the Indian creator economy — straight from <a href="https://x.com/inflyrhq" target="_blank" rel="noopener" style="color:var(--lime);text-decoration:none">@inflyrhq</a>.</p>
+
+    <!-- Twitter Timeline Embed -->
+    <div class="reveal" id="twitter-feed-wrap" style="display:flex;flex-direction:column;align-items:center;gap:0">
+
+      <!-- Official Twitter timeline widget -->
+      <a class="twitter-timeline"
+         href="https://twitter.com/inflyrhq"
+         data-width="600"
+         data-height="2000"
+         data-theme="dark"
+         data-chrome="noheader nofooter noborders transparent"
+         data-tweet-limit="20"
+         data-dnt="true">
+        Tweets by @inflyrhq
+      </a>
+
+      <!-- Fallback loading state shown until widget renders -->
+      <div id="twitter-loading-state" style="width:100%;max-width:600px;text-align:center;padding:60px 24px">
+        <div style="display:inline-flex;flex-direction:column;align-items:center;gap:16px">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="var(--lime)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.629 5.905-5.629zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          <p style="font-family:'DM Mono',monospace;font-size:.75rem;color:var(--muted);letter-spacing:.06em">Loading @inflyrhq tweets…</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Follow CTA -->
+    <div class="reveal" style="text-align:center;margin-top:48px">
+      <a href="https://x.com/inflyrhq" target="_blank" rel="noopener"
+         style="display:inline-flex;align-items:center;gap:10px;background:var(--ink-2);border:1px solid var(--ink-3);color:var(--chalk);font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;padding:13px 28px;border-radius:6px;text-decoration:none;transition:border-color .2s,background .2s"
+         onmouseover="this.style.borderColor='var(--lime)';this.style.background='var(--ink-3)'"
+         onmouseout="this.style.borderColor='var(--ink-3)';this.style.background='var(--ink-2)'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.259 5.629 5.905-5.629zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Follow @inflyrhq on X
+      </a>
+      <p style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--muted);margin-top:14px">Creator marketing insights · UGC tips · D2C brand strategy · India creator economy</p>
+    </div>
+
+  </div>
+</section>
+</div><!-- end blog page -->
+
 <!-- ==================== CREATOR JOIN PAGE (?join=creator) ==================== -->
 <div id="page-join" class="page">
 <section style="padding-top:100px;min-height:100svh;background:var(--ink)">
@@ -4266,6 +4384,7 @@ footer {
     <li><a href="#" onclick="showPage('home');return false;" data-page="home"><span class="icon">🏠</span>Home</a></li>
     <li><a href="#" onclick="showPage('brands');return false;" data-page="brands"><span class="icon">📦</span>Brands</a></li>
     <li><a href="#" onclick="showPage('creators');return false;" data-page="creators"><span class="icon">🎬</span>Creators</a></li>
+    <li><a href="#" onclick="showPage('blog');return false;" data-page="blog"><span class="icon">✍️</span>Blog</a></li>
     <li><a href="#" onclick="showPage('start');return false;" data-page="start"><span class="icon">✦</span>Start</a></li>
   </ul>
 </nav>
@@ -4644,20 +4763,22 @@ const PAGE_TITLES = {
   brands:   'For Brands — UGC & Influencer Campaigns | INFLYR',
   creators: 'Join as Creator — Paid Brand Collabs | INFLYR',
   services: 'Services & Pricing — Creator Marketing | INFLYR',
-  about:    'About INFLYR — India\'s Performance Marketing Agency | IMA',
+  about:    'About INFLYR — India\'s Performance Marketing Agency',
   faq:      'FAQs — Influencer Marketing India | INFLYR',
   legal:    'Terms & Privacy | INFLYR',
+  blog:     'Blog — Creator Marketing Insights | INFLYR',
   join:     'Build Your Creator Profile | INFLYR',
   admin:    'Admin Panel | INFLYR',
 };
 const PAGE_DESCS = {
-  home:     'INFLYR (IMA) is India\'s performance influencer marketing agency. UGC, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands.',
+  home:     'INFLYR is India\'s performance influencer marketing agency. UGC, nano-to-mega influencer campaigns & affiliate creator networks for D2C brands.',
   brands:   'Run ROI-tracked influencer & UGC campaigns for your D2C brand. UTM links, discount codes, real attribution. Book a free audit — inflyr.in.',
   creators: 'Join INFLYR creator network. Get paid brand collaborations, fixed fees, on-time payments. Apply in 2 minutes — all tiers, all niches, all languages.',
   services: 'INFLYR services: UGC Content System from ₹20k/month, Influencer Campaigns from ₹30k, Affiliate Creator Networks, Regional Language Campaigns.',
   about:    'INFLYR, founded by Shivam Pandey, is India\'s performance-first creator marketing agency and UGC platform for D2C brands.',
   faq:      'Frequently asked questions about INFLYR — influencer marketing costs, how to join as a creator, UGC campaigns, and more.',
   legal:    'Terms of Service and Privacy Policy for INFLYR — inflyr.in',
+  blog:     'Insights on UGC, influencer marketing and the Indian creator economy from INFLYR — follow @inflyrhq on X.',
   join:     'Create your INFLYR creator profile and get matched with D2C brands.',
   admin:    'Admin Panel — INFLYR',
 };
@@ -5310,18 +5431,57 @@ function initDragScroll(gridId) {
   });
 }
 
+// Track current active tab for directional animation
+let _networkCurrentTab = 'creator';
+
 function switchNetworkTab(tab) {
+  if (tab === _networkCurrentTab) return;
+
+  const toCreator = tab === 'creator'; // direction
+  const outPanel  = document.getElementById(_networkCurrentTab + '-panel');
+  const inPanel   = document.getElementById(tab + '-panel');
+
+  // Update tab buttons
   document.querySelectorAll('.network-tab-btn').forEach(b => b.classList.remove('active'));
   const activeBtn = document.querySelector('.network-tab-btn.' + tab);
   if (activeBtn) activeBtn.classList.add('active');
-  const elShow = (id, show) => { const e = document.getElementById(id); if (e) e.style.display = show; };
-  elShow('network-creator-grid',  tab === 'creator' ? 'flex' : 'none');
-  elShow('network-brand-grid',    tab === 'brand'   ? 'flex' : 'none');
-  elShow('creator-filter-area',   tab === 'creator' ? '' : 'none');
-  elShow('brand-filter-area',     tab === 'brand'   ? '' : 'none');
-  elShow('creator-scroll-wrap',   tab === 'creator' ? '' : 'none');
-  elShow('brand-scroll-wrap',     tab === 'brand'   ? '' : 'none');
-  elShow('network-join-btn',      tab === 'creator' ? '' : 'none');
+
+  // Update pill indicator
+  const tabsEl = document.querySelector('.network-tabs');
+  if (tabsEl) tabsEl.setAttribute('data-active', tab);
+
+  // Animation direction classes
+  const exitClass  = toCreator ? 'exiting-reverse' : 'exiting';
+  const enterClass = toCreator ? 'entering-reverse' : 'entering';
+
+  if (outPanel) {
+    // Exit current panel
+    outPanel.classList.remove('visible');
+    outPanel.classList.add(exitClass);
+    outPanel.addEventListener('transitionend', () => {
+      outPanel.style.display = 'none';
+      outPanel.classList.remove(exitClass);
+    }, { once: true });
+  }
+
+  if (inPanel) {
+    // Prepare incoming panel (hidden but in layout for measurement)
+    inPanel.style.display = '';
+    inPanel.classList.add(enterClass);
+    // Force reflow so the starting state registers before transition
+    inPanel.getBoundingClientRect();
+    // Animate to visible
+    requestAnimationFrame(() => {
+      inPanel.classList.remove(enterClass);
+      inPanel.classList.add('visible');
+    });
+  }
+
+  // Update join button visibility
+  const joinBtn = document.getElementById('network-join-btn');
+  if (joinBtn) joinBtn.style.display = tab === 'creator' ? '' : 'none';
+
+  _networkCurrentTab = tab;
 }
 
 function showAdminToast(msg) {
