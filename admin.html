@@ -190,6 +190,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5vw;height:64px;di
 /* ── LOADING ── */
 .loading-row{padding:40px;text-align:center;color:var(--muted);font-family:'DM Mono',monospace;font-size:.78rem;grid-column:1/-1;letter-spacing:.04em}
 
+/* ── PHOTO UPLOAD ── */
+.photo-upload-area{position:relative;width:100%;border:2px dashed var(--ink-3);border-radius:10px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s;background:var(--ink)}
+.photo-upload-area:hover,.photo-upload-area.drag-over{border-color:var(--lime)}
+.photo-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.photo-preview-thumb{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--ink-3);flex-shrink:0;background:var(--ink-3);display:flex;align-items:center;justify-content:center;font-size:1.4rem;overflow:hidden}
+.photo-preview-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-upload-text{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);line-height:1.6}
+.photo-upload-text strong{color:var(--lime);display:block;margin-bottom:2px}
+.photo-clear-btn{margin-left:auto;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.2);color:var(--error);font-family:'DM Mono',monospace;font-size:.6rem;padding:4px 10px;border-radius:4px;cursor:pointer;flex-shrink:0;z-index:1;position:relative}
+
 @media(max-width:800px){
   .stats-strip{grid-template-columns:repeat(3,1fr)}
   .mform-grid{grid-template-columns:1fr}
@@ -329,7 +339,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:0 5vw;height:64px;di
 // CONFIG
 // ═══════════════════════════════════════════════════════════
 const ADMIN_PASSWORD = 'inflyr2026';
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnCmkbd___2ghycrarPYus4JFcCYNzqdiNLcszPUhF44lvLotzspMJcNvsuGSIcfJvfw/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzaLFz4jhoXukFAwABd0eYqFNbQTW-nuEGHbwG9-o3hlbGb2694f-irtuIAIoFEUBjk/exec';
 const SK_CREATORS = 'inflyr_v2_creators';
 const SK_BRANDS   = 'inflyr_v2_brands';
 
@@ -700,6 +710,19 @@ function openCreateModal(type) {
     openModal(`
       <div class="modal-header"><div class="modal-title">ADD CREATOR</div><button class="modal-close" onclick="closeModal()">✕</button></div>
       <div class="mform-grid" id="create-form">
+        <div class="mform-row mform-full">
+          <label class="mform-label">Profile Photo</label>
+          <div class="photo-upload-area" id="cf-photo-area" ondragover="photoDragOver(event,'cf-photo-area')" ondragleave="photoDragLeave('cf-photo-area')" ondrop="photoDrop(event,'cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name')">
+            <input type="file" accept="image/*" id="cf-photo-file" onchange="photoFileChange(this,'cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name')">
+            <div class="photo-preview-thumb" id="cf-photo-thumb">📷</div>
+            <div class="photo-upload-text">
+              <strong>Click or drag & drop a photo</strong>
+              JPG, PNG, WEBP · Max 2 MB · <span id="cf-photo-name">No file chosen</span>
+            </div>
+            <button type="button" class="photo-clear-btn" onclick="photoClear('cf-photo','cf-photo-area','cf-photo-thumb','cf-photo-name',event)">✕ Clear</button>
+          </div>
+          <input type="hidden" id="cf-photo">
+        </div>
         <div class="mform-row"><label class="mform-label">Name *</label><input class="mform-input" id="cf-name" placeholder="Priya Singh"></div>
         <div class="mform-row"><label class="mform-label">Email *</label><input class="mform-input" id="cf-email" type="email" placeholder="priya@email.com"></div>
         <div class="mform-row"><label class="mform-label">WhatsApp</label><input class="mform-input" id="cf-wa" placeholder="91XXXXXXXXXX"></div>
@@ -785,6 +808,7 @@ async function submitCreate(type) {
     if (!name || !email) { showNotif('Name and Email are required.','error'); btn.disabled=false; btn.textContent='＋ Add Creator'; return; }
     payload = Object.assign(payload, {
       name, email,
+      photo:     document.getElementById('cf-photo').value || '',
       whatsapp: document.getElementById('cf-wa').value.trim(),
       instagram: document.getElementById('cf-ig').value.trim(),
       youtube:   document.getElementById('cf-yt').value.trim(),
